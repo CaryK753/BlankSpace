@@ -1,0 +1,44 @@
+{
+  "$schema": "./project-status.schema.json",
+  "schemaVersion": "1",
+  "updatedAt": "2026-09-06",
+  "phase": "phase-1a-spike",
+  "production": "no-go",
+  "nextWorkItem": "A1-S2-04",
+  "implemented": [
+    "strict-jsonc-parser-spike",
+    "formal-v1-config-and-product-graph-schemas",
+    "minimal-in-memory-web-server-product-graph-builder",
+    "resolution-record-v1-contract-and-pure-normalization",
+    "workspace-package-exports-and-relative-source-resolver",
+    "target-boundary-and-dynamic-import-policy",
+    "s2-native-tool-adapter-conformance-runner",
+    "s2-macos-two-checkout-two-store-transcript",
+    "proposed-client-domain-ui-release-contract-fixtures"
+  ],
+  "unavailable": [
+    "product-scaffolder", "cli", "preset-expansion", "published-tool-resolver-adapter-api",
+    "executable-registry", "runtime-host", "web-app", "server-app",
+    "database-kit", "identity-kit", "deployment", "desktop-client", "mobile-client"
+  ],
+  "spikes": {
+    "s1": {
+      "status": "provisional-pass",
+      "evidence": ["node-24-tests", "vitest", "typescript", "ajv", "cross-directory-hash"],
+      "nextGate": "Replace the spike parser with the selected production validator and run the required cross-platform matrix."
+    },
+    "s2": { "status": "provisional-pass", "evidence": ["resolution-matrix", "resolution-record-v1-normalization", "workspace-source-resolver", "target-and-dynamic-import-policy", "typescript-node-vite-vitest-native-reconciliation", "macos-two-checkout-two-store-transcript"], "nextGate": "Run the same canonical transcript on Linux and Windows and match the records hash." },
+    "s3": { "status": "draft-matrix", "evidence": [], "nextGate": "Freeze trace schema, tool, runner and fixtures." },
+    "s4": { "status": "draft-matrix", "evidence": [], "nextGate": "Freeze Registry schema, generator, runner and fixtures." },
+    "s5": { "status": "draft-matrix", "evidence": [], "nextGate": "Freeze lifecycle runner and fault fixtures." },
+    "s6": { "status": "draft-matrix", "evidence": [], "nextGate": "Freeze Fastify, client, deadline and runner." },
+    "s7": { "status": "draft-matrix", "evidence": [], "nextGate": "Freeze PostgreSQL access and migration candidates." },
+    "s8": { "status": "draft-matrix", "evidence": [], "nextGate": "Freeze UI, browser, accessibility and visual matrix." },
+    "cr1": { "status": "draft-matrix", "evidence": [], "nextGate": "Select the first additional client runtime." },
+    "ds1": { "status": "draft-matrix", "evidence": [], "nextGate": "Select the first native renderer corpus." },
+    "sc1": { "status": "draft-matrix", "evidence": ["proposed-release-contracts"], "nextGate": "Run against a real registry, signer and release runner." },
+    "n1": { "status": "draft-matrix", "evidence": [], "nextGate": "Wait for a real native storage boundary." },
+    "e1": { "status": "draft-matrix", "evidence": [], "nextGate": "Run a real editor adapter and second use case." },
+    "y1": { "status": "draft-matrix", "evidence": [], "nextGate": "Run two data-domain codecs and fault transcripts." }
+  }
+}

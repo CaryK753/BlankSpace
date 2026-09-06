@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://blankspace.dev/schemas/shared.schema.json",
+  "$defs": {
+    "packageId": {
+      "type": "string",
+      "pattern": "^(?:@[a-z0-9][a-z0-9._-]*/)?[a-z0-9][a-z0-9._-]*$"
+    },
+    "relativePath": {
+      "type": "string",
+      "pattern": "^\\./(?!\\.\\.?(?:/|$))(?!.*\\/\\.\\.?(?:\\/|$))[^\\u0000\\\\]+$"
+    },
+    "secretRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["$secret", "scope"],
+      "properties": {
+        "$secret": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]*$" },
+        "scope": { "const": "server" }
+      }
+    },
+    "serviceRef": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9.-]+@(?:\\^)?[0-9]+(?:\\.[0-9]+){0,2}$"
+    }
+  }
+}

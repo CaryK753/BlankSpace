@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://blankspace.dev/schemas/proposed/assembly-index-v1.schema.json",
+  "title": "AssemblyIndexV1 (Proposed)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "productId", "clients", "assemblyId"],
+  "properties": {
+    "schemaVersion": { "const": "1" },
+    "productId": { "type": "string", "minLength": 1 },
+    "clients": {
+      "type": "array", "minItems": 1,
+      "items": { "type": "object", "additionalProperties": false, "required": ["clientId", "graphPath", "assemblyId"], "properties": { "clientId": { "type": "string" }, "graphPath": { "type": "string" }, "assemblyId": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" } } }
+    },
+    "assemblyId": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" }
+  },
+  "x-semanticConstraints": ["clients are unique and sorted by clientId", "assemblyId hashes canonical JSON without assemblyId"]
+}

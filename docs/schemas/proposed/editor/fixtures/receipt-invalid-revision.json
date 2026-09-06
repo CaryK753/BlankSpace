@@ -1,0 +1,16 @@
+{
+  "schema": "editor-engine-v1.schema.json",
+  "valid": false,
+  "document": {
+    "kind": "editor-transaction-receipt",
+    "schemaVersion": "1",
+    "document": { "kind": "editor-document-ref", "schemaVersion": "1", "workspace": { "sourceId": "local", "workspaceId": "ws-1" }, "documentId": "doc-1", "engineId": "blocks", "formatId": "blocks", "formatVersion": "1.0.0" },
+    "transactionId": "tx-1",
+    "baseRevision": 2,
+    "resultRevision": 2,
+    "recordHashes": ["sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"],
+    "blobChanges": [],
+    "syncOperationIds": [],
+    "indexInvalidations": []
+  }
+}

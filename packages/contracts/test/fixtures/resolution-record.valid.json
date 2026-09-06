@@ -1,0 +1,13 @@
+{
+  "schemaVersion": "1",
+  "importer": "product/modules/notes/frontend/index.ts",
+  "specifier": "@blankspace/editor/notes",
+  "mode": "web-dev",
+  "target": "web",
+  "packageIdentity": "@blankspace/editor",
+  "exportSubpath": "./notes",
+  "logicalPath": "packages/editor/src/notes.ts",
+  "format": "esm",
+  "conditions": ["browser", "development", "import", "default"],
+  "external": false
+}

@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://blankspace.dev/schemas/proposed/release-lifecycle-v1.schema.json",
+  "title": "Blankspace proposed release lifecycle v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "kind", "releaseId", "targets", "transitions"],
+  "properties": {
+    "schemaVersion": { "const": "1" },
+    "kind": { "const": "release-lifecycle" },
+    "releaseId": { "type": "string", "minLength": 1 },
+    "targets": {
+      "type": "array", "minItems": 1,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["id", "required", "state", "artifactDigest"],
+        "properties": {
+          "id": { "type": "string", "minLength": 1 },
+          "required": { "type": "boolean" },
+          "state": { "$ref": "#/$defs/state" },
+          "artifactDigest": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" }
+        }
+      }
+    },
+    "transitions": {
+      "type": "array",
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["targetId", "from", "to", "actor", "policyResult", "artifactDigest", "at"],
+        "properties": {
+          "targetId": { "type": "string" },
+          "from": { "$ref": "#/$defs/state" },
+          "to": { "$ref": "#/$defs/state" },
+          "actor": { "type": "string", "minLength": 1 },
+          "policyResult": { "enum": ["passed", "break-glass"] },
+          "artifactDigest": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
+          "externalReceipt": { "type": "string", "minLength": 1 },
+          "at": { "type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]+)?Z$" }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "state": { "enum": ["planned", "building", "verified", "signed", "candidate", "staged", "submitted", "approved", "rolling-out", "available", "halted", "failed", "revoked"] }
+  },
+  "x-semanticConstraints": [
+    "target IDs are unique",
+    "transitions reference existing targets",
+    "transitions follow the platform-neutral release state graph",
+    "artifact digest remains stable across transitions",
+    "external side-effect transitions include a receipt"
+  ]
+}

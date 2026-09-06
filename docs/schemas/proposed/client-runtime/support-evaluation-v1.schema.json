@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://blankspace.dev/schemas/proposed/support-evaluation-v1.schema.json",
+  "title": "SupportEvaluationRecordV1 (Proposed)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "subject", "evaluationInstant", "claimedLevel", "effectiveLevel", "evidenceHash", "suiteHash", "trustSnapshotHash", "revocationSnapshotHash", "policyHash", "decision", "reasons"],
+  "properties": {
+    "schemaVersion": { "const": "1" },
+    "subject": { "type": "object", "additionalProperties": false, "required": ["logicalId", "logicalVersion", "artifactHashes"], "properties": { "logicalId": { "type": "string" }, "logicalVersion": { "type": "string" }, "artifactHashes": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "$ref": "#/$defs/hash" } } } },
+    "evaluationInstant": { "type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$" },
+    "claimedLevel": { "$ref": "#/$defs/level" }, "effectiveLevel": { "$ref": "#/$defs/level" },
+    "evidenceHash": { "$ref": "#/$defs/hash" }, "suiteHash": { "$ref": "#/$defs/hash" },
+    "trustSnapshotHash": { "$ref": "#/$defs/hash" }, "revocationSnapshotHash": { "$ref": "#/$defs/hash" }, "policyHash": { "$ref": "#/$defs/hash" },
+    "decision": { "enum": ["allowed", "denied"] }, "reasons": { "type": "array", "items": { "type": "string" } }
+  },
+  "$defs": { "hash": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" }, "level": { "enum": ["official", "verified", "community", "experimental", "unavailable"] } },
+  "x-semanticConstraints": ["record is generated only by release gate", "effectiveLevel never exceeds issuer and product policy", "evaluationInstant is used for evidence/trust/revocation freshness", "record hash is locked as the Graph evidence node contentHash"]
+}

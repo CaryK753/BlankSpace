@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://blankspace.dev/schemas/proposed/release-candidate-v1.schema.json",
+  "title": "Blankspace proposed release candidate v1",
+  "type": "object", "additionalProperties": false,
+  "required": ["schemaVersion", "kind", "id", "logicalVersion", "sourceRevision", "inputHash", "productGraphHash", "artifacts", "compatibility", "policy", "expiresAt"],
+  "properties": {
+    "schemaVersion": { "const": "1" }, "kind": { "const": "release-candidate" },
+    "id": { "type": "string", "minLength": 1 }, "logicalVersion": { "type": "string", "minLength": 1 },
+    "sourceRevision": { "type": "string", "minLength": 7 },
+    "inputHash": { "$ref": "#/$defs/hash" }, "productGraphHash": { "$ref": "#/$defs/hash" },
+    "artifacts": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/artifact" } },
+    "compatibility": { "$ref": "#/$defs/evidence" },
+    "migrationPlan": { "$ref": "#/$defs/evidence" },
+    "policy": {
+      "type": "object", "additionalProperties": false,
+      "required": ["channel", "rollbackTarget", "mandatoryTargets"],
+      "properties": {
+        "channel": { "enum": ["nightly", "canary", "beta", "stable", "hotfix"] },
+        "rollbackTarget": { "type": "string", "minLength": 1 },
+        "mandatoryTargets": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "type": "string" } }
+      }
+    },
+    "expiresAt": { "type": "string", "format": "date-time" }
+  },
+  "$defs": {
+    "hash": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
+    "immutableRef": {
+      "type": "object", "additionalProperties": false, "required": ["uri", "digest"],
+      "properties": { "uri": { "type": "string", "format": "uri" }, "digest": { "$ref": "#/$defs/hash" } }
+    },
+    "evidence": {
+      "type": "object", "additionalProperties": false,
+      "required": ["kind", "ref", "subjectDigest", "issuedAt"],
+      "properties": {
+        "kind": { "enum": ["tests", "sbom", "provenance", "signature", "notarization", "compatibility", "migration"] },
+        "ref": { "$ref": "#/$defs/immutableRef" }, "subjectDigest": { "$ref": "#/$defs/hash" },
+        "issuer": { "type": "string", "minLength": 1 }, "issuedAt": { "type": "string", "format": "date-time" }
+      }
+    },
+    "artifact": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "target", "platform", "unsigned", "distributed", "builderIdentity", "toolchainHash", "evidence"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 }, "target": { "type": "string", "minLength": 1 },
+        "platform": { "type": "string", "minLength": 1 }, "unsigned": { "$ref": "#/$defs/immutableRef" },
+        "distributed": { "$ref": "#/$defs/immutableRef" }, "builderIdentity": { "type": "string", "minLength": 1 },
+        "toolchainHash": { "$ref": "#/$defs/hash" },
+        "evidence": { "type": "array", "minItems": 4, "items": { "$ref": "#/$defs/evidence" } }
+      }
+    }
+  },
+  "x-semanticConstraints": ["artifact IDs are unique", "mandatory targets exist", "evidence subject digest matches unsigned or distributed artifact", "distributed artifacts include tests, SBOM, provenance and signature"]
+}

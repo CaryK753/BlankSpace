@@ -1,0 +1,14 @@
+{
+  "schema": "product-clients-v2.schema.json",
+  "valid": true,
+  "document": {
+    "schemaVersion": "2",
+    "clients": [{
+      "id": "ios", "platform": "ios",
+      "runtime": { "id": "runtime-ios-swiftui", "version": "1.0.0", "manifestHash": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" },
+      "uiFamilyAssertion": { "id": "swiftui", "major": 1 },
+      "requiredCapabilities": [{ "id": "secure-storage", "major": 1, "mode": "required", "fallback": [] }],
+      "excludeFeatures": []
+    }]
+  }
+}

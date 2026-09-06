@@ -1,0 +1,82 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://blankspace.dev/schemas/proposed/release-plan-v1.schema.json",
+  "title": "Blankspace proposed release plan v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "releaseId", "sourceRevision", "inputHash", "invocation", "externalActions", "jobs", "artifacts"],
+  "properties": {
+    "schemaVersion": { "const": "1" },
+    "releaseId": { "type": "string", "minLength": 1 },
+    "sourceRevision": { "type": "string", "minLength": 7 },
+    "inputHash": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
+    "invocation": {
+      "type": "object", "additionalProperties": false, "required": ["event", "sourceTrusted", "ref"],
+      "properties": {
+        "event": { "enum": ["pull-request", "merge-group", "protected-branch", "signed-tag", "manual-promotion"] },
+        "sourceTrusted": { "type": "boolean" },
+        "ref": { "type": "string", "minLength": 1 }
+      }
+    },
+    "externalActions": {
+      "type": "array", "uniqueItems": true,
+      "items": {
+        "type": "object", "additionalProperties": false, "required": ["repository", "commitSha"],
+        "properties": {
+          "repository": { "type": "string", "pattern": "^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$" },
+          "commitSha": { "type": "string", "pattern": "^[a-f0-9]{40}$" }
+        }
+      }
+    },
+    "jobs": {
+      "type": "array", "minItems": 1,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["id", "kind", "runner", "trust", "needs", "usesSecrets", "actions"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z0-9-]+$" },
+          "kind": { "enum": ["quality", "build", "package", "sign", "publish-candidate", "promote", "verify"] },
+          "runner": { "enum": ["linux", "macos", "windows"] },
+          "trust": { "enum": ["untrusted", "protected"] },
+          "needs": { "type": "array", "uniqueItems": true, "items": { "type": "string" } },
+          "usesSecrets": { "type": "boolean" },
+          "actions": {
+            "type": "array", "minItems": 1,
+            "items": { "enum": ["lint", "test", "codegen", "compile", "package", "sign", "notarize", "attest", "publish", "deploy", "promote", "verify"] }
+          }
+        }
+      }
+    },
+    "artifacts": {
+      "type": "array", "minItems": 1,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["id", "target", "platform", "producerJob", "sourceRevision", "inputHash", "distribution", "requiredEvidence"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z0-9._-]+$" },
+          "target": { "enum": ["web", "server", "electron", "capacitor-ios", "capacitor-android", "swiftui-ios", "compose-android"] },
+          "platform": { "enum": ["web", "linux-amd64", "linux-arm64", "macos-arm64", "macos-x64", "windows-x64", "ios", "android"] },
+          "producerJob": { "type": "string" },
+          "sourceRevision": { "type": "string" },
+          "inputHash": { "type": "string" },
+          "distribution": { "enum": ["internal", "oci", "desktop-update", "app-store", "play-store"] },
+          "requiredEvidence": {
+            "type": "array", "uniqueItems": true,
+            "items": { "enum": ["digest", "tests", "sbom", "provenance", "signature", "notarization", "compatibility"] }
+          }
+        }
+      }
+    }
+  },
+  "x-semanticConstraints": [
+    "job and artifact IDs are unique",
+    "job dependencies exist and form an acyclic graph",
+    "promotion jobs do not compile or package",
+    "untrusted jobs do not use secrets, sign, notarize, publish, deploy or promote",
+    "untrusted source invocations do not contain protected jobs",
+    "third-party actions are pinned to full commit SHAs",
+    "artifact producers exist and use a compatible native runner",
+    "all artifacts bind to the plan source revision and input hash",
+    "distributed artifacts contain required evidence"
+  ]
+}

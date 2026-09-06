@@ -1,0 +1,121 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://blankspace.dev/schemas/proposed/ui/shell-template-v1.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "kind", "routes", "navigation", "templates"],
+  "properties": {
+    "$schema": { "type": "string" },
+    "schemaVersion": { "const": "1" },
+    "kind": { "const": "ui-shell-catalog" },
+    "routes": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/route" }
+    },
+    "navigation": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/navigation" }
+    },
+    "templates": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/template" }
+    }
+  },
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9.-]*$"
+    },
+    "route": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "screenId", "surface", "access", "presentation"],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "path": { "type": "string", "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.?(?:/|$))[^\\\\]*$" },
+        "index": { "type": "boolean" },
+        "parentId": { "$ref": "#/$defs/id" },
+        "screenId": { "$ref": "#/$defs/id" },
+        "surface": { "enum": ["public", "auth", "app", "settings"] },
+        "access": {
+          "oneOf": [
+            { "enum": ["public", "signed-in"] },
+            { "type": "string", "pattern": "^policy:[a-z][a-z0-9.-]*$" }
+          ]
+        },
+        "presentation": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["desktop", "mobile"],
+          "properties": {
+            "desktop": { "enum": ["content", "inspector", "dialog"] },
+            "mobile": { "enum": ["root", "push", "sheet", "fullscreen"] }
+          }
+        },
+        "paramsSchema": { "type": "string", "minLength": 1 },
+        "errorBoundary": { "$ref": "#/$defs/id" }
+      }
+    },
+    "navigation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "routeId", "labelKey", "icon", "region", "priority"],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "routeId": { "$ref": "#/$defs/id" },
+        "labelKey": { "$ref": "#/$defs/id" },
+        "icon": { "$ref": "#/$defs/id" },
+        "region": { "enum": ["primary", "secondary", "utility", "mobile-primary", "mobile-more"] },
+        "priority": { "type": "integer" },
+        "requiredCapability": { "$ref": "#/$defs/id" },
+        "visiblePolicy": { "$ref": "#/$defs/id" },
+        "mandatory": { "type": "boolean", "default": false }
+      }
+    },
+    "template": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "uiFamily", "viewportClasses", "supportedRegions", "standardStates"],
+      "properties": {
+        "id": { "enum": ["sidebar-saas", "mobile-tabs"] },
+        "uiFamily": { "enum": ["react-desktop", "react-mobile"] },
+        "viewportClasses": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "enum": ["compact", "medium", "expanded"] }
+        },
+        "supportedRegions": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "enum": ["primary", "secondary", "utility", "mobile-primary", "mobile-more"] }
+        },
+        "standardStates": {
+          "type": "array",
+          "uniqueItems": true,
+          "allOf": [
+            { "contains": { "const": "loading" } },
+            { "contains": { "const": "empty" } },
+            { "contains": { "const": "ready" } },
+            { "contains": { "const": "error" } },
+            { "contains": { "const": "permission-denied" } },
+            { "contains": { "const": "offline" } }
+          ],
+          "items": {
+            "enum": ["loading", "empty", "ready", "refreshing", "error", "permission-denied", "offline"]
+          }
+        }
+      }
+    }
+  },
+  "x-semanticConstraints": [
+    "route, navigation and template IDs are unique",
+    "route parent references form an acyclic tree",
+    "navigation routeId references an existing route",
+    "index routes omit path and non-index routes declare path",
+    "mobile-primary contains no more than five visible entries",
+    "navigation regions are supported by at least one selected template"
+  ]
+}

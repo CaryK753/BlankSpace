@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://blankspace.dev/schemas/proposed/client-runtime-manifest-v2.schema.json",
+  "title": "ClientRuntimeManifestV2 (Proposed)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "kind", "id", "version", "claimedSupport", "uiFamily", "platforms", "distribution", "artifactRequirements", "tools", "renderers", "capabilities", "probes", "shell"],
+  "properties": {
+    "schemaVersion": { "const": "2" },
+    "kind": { "const": "client-runtime" },
+    "id": { "$ref": "#/$defs/id" },
+    "version": { "$ref": "#/$defs/version" },
+    "claimedSupport": { "enum": ["official", "verified", "community", "experimental", "unavailable"] },
+    "uiFamily": { "$ref": "#/$defs/uiFamilyRef" },
+    "platforms": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "$ref": "#/$defs/platform" } },
+    "distribution": { "$ref": "#/$defs/immutableRef" },
+    "artifactRequirements": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/artifactRequirement" } },
+    "tools": { "type": "array", "items": { "$ref": "#/$defs/toolRef" } },
+    "contractGenerators": { "type": "array", "items": { "$ref": "#/$defs/generatorRef" } },
+    "renderers": { "type": "array", "items": { "$ref": "#/$defs/rendererRef" } },
+    "themeRenderer": { "$ref": "#/$defs/themeRendererRef" },
+    "capabilities": { "type": "array", "items": { "$ref": "#/$defs/capabilityProvider" } },
+    "probes": { "type": "array", "items": { "$ref": "#/$defs/probe" } },
+    "shell": { "$ref": "#/$defs/shellManifest" }
+  },
+  "$defs": {
+    "id": { "type": "string", "pattern": "^[a-z][a-z0-9]*(?:[.-][a-z0-9]+)*$" },
+    "version": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+(?:-[0-9A-Za-z.-]+)?$" },
+    "hash": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
+    "platform": { "enum": ["web", "windows", "macos", "linux", "ios", "android"] },
+    "uiFamilyRef": { "type": "object", "additionalProperties": false, "required": ["id", "major"], "properties": { "id": { "$ref": "#/$defs/id" }, "major": { "type": "integer", "minimum": 1 } } },
+    "runtimeRef": { "type": "object", "additionalProperties": false, "required": ["id", "version", "manifestHash"], "properties": { "id": { "$ref": "#/$defs/id" }, "version": { "$ref": "#/$defs/version" }, "manifestHash": { "$ref": "#/$defs/hash" } } },
+    "immutableRef": { "type": "object", "additionalProperties": false, "required": ["url", "contentHash"], "properties": { "url": { "type": "string", "format": "uri" }, "contentHash": { "$ref": "#/$defs/hash" } } },
+    "artifactRequirement": {
+      "type": "object", "additionalProperties": false, "required": ["id", "role", "ecosystem", "platforms", "cardinality"],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "role": { "enum": ["runtime-host", "service", "renderer", "native-library", "generator", "build-plugin", "verifier", "theme-renderer"] },
+        "ecosystem": { "enum": ["npm", "swiftpm", "maven", "binary"] },
+        "platforms": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "$ref": "#/$defs/platform" } },
+        "uiFamily": { "$ref": "#/$defs/uiFamilyRef" },
+        "cardinality": { "enum": ["exactly-one", "zero-or-one", "one-or-more"] }
+      }
+    },
+    "toolRef": {
+      "type": "object", "additionalProperties": false, "required": ["id", "version", "artifactId", "artifactHash", "entrypoint", "protocolVersion", "operations", "requestSchemaHash", "resultSchemaHash"],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" }, "version": { "$ref": "#/$defs/version" }, "artifactId": { "$ref": "#/$defs/id" }, "artifactHash": { "$ref": "#/$defs/hash" },
+        "entrypoint": { "type": "object", "additionalProperties": false, "required": ["kind", "value"], "properties": { "kind": { "enum": ["npm-bin", "swift-product", "java-main", "binary"] }, "value": { "type": "string", "minLength": 1 } } },
+        "protocolVersion": { "const": "1" },
+        "operations": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "enum": ["generate-contracts", "render-theme", "build-client", "verify-client"] } },
+        "requestSchemaHash": { "$ref": "#/$defs/hash" }, "resultSchemaHash": { "$ref": "#/$defs/hash" }
+      }
+    },
+    "generatorRef": {
+      "type": "object", "additionalProperties": false, "required": ["tool", "inputSchemas", "outputs"], "properties": {
+        "tool": { "$ref": "#/$defs/toolRef" },
+        "inputSchemas": { "type": "array", "minItems": 1, "items": { "type": "object", "additionalProperties": false, "required": ["kind", "major"], "properties": { "kind": { "$ref": "#/$defs/id" }, "major": { "type": "integer", "minimum": 1 } } } },
+        "outputs": { "type": "array", "minItems": 1, "items": { "type": "object", "additionalProperties": false, "required": ["language", "modulePattern"], "properties": { "language": { "enum": ["typescript", "swift", "kotlin"] }, "modulePattern": { "type": "string", "minLength": 1 } } } }
+      }
+    },
+    "majorRange": { "type": "object", "additionalProperties": false, "required": ["minInclusive", "maxExclusive"], "properties": { "minInclusive": { "type": "integer", "minimum": 1 }, "maxExclusive": { "type": "integer", "minimum": 2 } } },
+    "contractRange": { "type": "object", "additionalProperties": false, "required": ["kind", "majorRange"], "properties": { "kind": { "$ref": "#/$defs/id" }, "majorRange": { "$ref": "#/$defs/majorRange" } } },
+    "rendererRef": {
+      "type": "object", "additionalProperties": false, "required": ["id", "version", "artifactId", "uiFamily", "contracts"],
+      "properties": { "id": { "$ref": "#/$defs/id" }, "version": { "$ref": "#/$defs/version" }, "artifactId": { "$ref": "#/$defs/id" }, "uiFamily": { "$ref": "#/$defs/uiFamilyRef" }, "contracts": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/contractRange" } } }
+    },
+    "themeRendererRef": { "type": "object", "additionalProperties": false, "required": ["artifactId", "toolId", "uiFamily", "designSystemMajor", "recipeKinds", "capabilities"], "properties": { "artifactId": { "$ref": "#/$defs/id" }, "toolId": { "$ref": "#/$defs/id" }, "uiFamily": { "$ref": "#/$defs/uiFamilyRef" }, "designSystemMajor": { "type": "integer", "minimum": 1 }, "recipeKinds": { "type": "array", "uniqueItems": true, "items": { "$ref": "#/$defs/id" } }, "capabilities": { "type": "array", "items": { "$ref": "#/$defs/capabilityRequirement" } } } },
+    "capabilityRef": { "type": "object", "additionalProperties": false, "required": ["id", "major"], "properties": { "id": { "$ref": "#/$defs/id" }, "major": { "type": "integer", "minimum": 1 } } },
+    "platformConstraint": { "type": "object", "additionalProperties": false, "required": ["platform", "minVersion"], "properties": { "platform": { "$ref": "#/$defs/platform" }, "minVersion": { "type": "string", "pattern": "^[0-9]+(?:\\.[0-9]+){0,2}$" } } },
+    "capabilityProvider": {
+      "type": "object", "additionalProperties": false, "required": ["capability", "providerId", "implementationVersion", "platforms", "probeId"],
+      "properties": { "capability": { "$ref": "#/$defs/capabilityRef" }, "providerId": { "$ref": "#/$defs/id" }, "implementationVersion": { "$ref": "#/$defs/version" }, "platforms": { "type": "array", "items": { "$ref": "#/$defs/platformConstraint" } }, "probeId": { "$ref": "#/$defs/id" } }
+    },
+    "capabilityRequirement": {
+      "type": "object", "additionalProperties": false, "required": ["capability", "mode", "platforms", "providerIds", "fallback"],
+      "properties": { "capability": { "$ref": "#/$defs/capabilityRef" }, "mode": { "enum": ["required", "optional"] }, "platforms": { "type": "array", "items": { "$ref": "#/$defs/platformConstraint" } }, "providerIds": { "type": "array", "uniqueItems": true, "items": { "$ref": "#/$defs/id" } }, "fallback": { "type": "array", "uniqueItems": true, "items": { "$ref": "#/$defs/capabilityRef" } } }
+    },
+    "contractRequirement": { "type": "object", "additionalProperties": false, "required": ["kind", "id", "major", "mandatory"], "properties": { "kind": { "$ref": "#/$defs/id" }, "id": { "$ref": "#/$defs/id" }, "major": { "type": "integer", "minimum": 1 }, "mandatory": { "type": "boolean" } } },
+    "uiFeature": {
+      "type": "object", "additionalProperties": false, "required": ["id", "clientOptional", "nonExcludable", "requiresFeatures", "contracts", "capabilities"],
+      "properties": { "id": { "$ref": "#/$defs/id" }, "clientOptional": { "type": "boolean" }, "nonExcludable": { "type": "boolean" }, "requiresFeatures": { "type": "array", "uniqueItems": true, "items": { "$ref": "#/$defs/id" } }, "contracts": { "type": "array", "items": { "$ref": "#/$defs/contractRequirement" } }, "capabilities": { "type": "array", "items": { "$ref": "#/$defs/capabilityRequirement" } } }
+    },
+    "probe": { "type": "object", "additionalProperties": false, "required": ["id", "toolId", "resultType"], "properties": { "id": { "$ref": "#/$defs/id" }, "toolId": { "$ref": "#/$defs/id" }, "resultType": { "const": "boolean" } } },
+    "shellManifest": { "type": "object", "additionalProperties": false, "required": ["bindings"], "properties": { "bindings": { "type": "array", "items": { "type": "object", "additionalProperties": false, "required": ["contractKind", "majorRange", "region", "presentations"], "properties": { "contractKind": { "$ref": "#/$defs/id" }, "majorRange": { "$ref": "#/$defs/majorRange" }, "region": { "$ref": "#/$defs/id" }, "presentations": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "$ref": "#/$defs/id" } } } } } } }
+  }
+}

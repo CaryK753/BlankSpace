@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://blankspace.dev/schemas/spikes/s2-resolution-transcript-v1.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["$schema", "schemaVersion", "environment", "tools", "matrix", "recordsHash", "edges"],
+  "properties": {
+    "$schema": { "const": "../transcript.schema.json" },
+    "schemaVersion": { "const": "1" },
+    "environment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["platform", "arch"],
+      "properties": {
+        "platform": { "enum": ["darwin", "linux", "win32"] },
+        "arch": { "type": "string", "minLength": 1 }
+      }
+    },
+    "tools": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["node", "typescript", "vite", "vitest", "pnpm"],
+      "properties": {
+        "node": { "$ref": "#/$defs/version" },
+        "typescript": { "$ref": "#/$defs/version" },
+        "vite": { "$ref": "#/$defs/version" },
+        "vitest": { "$ref": "#/$defs/version" },
+        "pnpm": { "$ref": "#/$defs/version" }
+      }
+    },
+    "matrix": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["checkoutCount", "pnpmStoreCount"],
+      "properties": {
+        "checkoutCount": { "type": "integer", "minimum": 2 },
+        "pnpmStoreCount": { "type": "integer", "minimum": 2 }
+      }
+    },
+    "recordsHash": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "edges": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["fixture", "adapter", "record"],
+        "properties": {
+          "fixture": { "type": "string", "minLength": 1 },
+          "adapter": { "enum": ["typescript", "node", "vite", "vitest"] },
+          "record": { "$ref": "https://blankspace.dev/schemas/resolution-record-v1.schema.json" }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "version": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+(?:[-+][A-Za-z0-9.-]+)?$" }
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "$schema": "https://blankspace.dev/schemas/product-graph-v1.schema.json",
+  "schemaVersion": "1",
+  "frameworkVersion": "0.0.0",
+  "target": "web",
+  "inputHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "assemblyId": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+  "modules": [
+    { "id": "projects", "descriptor": "./product/modules/projects/module.jsonc" }
+  ],
+  "entries": [
+    {
+      "entryId": "product.projects.web",
+      "ownerId": "projects",
+      "target": "web",
+      "module": "./product/modules/projects/frontend/index.js",
+      "exportName": "default"
+    }
+  ],
+  "diagnostics": []
+}

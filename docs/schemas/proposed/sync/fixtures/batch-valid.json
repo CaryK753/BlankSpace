@@ -1,0 +1,32 @@
+{
+  "schema": "sync-protocol-v1.schema.json",
+  "valid": true,
+  "document": {
+    "kind": "sync-change-batch",
+    "schemaVersion": "1",
+    "correlationId": "corr-1",
+    "batchId": "batch-1",
+    "sessionId": "session-1",
+    "firstSequence": 1,
+    "lastSequence": 1,
+    "operations": [{
+      "operationId": "op-1",
+      "workspace": { "sourceId": "cloud", "workspaceId": "ws-1" },
+      "dataDomain": "documents",
+      "resourceId": "doc-1",
+      "protocolVersion": "1.0.0",
+      "formatId": "blocks",
+      "formatVersion": "1.0.0",
+      "authorPrincipal": "account-1",
+      "clientSequence": 1,
+      "permissionEpoch": 1,
+      "operationKind": "change",
+      "payloadEncoding": "base64",
+      "payloadHash": "sha256:9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08",
+      "payloadBytes": 4,
+      "payloadBase64": "dGVzdA==",
+      "blobRefs": [],
+      "causalOperationIds": []
+    }]
+  }
+}

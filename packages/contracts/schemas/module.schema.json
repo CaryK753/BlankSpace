@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://blankspace.dev/schemas/module.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "id", "entries"],
+  "properties": {
+    "$schema": { "type": "string" },
+    "schemaVersion": { "const": "1" },
+    "id": { "type": "string", "pattern": "^[a-z][a-z0-9-]*$" },
+    "requires": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "$ref": "shared.schema.json#/$defs/serviceRef" }
+    },
+    "optional": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["service", "feature"],
+        "properties": {
+          "service": { "$ref": "shared.schema.json#/$defs/serviceRef" },
+          "feature": { "type": "string", "pattern": "^[a-z][a-z0-9-]*$" }
+        }
+      }
+    },
+    "entries": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": false,
+      "properties": {
+        "shared": { "$ref": "shared.schema.json#/$defs/relativePath" },
+        "web": { "$ref": "shared.schema.json#/$defs/relativePath" },
+        "server": { "$ref": "shared.schema.json#/$defs/relativePath" }
+      }
+    }
+  }
+}

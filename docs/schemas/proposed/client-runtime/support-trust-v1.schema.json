@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://blankspace.dev/schemas/proposed/support-trust-v1.schema.json",
+  "title": "Support Trust Snapshot V1 (Proposed)",
+  "oneOf": [{ "$ref": "#/$defs/suite" }, { "$ref": "#/$defs/trust" }, { "$ref": "#/$defs/revocations" }],
+  "$defs": {
+    "hash": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
+    "signature": { "type": "object", "additionalProperties": false, "required": ["algorithm", "keyId", "payloadHash", "value"], "properties": { "algorithm": { "const": "ed25519" }, "keyId": { "type": "string" }, "payloadHash": { "$ref": "#/$defs/hash" }, "value": { "type": "string" } } },
+    "fixture": { "type": "object", "additionalProperties": false, "required": ["id", "required", "contentHash"], "properties": { "id": { "type": "string" }, "required": { "type": "boolean" }, "contentHash": { "$ref": "#/$defs/hash" } } },
+    "suite": { "type": "object", "additionalProperties": false, "required": ["kind", "schemaVersion", "id", "version", "fixtures", "signature"], "properties": { "kind": { "const": "support-suite" }, "schemaVersion": { "const": "1" }, "id": { "type": "string" }, "version": { "type": "string" }, "fixtures": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/fixture" } }, "signature": { "$ref": "#/$defs/signature" } } },
+    "verifier": { "type": "object", "additionalProperties": false, "required": ["keyId", "publicKey", "allowedSuites", "maxLevel"], "properties": { "keyId": { "type": "string" }, "publicKey": { "type": "string" }, "allowedSuites": { "type": "array", "items": { "type": "string" } }, "maxLevel": { "enum": ["verified", "community", "experimental"] } } },
+    "trust": { "type": "object", "additionalProperties": false, "required": ["kind", "schemaVersion", "snapshotVersion", "expiresAt", "minimumRevocationVersion", "revocationSnapshotHash", "verifiers", "signature"], "properties": { "kind": { "const": "trust-snapshot" }, "schemaVersion": { "const": "1" }, "snapshotVersion": { "type": "integer", "minimum": 1 }, "expiresAt": { "type": "string", "format": "date-time" }, "minimumRevocationVersion": { "type": "integer", "minimum": 1 }, "revocationSnapshotHash": { "$ref": "#/$defs/hash" }, "verifiers": { "type": "array", "items": { "$ref": "#/$defs/verifier" } }, "signature": { "$ref": "#/$defs/signature" } } },
+    "revocation": { "type": "object", "additionalProperties": false, "required": ["serial", "evidenceHash", "reason"], "properties": { "serial": { "type": "string" }, "evidenceHash": { "$ref": "#/$defs/hash" }, "reason": { "type": "string" } } },
+    "revocations": { "type": "object", "additionalProperties": false, "required": ["kind", "schemaVersion", "snapshotVersion", "issuedAt", "expiresAt", "revocations", "signature"], "properties": { "kind": { "const": "revocations" }, "schemaVersion": { "const": "1" }, "snapshotVersion": { "type": "integer", "minimum": 1 }, "issuedAt": { "type": "string", "format": "date-time" }, "expiresAt": { "type": "string", "format": "date-time" }, "revocations": { "type": "array", "items": { "$ref": "#/$defs/revocation" } }, "signature": { "$ref": "#/$defs/signature" } } }
+  },
+  "x-semanticConstraints": ["signature covers RFC 8785 canonical JSON without signature", "verified requires every required suite fixture exactly once with passed status", "revocation and trust snapshots are monotonic by snapshotVersion"]
+}

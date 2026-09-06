@@ -1,0 +1,44 @@
+{
+  "$schema": "./phase-1a-work-items.schema.json",
+  "schemaVersion": "1",
+  "phase": "phase-1a",
+  "items": [
+    {
+      "id": "A1-S2-01", "title": "ResolutionRecord V1 contract and pure normalization", "status": "done", "dependsOn": [],
+      "references": ["docs/implementation/A1-S2-01.md", "docs/rfcs/0013-phase-1-technology.md", "docs/spikes/S2-resolver.md", "docs/contributing.md"],
+      "scope": ["canonical JSON Schema and TypeScript type", "pure condition and logical path normalization", "schema and unit failure fixtures"],
+      "outputs": ["packages/contracts/schemas/resolution-record-v1.schema.json", "packages/contracts/src/resolution-record.ts", "packages/compiler/src/resolution/normalize-resolution-record.ts"],
+      "acceptance": ["schema rejects unknown and machine-specific fields", "conditions follow the mode protocol order", "logical paths contain no absolute, parent, backslash, drive or pnpm store paths", "input ordering does not change canonical output", "existing ProductGraph V1 output is unchanged"],
+      "commands": ["fnm exec --using=24 pnpm build", "fnm exec --using=24 pnpm typecheck", "fnm exec --using=24 pnpm test", "fnm exec --using=24 pnpm verify:docs"],
+      "nonGoals": ["filesystem or package resolution", "Vite, TypeScript, Node or Vitest adapters", "symlink traversal", "Product Graph integration", "new dependencies"],
+      "evidence": ["2026-09-06 on macOS 27.0 (26A5425a), Node v24.20.0 and pnpm 10.32.1: build, typecheck, 74 Vitest tests, 8 S1 tests and verify:docs passed; result recorded in .codex/tasks/a1-s2-01-resolution-record-2026-09-06.md"]
+    },
+    {
+      "id": "A1-S2-02", "title": "Package exports and relative source resolver", "status": "done", "dependsOn": ["A1-S2-01"],
+      "references": ["docs/spikes/S2-resolver.md"], "scope": ["package exports and relative ESM resolution", "declared dependency and package escape checks"],
+      "outputs": ["compiler resolver core", "package fixture workspace", "stable resolution diagnostics"],
+      "acceptance": ["public exports resolve uniquely", "private, undeclared and escaping imports fail before code execution", "records are independent of checkout and pnpm store paths"],
+      "commands": ["fnm exec --using=24 pnpm test", "fnm exec --using=24 pnpm verify:docs"],
+      "nonGoals": ["Vite adapter", "bundle trace", "Runtime import"],
+      "evidence": ["2026-09-06 on macOS 27.0 (26A5425a), Node v24.20.0 and pnpm 10.32.1: build, typecheck, 92 Vitest tests, 8 S1 tests and verify:docs passed; result recorded in .codex/tasks/a1-s2-02-source-resolver-2026-09-06.md"]
+    },
+    {
+      "id": "A1-S2-03", "title": "Target boundary and dynamic import policy", "status": "done", "dependsOn": ["A1-S2-02"],
+      "references": ["docs/spikes/S2-resolver.md", "docs/security.md"], "scope": ["shared/web/server boundary rules", "static and opaque dynamic import classification"],
+      "outputs": ["target policy module", "boundary fixture corpus"],
+      "acceptance": ["server secrets and built-ins cannot enter web/shared", "opaque cross-owner dynamic imports fail", "diagnostics match S2 codes"],
+      "commands": ["fnm exec --using=24 pnpm test", "fnm exec --using=24 pnpm verify:docs"],
+      "nonGoals": ["bundler output inspection", "Runtime lifecycle"],
+      "evidence": ["2026-09-06 on macOS 27.0 (26A5425a), Node v24.20.0 and pnpm 10.32.1: build, typecheck, 109 Vitest tests, 8 S1 tests and verify:docs passed; result recorded in .codex/tasks/a1-s2-03-target-import-policy-2026-09-06.md"]
+    },
+    {
+      "id": "A1-S2-04", "title": "Tool adapters and cross-platform S2 evidence", "status": "in-progress", "dependsOn": ["A1-S2-03"],
+      "references": ["docs/spikes/S2-resolver.md", "docs/testing-strategy.md"], "scope": ["TypeScript, Node, Vite and Vitest trace adapters", "OS and pnpm store matrix"],
+      "outputs": ["adapter conformance runner", "canonical resolution transcripts", "S2 evidence record"],
+      "acceptance": ["five resolution modes reconcile", "Linux, macOS and Windows transcripts match", "S2 pass criteria are completely evidenced"],
+      "commands": ["fnm exec --using=24 pnpm test", "fnm exec --using=24 pnpm verify:docs"],
+      "nonGoals": ["S3 bundle trace", "Executable Registry", "business Kits"],
+      "evidence": ["2026-09-06 on macOS 27.0 (26A5425a), arm64, Node v24.20.0 and pnpm 10.32.1: TypeScript 5.9.3, Vite 8.2.2, Node and Vitest 4.1.11 reconciled five modes across two checkouts and two isolated pnpm stores; 109 Vitest, 8 S1 and 4 S2 tests plus build, typecheck and verify:docs passed. Canonical transcript is spikes/s2-resolver/transcripts/macos-arm64.json. Linux/Windows remain unrun, so the item stays in progress."]
+    }
+  ]
+}

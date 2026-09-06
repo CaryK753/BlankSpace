@@ -1,0 +1,12 @@
+{
+  "schema": "sync-protocol-v1.schema.json",
+  "valid": false,
+  "document": {
+    "kind": "sync-batch-result",
+    "schemaVersion": "1",
+    "correlationId": "corr-3",
+    "batchId": "batch-1",
+    "results": [{ "operationId": "op-1", "status": "quarantined", "code": "SYNC_PERMISSION_REVOKED", "recoveryChoices": ["export-quarantine"] }],
+    "checkpoint": { "id": "cp-1", "hash": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "protocolVersion": "1.0.0" }
+  }
+}

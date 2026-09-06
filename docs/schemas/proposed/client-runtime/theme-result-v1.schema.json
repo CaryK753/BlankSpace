@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://blankspace.dev/schemas/proposed/theme-result-v1.schema.json",
+  "title": "ThemeResultV1 (Proposed)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "clientId", "uiFamily", "renderer", "themeIrHash", "outputs", "fallbacks"],
+  "properties": {
+    "schemaVersion": { "const": "1" }, "clientId": { "type": "string" }, "uiFamily": { "type": "object", "additionalProperties": false, "required": ["id", "major"], "properties": { "id": { "type": "string" }, "major": { "type": "integer", "minimum": 1 } } },
+    "renderer": { "type": "object", "additionalProperties": false, "required": ["id", "version", "artifactHash"], "properties": { "id": { "type": "string" }, "version": { "type": "string" }, "artifactHash": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" } } },
+    "themeIrHash": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
+    "outputs": { "type": "array", "items": { "type": "object", "additionalProperties": false, "required": ["path", "hash", "role"], "properties": { "path": { "type": "string", "pattern": "^(?!/)(?![A-Za-z]:)(?!.*(?:^|/)\\.{1,2}(?:/|$))(?!.*\\\\).+$" }, "hash": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" }, "role": { "type": "string" } } } },
+    "fallbacks": { "type": "array", "items": { "type": "object", "additionalProperties": false, "required": ["semantic", "selected", "reason"], "properties": { "semantic": { "type": "string" }, "selected": { "type": "string" }, "reason": { "type": "string" } } } }
+  }
+}

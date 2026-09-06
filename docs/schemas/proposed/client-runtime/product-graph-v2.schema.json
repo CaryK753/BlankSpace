@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://blankspace.dev/schemas/proposed/product-graph-v2.schema.json",
+  "title": "ProductGraphV2 (Proposed)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "client", "nodes", "edges", "assemblyId"],
+  "properties": {
+    "schemaVersion": { "const": "2" },
+    "client": { "$ref": "#/$defs/clientTarget" },
+    "nodes": { "type": "array", "items": { "$ref": "#/$defs/node" } },
+    "edges": { "type": "array", "items": { "$ref": "#/$defs/edge" } },
+    "assemblyId": { "$ref": "#/$defs/hash" }
+  },
+  "$defs": {
+    "id": { "type": "string", "minLength": 1 },
+    "hash": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
+    "uiFamily": { "type": "object", "additionalProperties": false, "required": ["id", "major"], "properties": { "id": { "$ref": "#/$defs/id" }, "major": { "type": "integer", "minimum": 1 } } },
+    "clientTarget": {
+      "type": "object", "additionalProperties": false, "required": ["id", "platform", "runtime", "requiredCapabilities", "excludeFeatures"],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" }, "platform": { "enum": ["web", "windows", "macos", "linux", "ios", "android"] },
+        "runtime": { "type": "object", "additionalProperties": false, "required": ["id", "version", "manifestHash"], "properties": { "id": { "$ref": "#/$defs/id" }, "version": { "type": "string" }, "manifestHash": { "$ref": "#/$defs/hash" } } },
+        "uiFamilyAssertion": { "$ref": "#/$defs/uiFamily" },
+        "requiredCapabilities": { "type": "array", "items": { "type": "object", "additionalProperties": false, "required": ["id", "major", "mode"], "properties": { "id": { "$ref": "#/$defs/id" }, "major": { "type": "integer", "minimum": 1 }, "mode": { "enum": ["required", "optional"] } } } },
+        "excludeFeatures": { "type": "array", "uniqueItems": true, "items": { "$ref": "#/$defs/id" } }
+      }
+    },
+    "node": {
+      "type": "object", "additionalProperties": false, "required": ["key", "kind", "id", "version", "contentHash", "data"],
+      "properties": {
+        "key": { "$ref": "#/$defs/id" },
+        "kind": { "enum": ["module", "kit", "runtime", "artifact", "generation", "renderer", "capability", "theme", "toolchain", "evidence", "feature", "contract", "shell", "probe"] },
+        "id": { "$ref": "#/$defs/id" }, "version": { "type": "string" }, "contentHash": { "$ref": "#/$defs/hash" }, "data": { "$ref": "#/$defs/nodeData" }
+      }
+    },
+    "nodeData": {
+      "oneOf": [
+        { "$ref": "#/$defs/manifestData" }, { "$ref": "#/$defs/artifactData" }, { "$ref": "#/$defs/generationData" },
+        { "$ref": "#/$defs/rendererData" }, { "$ref": "#/$defs/capabilityData" }, { "$ref": "#/$defs/themeData" },
+        { "$ref": "#/$defs/toolchainData" }, { "$ref": "#/$defs/evidenceData" }, { "$ref": "#/$defs/referenceData" }
+      ]
+    },
+    "manifestData": { "type": "object", "additionalProperties": false, "required": ["factType", "manifestHash"], "properties": { "factType": { "enum": ["module", "kit", "runtime"] }, "manifestHash": { "$ref": "#/$defs/hash" } } },
+    "artifactData": { "type": "object", "additionalProperties": false, "required": ["factType", "role", "ecosystem", "coordinate", "contractHash"], "properties": { "factType": { "const": "artifact" }, "role": { "type": "string" }, "ecosystem": { "type": "string" }, "coordinate": { "type": "string" }, "contractHash": { "$ref": "#/$defs/hash" } } },
+    "generationData": { "type": "object", "additionalProperties": false, "required": ["factType", "toolId", "inputHash", "outputHash"], "properties": { "factType": { "const": "generation" }, "toolId": { "$ref": "#/$defs/id" }, "inputHash": { "$ref": "#/$defs/hash" }, "outputHash": { "$ref": "#/$defs/hash" } } },
+    "rendererData": { "type": "object", "additionalProperties": false, "required": ["factType", "uiFamily", "contractKeys", "entry"], "properties": { "factType": { "const": "renderer" }, "uiFamily": { "$ref": "#/$defs/uiFamily" }, "contractKeys": { "type": "array", "items": { "$ref": "#/$defs/id" } }, "entry": { "type": "string" } } },
+    "capabilityData": { "type": "object", "additionalProperties": false, "required": ["factType", "major", "providerId", "fallbackIds", "probeId"], "properties": { "factType": { "const": "capability" }, "major": { "type": "integer" }, "providerId": { "$ref": "#/$defs/id" }, "fallbackIds": { "type": "array", "items": { "$ref": "#/$defs/id" } }, "probeId": { "$ref": "#/$defs/id" } } },
+    "themeData": { "type": "object", "additionalProperties": false, "required": ["factType", "irHash", "resultHash"], "properties": { "factType": { "const": "theme" }, "irHash": { "$ref": "#/$defs/hash" }, "resultHash": { "$ref": "#/$defs/hash" } } },
+    "toolchainData": { "type": "object", "additionalProperties": false, "required": ["factType", "name", "resolvedVersion"], "properties": { "factType": { "const": "toolchain" }, "name": { "type": "string" }, "resolvedVersion": { "type": "string" } } },
+    "evidenceData": { "type": "object", "additionalProperties": false, "required": ["factType", "claimedLevel", "effectiveLevel", "evidenceHash", "policyHash"], "properties": { "factType": { "const": "evidence" }, "claimedLevel": { "type": "string" }, "effectiveLevel": { "type": "string" }, "evidenceHash": { "$ref": "#/$defs/hash" }, "policyHash": { "$ref": "#/$defs/hash" } } },
+    "referenceData": { "type": "object", "additionalProperties": false, "required": ["factType", "sourceKey"], "properties": { "factType": { "enum": ["feature", "contract", "shell", "probe"] }, "sourceKey": { "$ref": "#/$defs/id" } } },
+    "edge": {
+      "type": "object", "additionalProperties": false, "required": ["from", "to", "kind"],
+      "properties": { "from": { "$ref": "#/$defs/id" }, "to": { "$ref": "#/$defs/id" }, "kind": { "enum": ["requires", "provides", "selects", "generates", "renders", "falls-back-to", "verified-by", "configured-by"] } }
+    }
+  },
+  "x-semanticConstraints": [
+    "node.key is unique and equals kind:id:version:contentHash; node.kind equals data.factType",
+    "nodes sort by kind,id,version,contentHash using UTF-8 byte order",
+    "edges sort by from,to,kind and reference existing node keys",
+    "fallback edges are acyclic",
+    "assemblyId is sha256 of RFC-0017 canonical JSON without assemblyId"
+  ]
+}

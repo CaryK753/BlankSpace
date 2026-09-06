@@ -1,0 +1,35 @@
+{
+  "schema": "shell-template-v1.schema.json",
+  "valid": false,
+  "document": {
+    "schemaVersion": "1",
+    "kind": "ui-shell-catalog",
+    "routes": [
+      {
+        "id": "home",
+        "path": "home",
+        "screenId": "home",
+        "surface": "app",
+        "access": "signed-in",
+        "presentation": { "desktop": "content", "mobile": "root" }
+      }
+    ],
+    "navigation": [
+      { "id": "nav.1", "routeId": "home", "labelKey": "nav.1", "icon": "home", "region": "mobile-primary", "priority": 1 },
+      { "id": "nav.2", "routeId": "home", "labelKey": "nav.2", "icon": "home", "region": "mobile-primary", "priority": 2 },
+      { "id": "nav.3", "routeId": "home", "labelKey": "nav.3", "icon": "home", "region": "mobile-primary", "priority": 3 },
+      { "id": "nav.4", "routeId": "home", "labelKey": "nav.4", "icon": "home", "region": "mobile-primary", "priority": 4 },
+      { "id": "nav.5", "routeId": "home", "labelKey": "nav.5", "icon": "home", "region": "mobile-primary", "priority": 5 },
+      { "id": "nav.6", "routeId": "home", "labelKey": "nav.6", "icon": "home", "region": "mobile-primary", "priority": 6 }
+    ],
+    "templates": [
+      {
+        "id": "mobile-tabs",
+        "uiFamily": "react-mobile",
+        "viewportClasses": ["compact"],
+        "supportedRegions": ["mobile-primary", "mobile-more"],
+        "standardStates": ["loading", "empty", "ready", "error", "permission-denied", "offline"]
+      }
+    ]
+  }
+}

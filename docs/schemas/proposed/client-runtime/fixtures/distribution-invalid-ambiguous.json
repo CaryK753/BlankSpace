@@ -1,0 +1,12 @@
+{
+  "schema": "distribution-manifest.schema.json",
+  "valid": false,
+  "document": {
+    "schemaVersion": "1", "logicalId": "runtime-web-react", "logicalVersion": "1.0.0",
+    "contractHash": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "artifacts": [
+      { "id": "renderer-a", "role": "renderer", "ecosystem": "npm", "selector": { "platforms": ["web"] }, "coordinate": { "kind": "npm", "package": "renderer-a" }, "version": "1.0.0", "source": { "url": "https://example.invalid/a", "revision": "a" }, "contentHash": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb", "contractHash": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "provenance": { "url": "https://example.invalid/a/provenance", "contentHash": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc" } },
+      { "id": "renderer-b", "role": "renderer", "ecosystem": "npm", "selector": { "platforms": ["web"] }, "coordinate": { "kind": "npm", "package": "renderer-b" }, "version": "1.0.0", "source": { "url": "https://example.invalid/b", "revision": "b" }, "contentHash": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd", "contractHash": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "provenance": { "url": "https://example.invalid/b/provenance", "contentHash": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee" } }
+    ]
+  }
+}

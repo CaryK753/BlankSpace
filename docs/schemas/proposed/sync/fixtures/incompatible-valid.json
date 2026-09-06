@@ -1,0 +1,14 @@
+{
+  "schema": "sync-protocol-v1.schema.json",
+  "valid": true,
+  "document": {
+    "kind": "sync-incompatible",
+    "schemaVersion": "1",
+    "correlationId": "corr-2",
+    "protocolId": "blankspace.sync",
+    "clientRanges": ["^1"],
+    "serverRanges": ["^2"],
+    "code": "SYNC_PROTOCOL_INCOMPATIBLE",
+    "recoveryChoices": ["read-only", "upgrade-client"]
+  }
+}

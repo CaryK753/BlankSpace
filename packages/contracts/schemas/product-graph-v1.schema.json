@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://blankspace.dev/schemas/product-graph-v1.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "$schema",
+    "schemaVersion",
+    "frameworkVersion",
+    "target",
+    "inputHash",
+    "assemblyId",
+    "modules",
+    "entries",
+    "diagnostics"
+  ],
+  "properties": {
+    "$schema": { "const": "https://blankspace.dev/schemas/product-graph-v1.schema.json" },
+    "schemaVersion": { "const": "1" },
+    "frameworkVersion": { "type": "string", "minLength": 1 },
+    "target": { "enum": ["web", "server"] },
+    "inputHash": { "$ref": "#/$defs/digest" },
+    "assemblyId": { "$ref": "#/$defs/digest" },
+    "modules": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/module" }
+    },
+    "entries": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/entry" }
+    },
+    "diagnostics": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/diagnostic" }
+    }
+  },
+  "$defs": {
+    "digest": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "identifier": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9.-]*$"
+    },
+    "module": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "descriptor"],
+      "properties": {
+        "id": { "$ref": "#/$defs/identifier" },
+        "descriptor": { "$ref": "shared.schema.json#/$defs/relativePath" }
+      }
+    },
+    "entry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["entryId", "ownerId", "target", "module", "exportName"],
+      "properties": {
+        "entryId": { "$ref": "#/$defs/identifier" },
+        "ownerId": { "$ref": "#/$defs/identifier" },
+        "target": { "enum": ["web", "server"] },
+        "module": { "$ref": "shared.schema.json#/$defs/relativePath" },
+        "exportName": { "type": "string", "pattern": "^[A-Za-z_$][A-Za-z0-9_$]*$" }
+      }
+    },
+    "diagnostic": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["code", "severity", "message"],
+      "properties": {
+        "code": { "type": "string", "pattern": "^W_[A-Z0-9_]+$" },
+        "severity": { "const": "warning" },
+        "message": { "type": "string", "minLength": 1 }
+      }
+    }
+  }
+}

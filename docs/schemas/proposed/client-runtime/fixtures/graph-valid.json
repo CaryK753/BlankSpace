@@ -1,0 +1,14 @@
+{
+  "schema": "product-graph-v2.schema.json",
+  "valid": true,
+  "document": {
+    "schemaVersion": "2",
+    "client": { "id": "web", "platform": "web", "runtime": { "id": "runtime-web-react", "version": "1.0.0", "manifestHash": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" }, "requiredCapabilities": [], "excludeFeatures": [] },
+    "nodes": [
+      { "key": "artifact:react-renderer:1.0.0:sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb", "kind": "artifact", "id": "react-renderer", "version": "1.0.0", "contentHash": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb", "data": { "factType": "artifact", "role": "renderer", "ecosystem": "npm", "coordinate": "@blankspace/react-renderer", "contractHash": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd" } },
+      { "key": "runtime:runtime-web-react:1.0.0:sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "kind": "runtime", "id": "runtime-web-react", "version": "1.0.0", "contentHash": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "data": { "factType": "runtime", "manifestHash": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" } }
+    ],
+    "edges": [{ "from": "runtime:runtime-web-react:1.0.0:sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "to": "artifact:react-renderer:1.0.0:sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb", "kind": "selects" }],
+    "assemblyId": "sha256:907b7e5a91822c61319b14a248d767b8bee0a8f527e968b6ab23e0bec40cd34f"
+  }
+}

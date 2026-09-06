@@ -1,0 +1,38 @@
+{
+  "schema": "shell-template-v1.schema.json",
+  "valid": false,
+  "document": {
+    "schemaVersion": "1",
+    "kind": "ui-shell-catalog",
+    "routes": [
+      {
+        "id": "first",
+        "path": "first",
+        "parentId": "second",
+        "screenId": "first",
+        "surface": "app",
+        "access": "signed-in",
+        "presentation": { "desktop": "content", "mobile": "push" }
+      },
+      {
+        "id": "second",
+        "path": "second",
+        "parentId": "first",
+        "screenId": "second",
+        "surface": "app",
+        "access": "signed-in",
+        "presentation": { "desktop": "content", "mobile": "push" }
+      }
+    ],
+    "navigation": [],
+    "templates": [
+      {
+        "id": "sidebar-saas",
+        "uiFamily": "react-desktop",
+        "viewportClasses": ["expanded"],
+        "supportedRegions": ["primary"],
+        "standardStates": ["loading", "empty", "ready", "error", "permission-denied", "offline"]
+      }
+    ]
+  }
+}

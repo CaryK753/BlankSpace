@@ -1,0 +1,9 @@
+{
+  "schema": "release-plan-v1.schema.json", "valid": false,
+  "document": {
+    "schemaVersion": "1", "releaseId": "bad-promotion", "sourceRevision": "0123456", "inputHash": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "invocation": { "event": "manual-promotion", "sourceTrusted": true, "ref": "candidate:bad" }, "externalActions": [],
+    "jobs": [{ "id": "promote", "kind": "promote", "runner": "linux", "trust": "protected", "needs": [], "usesSecrets": true, "actions": ["compile", "promote"] }],
+    "artifacts": [{ "id": "server", "target": "server", "platform": "linux-amd64", "producerJob": "promote", "sourceRevision": "0123456", "inputHash": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "distribution": "oci", "requiredEvidence": ["digest", "tests", "sbom", "provenance", "signature", "compatibility"] }]
+  }
+}

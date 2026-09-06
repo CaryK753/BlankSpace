@@ -1,0 +1,121 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://blankspace.dev/schemas/resolution-record-v1.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "importer",
+    "specifier",
+    "mode",
+    "target",
+    "format",
+    "conditions",
+    "external"
+  ],
+  "properties": {
+    "schemaVersion": { "const": "1" },
+    "importer": { "$ref": "#/$defs/logicalPath" },
+    "specifier": { "type": "string", "minLength": 1 },
+    "mode": { "enum": ["type", "web-dev", "web-build", "server", "test"] },
+    "target": { "enum": ["shared", "web", "server"] },
+    "packageIdentity": { "$ref": "shared.schema.json#/$defs/packageId" },
+    "exportSubpath": { "$ref": "#/$defs/exportSubpath" },
+    "logicalPath": { "$ref": "#/$defs/logicalPath" },
+    "format": { "enum": ["esm", "json", "asset", "external"] },
+    "conditions": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "uniqueItems": true
+    },
+    "external": { "type": "boolean" }
+  },
+  "dependentRequired": {
+    "packageIdentity": ["exportSubpath"],
+    "exportSubpath": ["packageIdentity"]
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": { "external": { "const": true } },
+        "required": ["external"]
+      },
+      "then": {
+        "properties": { "format": { "const": "external" } },
+        "not": {
+          "properties": { "logicalPath": {} },
+          "required": ["logicalPath"]
+        }
+      },
+      "else": {
+        "properties": {
+          "format": { "enum": ["esm", "json", "asset"] },
+          "logicalPath": {}
+        },
+        "required": ["logicalPath"]
+      }
+    },
+    {
+      "oneOf": [
+        {
+          "properties": {
+            "mode": { "const": "type" },
+            "conditions": { "const": ["types", "import", "default"] }
+          }
+        },
+        {
+          "properties": {
+            "mode": { "const": "web-dev" },
+            "target": { "const": "web" },
+            "conditions": { "const": ["browser", "development", "import", "default"] }
+          }
+        },
+        {
+          "properties": {
+            "mode": { "const": "web-build" },
+            "target": { "const": "web" },
+            "conditions": { "const": ["browser", "production", "import", "default"] }
+          }
+        },
+        {
+          "properties": {
+            "mode": { "const": "server" },
+            "target": { "const": "server" },
+            "conditions": { "const": ["node", "import", "default"] }
+          }
+        },
+        {
+          "properties": {
+            "mode": { "const": "test" },
+            "target": { "const": "shared" },
+            "conditions": { "const": ["test", "import", "default"] }
+          }
+        },
+        {
+          "properties": {
+            "mode": { "const": "test" },
+            "target": { "const": "web" },
+            "conditions": { "const": ["browser", "test", "import", "default"] }
+          }
+        },
+        {
+          "properties": {
+            "mode": { "const": "test" },
+            "target": { "const": "server" },
+            "conditions": { "const": ["node", "test", "import", "default"] }
+          }
+        }
+      ]
+    }
+  ],
+  "$defs": {
+    "logicalPath": {
+      "type": "string",
+      "pattern": "^(?!/)(?![A-Za-z][A-Za-z0-9+.-]*:)(?!(?:.*\\/)?(?:\\.|\\.\\.|\\.pnpm|node_modules)(?:\\/|$))(?!.*\\/\\/)[^\\u0000\\\\/]+(?:/[^\\u0000\\\\/]+)*$"
+    },
+    "exportSubpath": {
+      "type": "string",
+      "pattern": "^(?:\\.|\\./(?!(?:.*\\/)?\\.\\.?(?:\\/|$))(?!.*\\/\\/)[^\\u0000\\\\/]+(?:/[^\\u0000\\\\/]+)*)$"
+    }
+  }
+}

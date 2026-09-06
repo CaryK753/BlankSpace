@@ -1,0 +1,15 @@
+{
+  "schema": "release-candidate-v1.schema.json", "valid": false,
+  "document": {
+    "schemaVersion": "1", "kind": "release-candidate", "id": "bad", "logicalVersion": "1.0.0", "sourceRevision": "0123456",
+    "inputHash": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "productGraphHash": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "artifacts": [{ "id": "server", "target": "server", "platform": "linux-amd64", "unsigned": { "uri": "https://example.test/u", "digest": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc" }, "distributed": { "uri": "https://example.test/d", "digest": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd" }, "builderIdentity": "builder", "toolchainHash": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee", "evidence": [
+      { "kind": "tests", "ref": { "uri": "https://example.test/e1", "digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111" }, "subjectDigest": "sha256:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff", "issuedAt": "2026-09-06T10:00:00Z" },
+      { "kind": "sbom", "ref": { "uri": "https://example.test/e2", "digest": "sha256:2222222222222222222222222222222222222222222222222222222222222222" }, "subjectDigest": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd", "issuedAt": "2026-09-06T10:00:00Z" },
+      { "kind": "provenance", "ref": { "uri": "https://example.test/e3", "digest": "sha256:3333333333333333333333333333333333333333333333333333333333333333" }, "subjectDigest": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd", "issuedAt": "2026-09-06T10:00:00Z" },
+      { "kind": "signature", "ref": { "uri": "https://example.test/e4", "digest": "sha256:4444444444444444444444444444444444444444444444444444444444444444" }, "subjectDigest": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd", "issuedAt": "2026-09-06T10:00:00Z" }
+    ] }],
+    "compatibility": { "kind": "compatibility", "ref": { "uri": "https://example.test/c", "digest": "sha256:5555555555555555555555555555555555555555555555555555555555555555" }, "subjectDigest": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd", "issuedAt": "2026-09-06T10:00:00Z" },
+    "policy": { "channel": "canary", "rollbackTarget": "old", "mandatoryTargets": ["server"] }, "expiresAt": "2026-09-13T10:00:00Z"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "schema": "release-lifecycle-v1.schema.json", "valid": true,
+  "document": {
+    "schemaVersion": "1", "kind": "release-lifecycle", "releaseId": "product-1.0.0",
+    "targets": [{ "id": "ios", "required": true, "state": "available", "artifactDigest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb" }],
+    "transitions": [
+      { "targetId": "ios", "from": "candidate", "to": "submitted", "actor": "release-bot", "policyResult": "passed", "artifactDigest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb", "externalReceipt": "asc-123", "at": "2026-09-06T10:00:00Z" },
+      { "targetId": "ios", "from": "submitted", "to": "approved", "actor": "store-sync", "policyResult": "passed", "artifactDigest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb", "externalReceipt": "asc-124", "at": "2026-09-06T11:00:00Z" },
+      { "targetId": "ios", "from": "approved", "to": "available", "actor": "release-owner", "policyResult": "passed", "artifactDigest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb", "externalReceipt": "asc-125", "at": "2026-09-06T12:00:00Z" }
+    ]
+  }
+}

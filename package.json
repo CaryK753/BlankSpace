@@ -1,0 +1,24 @@
+{
+  "name": "blankspace",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@10.32.1",
+  "engines": {
+    "node": ">=24 <25"
+  },
+  "scripts": {
+    "build": "tsc -b",
+    "typecheck": "tsc -b --pretty false",
+    "test": "vitest run && pnpm test:s1 && pnpm test:s2",
+    "test:s1": "node --test spikes/s1-config/*.test.mjs",
+    "test:s2": "pnpm build && node --test spikes/s2-resolver/*.test.mjs",
+    "verify:docs": "node scripts/verify-docs.mjs && node scripts/validate-proposed-client-contracts.mjs && node scripts/validate-proposed-domain-contracts.mjs && node scripts/validate-proposed-ui-contracts.mjs && node scripts/validate-proposed-release-contracts.mjs"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "ajv": "^8.17.1",
+    "jsonc-parser": "^3.3.1",
+    "typescript": "^5.9.0",
+    "vitest": "^4.0.0"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "schema": "release-plan-v1.schema.json", "valid": false,
+  "document": {
+    "schemaVersion": "1", "releaseId": "bad-cycle", "sourceRevision": "0123456", "inputHash": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "invocation": { "event": "protected-branch", "sourceTrusted": true, "ref": "refs/heads/main" }, "externalActions": [],
+    "jobs": [
+      { "id": "build-a", "kind": "build", "runner": "linux", "trust": "protected", "needs": ["build-b"], "usesSecrets": false, "actions": ["compile"] },
+      { "id": "build-b", "kind": "build", "runner": "linux", "trust": "protected", "needs": ["build-a"], "usesSecrets": false, "actions": ["compile"] }
+    ],
+    "artifacts": [{ "id": "server", "target": "server", "platform": "linux-amd64", "producerJob": "build-a", "sourceRevision": "0123456", "inputHash": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "distribution": "internal", "requiredEvidence": ["digest", "tests", "sbom", "provenance", "compatibility"] }]
+  }
+}

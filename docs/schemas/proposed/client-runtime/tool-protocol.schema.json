@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://blankspace.dev/schemas/proposed/tool-protocol-v1.schema.json",
+  "title": "ToolProtocolV1 (Proposed)",
+  "oneOf": [{ "$ref": "#/$defs/request" }, { "$ref": "#/$defs/result" }],
+  "$defs": {
+    "hash": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
+    "relativePath": { "type": "string", "pattern": "^(?!/)(?![A-Za-z]:)(?!.*(?:^|/)\\.{1,2}(?:/|$))(?!.*\\\\)(?!.*\\u0000)[^/]+(?:/[^/]+)*$" },
+    "file": {
+      "type": "object", "additionalProperties": false, "required": ["path", "hash"],
+      "properties": { "path": { "$ref": "#/$defs/relativePath" }, "hash": { "$ref": "#/$defs/hash" }, "role": { "type": "string" } }
+    },
+    "request": {
+      "type": "object", "additionalProperties": false,
+      "required": ["kind", "protocolVersion", "operation", "clientId", "graphPath", "lockPath", "inputs", "outputRoot", "moduleNames", "options"],
+      "properties": {
+        "kind": { "const": "request" }, "protocolVersion": { "const": "1" },
+        "operation": { "enum": ["generate-contracts", "render-theme", "build-client", "verify-client"] },
+        "clientId": { "type": "string" }, "graphPath": { "$ref": "#/$defs/relativePath" }, "lockPath": { "$ref": "#/$defs/relativePath" },
+        "inputs": { "type": "array", "items": { "$ref": "#/$defs/file" } },
+        "outputRoot": { "$ref": "#/$defs/relativePath" },
+        "moduleNames": { "type": "object", "additionalProperties": { "type": "string" } },
+        "options": { "type": "object", "additionalProperties": false, "properties": { "schemaKinds": { "type": "array", "items": { "type": "string" } }, "languages": { "type": "array", "items": { "enum": ["typescript", "swift", "kotlin"] } }, "uiFamily": { "type": "string" }, "configuration": { "type": "string" } } }
+      }
+    },
+    "result": {
+      "type": "object", "additionalProperties": false,
+      "required": ["kind", "protocolVersion", "status", "diagnostics", "outputs", "evidence"],
+      "properties": {
+        "kind": { "const": "result" }, "protocolVersion": { "const": "1" },
+        "status": { "enum": ["succeeded", "failed", "blocked"] },
+        "diagnostics": { "type": "array", "items": { "type": "object", "required": ["code", "severity", "message"], "properties": { "code": { "type": "string" }, "severity": { "enum": ["error", "warning", "info"] }, "message": { "type": "string" } } } },
+        "outputs": { "type": "array", "items": { "$ref": "#/$defs/file" } },
+        "evidence": { "type": "object", "additionalProperties": false, "properties": { "inputHash": { "$ref": "#/$defs/hash" }, "outputHash": { "$ref": "#/$defs/hash" }, "toolchainHash": { "$ref": "#/$defs/hash" }, "themeResultHash": { "$ref": "#/$defs/hash" }, "supportEvidenceHash": { "$ref": "#/$defs/hash" } } }
+      },
+      "allOf": [{ "if": { "properties": { "status": { "enum": ["failed", "blocked"] } }, "required": ["status"] }, "then": { "properties": { "outputs": { "type": "array", "maxItems": 0 } } } }]
+    }
+  }
+}

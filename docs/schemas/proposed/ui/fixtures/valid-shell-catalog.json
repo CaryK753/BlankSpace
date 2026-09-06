@@ -1,0 +1,61 @@
+{
+  "schema": "shell-template-v1.schema.json",
+  "valid": true,
+  "document": {
+    "schemaVersion": "1",
+    "kind": "ui-shell-catalog",
+    "routes": [
+      {
+        "id": "app",
+        "path": "app",
+        "screenId": "app.home",
+        "surface": "app",
+        "access": "signed-in",
+        "presentation": { "desktop": "content", "mobile": "root" }
+      },
+      {
+        "id": "projects.detail",
+        "path": "projects/:projectId",
+        "parentId": "app",
+        "screenId": "projects.detail",
+        "surface": "app",
+        "access": "policy:projects.read",
+        "presentation": { "desktop": "content", "mobile": "push" }
+      }
+    ],
+    "navigation": [
+      {
+        "id": "nav.home",
+        "routeId": "app",
+        "labelKey": "nav.home",
+        "icon": "home",
+        "region": "primary",
+        "priority": 100
+      },
+      {
+        "id": "nav.mobile.home",
+        "routeId": "app",
+        "labelKey": "nav.home",
+        "icon": "home",
+        "region": "mobile-primary",
+        "priority": 100
+      }
+    ],
+    "templates": [
+      {
+        "id": "sidebar-saas",
+        "uiFamily": "react-desktop",
+        "viewportClasses": ["medium", "expanded"],
+        "supportedRegions": ["primary", "secondary", "utility"],
+        "standardStates": ["loading", "empty", "ready", "refreshing", "error", "permission-denied", "offline"]
+      },
+      {
+        "id": "mobile-tabs",
+        "uiFamily": "react-mobile",
+        "viewportClasses": ["compact"],
+        "supportedRegions": ["mobile-primary", "mobile-more"],
+        "standardStates": ["loading", "empty", "ready", "error", "permission-denied", "offline"]
+      }
+    ]
+  }
+}

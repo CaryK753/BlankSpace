@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://blankspace.dev/schemas/proposed/theme-ir-v1.schema.json",
+  "title": "ThemeIRV1 (Proposed)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "clientId", "uiFamily", "sourceHash", "tokens", "recipes", "fallbacks"],
+  "properties": {
+    "schemaVersion": { "const": "1" },
+    "clientId": { "type": "string" },
+    "uiFamily": { "type": "object", "additionalProperties": false, "required": ["id", "major"], "properties": { "id": { "type": "string" }, "major": { "type": "integer", "minimum": 1 } } },
+    "sourceHash": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
+    "tokens": { "type": "array", "items": { "type": "object", "additionalProperties": false, "required": ["id", "kind", "value", "source"], "properties": { "id": { "type": "string" }, "kind": { "type": "string" }, "value": {}, "source": { "type": "string" } } } },
+    "recipes": { "type": "array", "items": { "type": "object", "additionalProperties": false, "required": ["id", "kind", "states", "source"], "properties": { "id": { "type": "string" }, "kind": { "type": "string" }, "states": { "type": "object" }, "source": { "type": "string" } } } },
+    "fallbacks": { "type": "array", "items": { "type": "object", "additionalProperties": false, "required": ["from", "to", "condition"], "properties": { "from": { "type": "string" }, "to": { "type": "string" }, "condition": { "type": "string" } } } }
+  },
+  "x-semanticConstraints": ["tokens and recipes are sorted by id", "fallback graph is acyclic", "sourceHash covers canonical resolved design system input"]
+}

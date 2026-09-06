@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://blankspace.dev/schemas/proposed/request-transcript-v1.schema.json",
+  "title": "RequestTranscriptV1 (Proposed)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "operationId", "headerAllowlistHash", "method", "pathSegments", "query", "headers", "body", "result"],
+  "properties": {
+    "schemaVersion": { "const": "1" }, "operationId": { "type": "string" },
+    "headerAllowlistHash": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
+    "method": { "enum": ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"] },
+    "pathSegments": { "type": "array", "items": { "type": "string" } },
+    "query": { "type": "array", "items": { "$ref": "#/$defs/pair" } },
+    "headers": { "type": "array", "items": { "$ref": "#/$defs/pair" } },
+    "body": { "oneOf": [{ "type": "object", "additionalProperties": false, "required": ["mediaType", "canonicalJson"], "properties": { "mediaType": { "const": "application/json" }, "canonicalJson": {} } }, { "type": "object", "additionalProperties": false, "required": ["mediaType", "contentHash"], "properties": { "mediaType": { "type": "string" }, "contentHash": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" } } }, { "type": "null" }] },
+    "result": { "oneOf": [{ "type": "object", "additionalProperties": false, "required": ["kind", "status", "bodyHash"], "properties": { "kind": { "const": "success" }, "status": { "type": "integer", "minimum": 100, "maximum": 599 }, "bodyHash": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" } } }, { "type": "object", "additionalProperties": false, "required": ["kind", "category", "code", "retryable"], "properties": { "kind": { "const": "error" }, "category": { "enum": ["auth", "authorization", "conflict", "network", "not-found", "rate-limit", "server", "timeout", "validation", "unknown"] }, "code": { "type": "string" }, "retryable": { "type": "boolean" } } }] }
+  },
+  "$defs": { "pair": { "type": "object", "additionalProperties": false, "required": ["name", "value"], "properties": { "name": { "type": "string" }, "value": { "type": "string" } } } },
+  "x-canonicalization": ["split the raw path on literal slash before decoding; remove only literal dot segments; percent-decode RFC 3986 unreserved bytes only, never decode encoded slash or dot into structure; re-encode with uppercase percent hex", "preserve duplicate query pairs and sort by encoded name then value using UTF-8 bytes", "headers include only the allowlist bound by headerAllowlistHash; lowercase names, trim OWS, preserve duplicate values then sort", "JSON body uses RFC 8785 JCS and preserves JSON array order; other bodies compare declared SHA-256", "only query and header pair collections are sorted; business arrays preserve declared order"]
+}

@@ -1,0 +1,25 @@
+{
+  "schema": "release-plan-v1.schema.json",
+  "valid": true,
+  "document": {
+    "schemaVersion": "1",
+    "releaseId": "blankspace-1.0.0",
+    "sourceRevision": "0123456789abcdef",
+    "inputHash": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "invocation": { "event": "signed-tag", "sourceTrusted": true, "ref": "refs/tags/v1.0.0" },
+    "externalActions": [{ "repository": "actions/checkout", "commitSha": "1111111111111111111111111111111111111111" }],
+    "jobs": [
+      { "id": "quality", "kind": "quality", "runner": "linux", "trust": "untrusted", "needs": [], "usesSecrets": false, "actions": ["lint", "test"] },
+      { "id": "build-server", "kind": "build", "runner": "linux", "trust": "protected", "needs": ["quality"], "usesSecrets": false, "actions": ["compile", "test", "attest"] },
+      { "id": "build-macos", "kind": "package", "runner": "macos", "trust": "protected", "needs": ["quality"], "usesSecrets": false, "actions": ["compile", "package", "test", "attest"] },
+      { "id": "sign-macos", "kind": "sign", "runner": "macos", "trust": "protected", "needs": ["build-macos"], "usesSecrets": true, "actions": ["sign", "notarize", "attest"] },
+      { "id": "build-android", "kind": "package", "runner": "linux", "trust": "protected", "needs": ["quality"], "usesSecrets": false, "actions": ["compile", "package", "test", "attest"] },
+      { "id": "promote", "kind": "promote", "runner": "linux", "trust": "protected", "needs": ["build-server", "sign-macos", "build-android"], "usesSecrets": true, "actions": ["verify", "promote"] }
+    ],
+    "artifacts": [
+      { "id": "server-linux-amd64", "target": "server", "platform": "linux-amd64", "producerJob": "build-server", "sourceRevision": "0123456789abcdef", "inputHash": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "distribution": "oci", "requiredEvidence": ["digest", "tests", "sbom", "provenance", "signature", "compatibility"] },
+      { "id": "desktop-macos-arm64", "target": "electron", "platform": "macos-arm64", "producerJob": "sign-macos", "sourceRevision": "0123456789abcdef", "inputHash": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "distribution": "desktop-update", "requiredEvidence": ["digest", "tests", "sbom", "provenance", "signature", "notarization", "compatibility"] },
+      { "id": "android-aab", "target": "compose-android", "platform": "android", "producerJob": "build-android", "sourceRevision": "0123456789abcdef", "inputHash": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "distribution": "internal", "requiredEvidence": ["digest", "tests", "sbom", "provenance", "compatibility"] }
+    ]
+  }
+}

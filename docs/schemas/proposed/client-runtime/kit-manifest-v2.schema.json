@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://blankspace.dev/schemas/proposed/kit-manifest-v2.schema.json",
+  "title": "KitManifestV2 (Proposed)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "kind", "id", "version", "distribution", "services", "capabilityRequirements", "ui"],
+  "properties": {
+    "schemaVersion": { "const": "2" }, "kind": { "const": "kit" }, "id": { "$ref": "#/$defs/id" }, "version": { "type": "string" },
+    "distribution": { "$ref": "#/$defs/immutableRef" },
+    "services": { "type": "array", "uniqueItems": true, "items": { "$ref": "#/$defs/id" } },
+    "capabilityRequirements": { "type": "array", "items": { "$ref": "#/$defs/capabilityRequirement" } },
+    "ui": { "$ref": "#/$defs/ui" }
+  },
+  "$defs": {
+    "id": { "type": "string", "pattern": "^[a-z][a-z0-9]*(?:[.-][a-z0-9]+)*$" },
+    "hash": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
+    "immutableRef": { "type": "object", "additionalProperties": false, "required": ["url", "contentHash"], "properties": { "url": { "type": "string", "format": "uri" }, "contentHash": { "$ref": "#/$defs/hash" } } },
+    "uiFamily": { "type": "object", "additionalProperties": false, "required": ["id", "major"], "properties": { "id": { "$ref": "#/$defs/id" }, "major": { "type": "integer", "minimum": 1 } } },
+    "capability": { "type": "object", "additionalProperties": false, "required": ["id", "major"], "properties": { "id": { "$ref": "#/$defs/id" }, "major": { "type": "integer", "minimum": 1 } } },
+    "capabilityRequirement": { "type": "object", "additionalProperties": false, "required": ["capability", "mode", "fallback"], "properties": { "capability": { "$ref": "#/$defs/capability" }, "mode": { "enum": ["required", "optional"] }, "fallback": { "type": "array", "items": { "$ref": "#/$defs/capability" } } } },
+    "contract": { "type": "object", "additionalProperties": false, "required": ["kind", "id", "major", "mandatory"], "properties": { "kind": { "$ref": "#/$defs/id" }, "id": { "$ref": "#/$defs/id" }, "major": { "type": "integer", "minimum": 1 }, "mandatory": { "type": "boolean" } } },
+    "binding": { "type": "object", "additionalProperties": false, "required": ["bindingId", "contract", "uiFamily", "rendererId", "entry", "role", "fallbackBindingIds"], "properties": { "bindingId": { "$ref": "#/$defs/id" }, "contract": { "$ref": "#/$defs/contract" }, "uiFamily": { "$ref": "#/$defs/uiFamily" }, "rendererId": { "$ref": "#/$defs/id" }, "entry": { "type": "string" }, "role": { "enum": ["primary", "fallback"] }, "fallbackBindingIds": { "type": "array", "uniqueItems": true, "items": { "$ref": "#/$defs/id" } }, "activationProbeId": { "$ref": "#/$defs/id" } } },
+    "feature": { "type": "object", "additionalProperties": false, "required": ["id", "clientOptional", "nonExcludable", "requiresFeatures", "contracts", "capabilities", "bindings"], "properties": { "id": { "$ref": "#/$defs/id" }, "clientOptional": { "type": "boolean" }, "nonExcludable": { "type": "boolean" }, "requiresFeatures": { "type": "array", "uniqueItems": true, "items": { "$ref": "#/$defs/id" } }, "contracts": { "type": "array", "items": { "$ref": "#/$defs/contract" } }, "capabilities": { "type": "array", "items": { "$ref": "#/$defs/capabilityRequirement" } }, "bindings": { "type": "array", "items": { "$ref": "#/$defs/binding" } } } },
+    "ui": { "oneOf": [{ "type": "object", "additionalProperties": false, "required": ["kind"], "properties": { "kind": { "const": "none" } } }, { "type": "object", "additionalProperties": false, "required": ["kind", "features"], "properties": { "kind": { "const": "features" }, "features": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/feature" } } } }] }
+  },
+  "x-semanticConstraints": ["feature and binding IDs are globally qualified and unique", "fallbackBindingIds resolve within the same contract requirement and are acyclic", "each non-excluded mandatory contract has exactly one primary binding per target UI Family"]
+}

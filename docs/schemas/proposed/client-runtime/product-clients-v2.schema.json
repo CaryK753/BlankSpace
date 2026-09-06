@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://blankspace.dev/schemas/proposed/product-clients-v2.schema.json",
+  "title": "ProductClientsV2 (Proposed)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "clients"],
+  "properties": {
+    "schemaVersion": { "const": "2" },
+    "clients": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/client" } }
+  },
+  "$defs": {
+    "id": { "type": "string", "pattern": "^[a-z][a-z0-9]*(?:[.-][a-z0-9]+)*$" },
+    "hash": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
+    "capability": { "type": "object", "additionalProperties": false, "required": ["id", "major", "mode", "fallback"], "properties": { "id": { "$ref": "#/$defs/id" }, "major": { "type": "integer", "minimum": 1 }, "mode": { "enum": ["required", "optional"] }, "fallback": { "type": "array", "items": { "type": "object", "additionalProperties": false, "required": ["id", "major"], "properties": { "id": { "$ref": "#/$defs/id" }, "major": { "type": "integer", "minimum": 1 } } } } } },
+    "client": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "platform", "runtime", "requiredCapabilities", "excludeFeatures"],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "platform": { "enum": ["web", "windows", "macos", "linux", "ios", "android"] },
+        "runtime": { "type": "object", "additionalProperties": false, "required": ["id", "version", "manifestHash"], "properties": { "id": { "$ref": "#/$defs/id" }, "version": { "type": "string" }, "manifestHash": { "$ref": "#/$defs/hash" } } },
+        "uiFamilyAssertion": { "type": "object", "additionalProperties": false, "required": ["id", "major"], "properties": { "id": { "$ref": "#/$defs/id" }, "major": { "type": "integer", "minimum": 1 } } },
+        "requiredCapabilities": { "type": "array", "items": { "$ref": "#/$defs/capability" } },
+        "excludeFeatures": { "type": "array", "uniqueItems": true, "items": { "$ref": "#/$defs/id" } }
+      }
+    }
+  },
+  "x-semanticConstraints": ["client IDs are unique", "uiFamilyAssertion equals the locked Runtime manifest value when present", "excludeFeatures resolve to clientOptional and nonExcludable=false Kit features", "capability fallback graph is acyclic"]
+}

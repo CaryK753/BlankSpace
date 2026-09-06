@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://blankspace.dev/schemas/proposed/design-system-v1.schema.json",
+  "title": "DesignSystemV1 (Proposed)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "tokens", "recipes", "overlays"],
+  "properties": {
+    "schemaVersion": { "const": "1" },
+    "tokens": { "type": "array", "items": { "$ref": "#/$defs/token" } },
+    "recipes": { "type": "array", "items": { "$ref": "#/$defs/recipe" } },
+    "overlays": { "type": "array", "items": { "$ref": "#/$defs/overlay" } }
+  },
+  "$defs": {
+    "id": { "type": "string", "pattern": "^[a-z][a-z0-9]*(?:[.-][a-z0-9]+)*$" },
+    "value": { "oneOf": [{ "type": "string" }, { "type": "number" }, { "type": "boolean" }, { "type": "object" }] },
+    "token": {
+      "type": "object", "additionalProperties": false, "required": ["id", "kind", "value", "platformOverridable", "merge"],
+      "properties": { "id": { "$ref": "#/$defs/id" }, "kind": { "enum": ["color", "dimension", "duration", "font", "material", "motion", "density", "other"] }, "value": { "$ref": "#/$defs/value" }, "platformOverridable": { "type": "boolean" }, "merge": { "enum": ["replace", "merge-map"] } }
+    },
+    "recipe": {
+      "type": "object", "additionalProperties": false, "required": ["id", "kind", "states", "platformOverridable", "merge"],
+      "properties": { "id": { "$ref": "#/$defs/id" }, "kind": { "$ref": "#/$defs/id" }, "states": { "type": "object", "additionalProperties": { "type": "object" } }, "platformOverridable": { "type": "boolean" }, "merge": { "enum": ["replace", "merge-recipe"] } }
+    },
+    "selector": {
+      "type": "object", "additionalProperties": false, "required": ["clientId"],
+      "properties": { "clientId": { "$ref": "#/$defs/id" }, "platform": { "enum": ["web", "windows", "macos", "linux", "ios", "android"] }, "runtimeId": { "$ref": "#/$defs/id" }, "uiFamily": { "type": "object", "additionalProperties": false, "required": ["id", "major"], "properties": { "id": { "$ref": "#/$defs/id" }, "major": { "type": "integer", "minimum": 1 } } } }
+    },
+    "override": { "type": "object", "additionalProperties": false, "required": ["id", "value"], "properties": { "id": { "$ref": "#/$defs/id" }, "value": { "$ref": "#/$defs/value" } } },
+    "overlay": { "type": "object", "additionalProperties": false, "required": ["id", "priority", "selector", "tokens", "recipes"], "properties": { "id": { "$ref": "#/$defs/id" }, "priority": { "type": "integer" }, "selector": { "$ref": "#/$defs/selector" }, "tokens": { "type": "array", "items": { "$ref": "#/$defs/override" } }, "recipes": { "type": "array", "items": { "$ref": "#/$defs/override" } } } }
+  },
+  "x-semanticConstraints": ["token, recipe, and overlay IDs are unique", "matching overlays apply by ascending priority then UTF-8 id; duplicate priority for the same selector is invalid", "replace replaces the full value", "merge-map merges keys recursively but rejects scalar/object type changes and has no delete operation", "merge-recipe merges named states then properties using merge-map and rejects undeclared states", "overlay may change only platformOverridable nodes", "references and fallback chains are resolvable and acyclic"]
+}

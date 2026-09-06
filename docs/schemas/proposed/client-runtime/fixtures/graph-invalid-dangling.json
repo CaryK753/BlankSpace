@@ -1,0 +1,11 @@
+{
+  "schema": "product-graph-v2.schema.json",
+  "valid": false,
+  "document": {
+    "schemaVersion": "2",
+    "client": { "id": "web", "platform": "web", "runtime": { "id": "runtime-web-react", "version": "1.0.0", "manifestHash": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" }, "requiredCapabilities": [], "excludeFeatures": [] },
+    "nodes": [{ "key": "runtime:runtime-web-react:1.0.0:sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "kind": "runtime", "id": "runtime-web-react", "version": "1.0.0", "contentHash": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "data": { "factType": "runtime", "manifestHash": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" } }],
+    "edges": [{ "from": "runtime:runtime-web-react:1.0.0:sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "to": "missing", "kind": "selects" }],
+    "assemblyId": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+  }
+}

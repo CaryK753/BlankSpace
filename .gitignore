@@ -1,0 +1,21 @@
+# Dependencies and package-manager state
+node_modules/
+.pnpm-store/
+
+# Generated build and test output
+dist/
+*.tsbuildinfo
+coverage/
+.vite/
+
+# Local environment and logs
+.codex/config.toml
+.env
+.env.*
+!.env.example
+*.log
+
+# Operating-system and editor state
+.DS_Store
+.idea/
+.vscode/

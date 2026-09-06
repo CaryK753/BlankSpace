@@ -1,0 +1,19 @@
+{
+  "schema": "distribution-manifest.schema.json",
+  "valid": true,
+  "document": {
+    "schemaVersion": "1",
+    "logicalId": "runtime-ios-swiftui",
+    "logicalVersion": "1.0.0",
+    "contractHash": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "artifacts": [{
+      "id": "swiftui-renderer", "role": "renderer", "ecosystem": "swiftpm",
+      "selector": { "platforms": ["ios"], "runtime": { "id": "runtime-ios-swiftui", "version": "1.0.0" }, "uiFamily": { "id": "swiftui", "major": 1 } },
+      "coordinate": { "kind": "swiftpm", "packageUrl": "https://example.invalid/BlankspaceSwiftUI.git", "product": "BlankspaceSwiftUI" }, "version": "1.0.0",
+      "source": { "url": "https://example.invalid/repository", "revision": "abc123" },
+      "contentHash": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "contractHash": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "provenance": { "url": "https://example.invalid/provenance", "contentHash": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc" }
+    }]
+  }
+}

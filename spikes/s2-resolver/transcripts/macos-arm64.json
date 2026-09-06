@@ -1,0 +1,206 @@
+{
+  "$schema": "../transcript.schema.json",
+  "schemaVersion": "1",
+  "environment": {
+    "platform": "darwin",
+    "arch": "arm64"
+  },
+  "tools": {
+    "node": "24.20.0",
+    "typescript": "5.9.3",
+    "vite": "8.2.2",
+    "vitest": "4.1.11",
+    "pnpm": "10.32.1"
+  },
+  "matrix": {
+    "checkoutCount": 2,
+    "pnpmStoreCount": 2
+  },
+  "recordsHash": "71652e6c253cd52cfcd0dde6a97314ab1e389548396f6269d81fcb51bda0a969",
+  "edges": [
+    {
+      "fixture": "package-root",
+      "adapter": "typescript",
+      "record": {
+        "schemaVersion": "1",
+        "importer": "packages/app/src/index.ts",
+        "specifier": "@fixture/library",
+        "mode": "type",
+        "target": "shared",
+        "packageIdentity": "@fixture/library",
+        "exportSubpath": ".",
+        "logicalPath": "packages/library/src/index.d.ts",
+        "format": "esm",
+        "conditions": ["types", "import", "default"],
+        "external": false
+      }
+    },
+    {
+      "fixture": "package-root",
+      "adapter": "vite",
+      "record": {
+        "schemaVersion": "1",
+        "importer": "packages/app/src/index.ts",
+        "specifier": "@fixture/library",
+        "mode": "web-dev",
+        "target": "web",
+        "packageIdentity": "@fixture/library",
+        "exportSubpath": ".",
+        "logicalPath": "packages/library/src/browser.ts",
+        "format": "esm",
+        "conditions": ["browser", "development", "import", "default"],
+        "external": false
+      }
+    },
+    {
+      "fixture": "package-root",
+      "adapter": "vite",
+      "record": {
+        "schemaVersion": "1",
+        "importer": "packages/app/src/index.ts",
+        "specifier": "@fixture/library",
+        "mode": "web-build",
+        "target": "web",
+        "packageIdentity": "@fixture/library",
+        "exportSubpath": ".",
+        "logicalPath": "packages/library/src/browser.ts",
+        "format": "esm",
+        "conditions": ["browser", "production", "import", "default"],
+        "external": false
+      }
+    },
+    {
+      "fixture": "package-root",
+      "adapter": "node",
+      "record": {
+        "schemaVersion": "1",
+        "importer": "packages/app/src/index.ts",
+        "specifier": "@fixture/library",
+        "mode": "server",
+        "target": "server",
+        "packageIdentity": "@fixture/library",
+        "exportSubpath": ".",
+        "logicalPath": "packages/library/src/node.ts",
+        "format": "esm",
+        "conditions": ["node", "import", "default"],
+        "external": false
+      }
+    },
+    {
+      "fixture": "package-root",
+      "adapter": "vitest",
+      "record": {
+        "schemaVersion": "1",
+        "importer": "packages/app/src/index.ts",
+        "specifier": "@fixture/library",
+        "mode": "test",
+        "target": "web",
+        "packageIdentity": "@fixture/library",
+        "exportSubpath": ".",
+        "logicalPath": "packages/library/src/browser.ts",
+        "format": "esm",
+        "conditions": ["browser", "test", "import", "default"],
+        "external": false
+      }
+    },
+    {
+      "fixture": "public-subpath",
+      "adapter": "typescript",
+      "record": {
+        "schemaVersion": "1",
+        "importer": "packages/app/src/index.ts",
+        "specifier": "@fixture/library/feature",
+        "mode": "type",
+        "target": "shared",
+        "packageIdentity": "@fixture/library",
+        "exportSubpath": "./feature",
+        "logicalPath": "packages/library/src/feature.ts",
+        "format": "esm",
+        "conditions": ["types", "import", "default"],
+        "external": false
+      }
+    },
+    {
+      "fixture": "public-subpath",
+      "adapter": "vite",
+      "record": {
+        "schemaVersion": "1",
+        "importer": "packages/app/src/index.ts",
+        "specifier": "@fixture/library/feature",
+        "mode": "web-dev",
+        "target": "web",
+        "packageIdentity": "@fixture/library",
+        "exportSubpath": "./feature",
+        "logicalPath": "packages/library/src/feature.ts",
+        "format": "esm",
+        "conditions": ["browser", "development", "import", "default"],
+        "external": false
+      }
+    },
+    {
+      "fixture": "public-subpath",
+      "adapter": "vite",
+      "record": {
+        "schemaVersion": "1",
+        "importer": "packages/app/src/index.ts",
+        "specifier": "@fixture/library/feature",
+        "mode": "web-build",
+        "target": "web",
+        "packageIdentity": "@fixture/library",
+        "exportSubpath": "./feature",
+        "logicalPath": "packages/library/src/feature.ts",
+        "format": "esm",
+        "conditions": ["browser", "production", "import", "default"],
+        "external": false
+      }
+    },
+    {
+      "fixture": "public-subpath",
+      "adapter": "node",
+      "record": {
+        "schemaVersion": "1",
+        "importer": "packages/app/src/index.ts",
+        "specifier": "@fixture/library/feature",
+        "mode": "server",
+        "target": "server",
+        "packageIdentity": "@fixture/library",
+        "exportSubpath": "./feature",
+        "logicalPath": "packages/library/src/feature.ts",
+        "format": "esm",
+        "conditions": ["node", "import", "default"],
+        "external": false
+      }
+    },
+    {
+      "fixture": "public-subpath",
+      "adapter": "vitest",
+      "record": {
+        "schemaVersion": "1",
+        "importer": "packages/app/src/index.ts",
+        "specifier": "@fixture/library/feature",
+        "mode": "test",
+        "target": "web",
+        "packageIdentity": "@fixture/library",
+        "exportSubpath": "./feature",
+        "logicalPath": "packages/library/src/feature.ts",
+        "format": "esm",
+        "conditions": ["browser", "test", "import", "default"],
+        "external": false
+      }
+    },
+    {
+      "fixture": "node-builtin",
+      "adapter": "node",
+      "record": {
+        "schemaVersion": "1",
+        "importer": "packages/app/src/index.ts",
+        "specifier": "node:fs",
+        "mode": "server",
+        "target": "server",
+        "format": "external",
+        "conditions": ["node", "import", "default"],
+        "external": true
+      }
+    }
+  ]
+}

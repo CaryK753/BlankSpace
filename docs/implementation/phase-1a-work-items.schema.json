@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://blankspace.dev/schemas/phase-1a-work-items.schema.json",
+  "type": "object", "additionalProperties": false,
+  "required": ["schemaVersion", "phase", "items"],
+  "properties": {
+    "$schema": { "type": "string" }, "schemaVersion": { "const": "1" }, "phase": { "const": "phase-1a" },
+    "items": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/item" } }
+  },
+  "$defs": {
+    "item": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "title", "status", "dependsOn", "references", "scope", "outputs", "acceptance", "commands", "nonGoals"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^A1-[A-Z0-9]+-[0-9]{2}$" },
+        "title": { "type": "string", "minLength": 1 },
+        "status": { "enum": ["blocked", "ready", "in-progress", "done"] },
+        "dependsOn": { "type": "array", "uniqueItems": true, "items": { "type": "string" } },
+        "references": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "type": "string" } },
+        "scope": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+        "outputs": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+        "acceptance": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+        "commands": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+        "nonGoals": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+        "evidence": { "type": "array", "items": { "type": "string" } }
+      }
+    }
+  },
+  "x-semanticConstraints": ["item IDs are unique", "dependencies exist and are acyclic", "exactly one item is ready or in progress", "ready dependencies are done", "project status nextWorkItem matches the actionable item"]
+}

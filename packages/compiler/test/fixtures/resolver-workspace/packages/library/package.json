@@ -1,0 +1,32 @@
+{
+  "name": "@fixture/library",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./src/index.d.ts",
+      "browser": "./src/browser.ts",
+      "node": "./src/node.ts",
+      "default": "./src/index.ts"
+    },
+    "./feature": "./src/feature.ts",
+    "./ordered": {
+      "default": "./src/index.ts",
+      "browser": "./src/browser.ts"
+    },
+    "./nested": {
+      "node": {
+        "import": "./src/node.ts"
+      },
+      "default": "./src/index.ts"
+    },
+    "./features/*": "./src/features/*.ts",
+    "./private/*": null,
+    "./bad-case": "./src/casesensitive.ts",
+    "./link": "./src/link.ts",
+    "./types-only": {
+      "types": "./src/types-only.d.ts"
+    },
+    "./escape": "../outside.ts"
+  }
+}

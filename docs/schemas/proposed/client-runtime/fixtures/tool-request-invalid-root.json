@@ -1,0 +1,9 @@
+{
+  "schema": "tool-protocol.schema.json",
+  "valid": false,
+  "document": {
+    "kind": "request", "protocolVersion": "1", "operation": "render-theme", "clientId": "ios",
+    "graphPath": ".blankspace/graph/ios.json", "lockPath": "blankspace.lock", "inputs": [],
+    "outputRoot": "src", "moduleNames": {}, "options": {}
+  }
+}

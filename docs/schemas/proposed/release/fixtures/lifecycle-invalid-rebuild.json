@@ -1,0 +1,11 @@
+{
+  "schema": "release-lifecycle-v1.schema.json", "valid": false,
+  "document": {
+    "schemaVersion": "1", "kind": "release-lifecycle", "releaseId": "product-1.0.0",
+    "targets": [{ "id": "server", "required": true, "state": "available", "artifactDigest": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc" }],
+    "transitions": [
+      { "targetId": "server", "from": "candidate", "to": "staged", "actor": "release-bot", "policyResult": "passed", "artifactDigest": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd", "externalReceipt": "deploy-1", "at": "2026-09-06T10:00:00Z" },
+      { "targetId": "server", "from": "staged", "to": "available", "actor": "release-bot", "policyResult": "passed", "artifactDigest": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc", "externalReceipt": "deploy-2", "at": "2026-09-06T11:00:00Z" }
+    ]
+  }
+}

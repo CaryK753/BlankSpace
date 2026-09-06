@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://blankspace.dev/schemas/proposed/distribution-manifest-v1.schema.json",
+  "title": "DistributionManifestV1 (Proposed)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "logicalId", "logicalVersion", "contractHash", "artifacts"],
+  "properties": {
+    "schemaVersion": { "const": "1" },
+    "logicalId": { "type": "string", "minLength": 1 },
+    "logicalVersion": { "type": "string", "minLength": 1 },
+    "contractHash": { "$ref": "#/$defs/hash" },
+    "artifacts": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/artifact" } }
+  },
+  "$defs": {
+    "hash": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "role", "ecosystem", "selector", "coordinate", "version", "source", "contentHash", "contractHash", "provenance"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "role": { "enum": ["runtime-host", "service", "renderer", "native-library", "generator", "build-plugin", "verifier", "theme-renderer"] },
+        "ecosystem": { "enum": ["npm", "swiftpm", "maven", "binary"] },
+        "selector": {
+          "type": "object", "additionalProperties": false, "required": ["platforms"],
+          "properties": {
+            "platforms": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "type": "string" } },
+            "runtime": { "$ref": "#/$defs/runtimeRef" },
+            "uiFamily": { "$ref": "#/$defs/uiFamilyRef" }
+          }
+        },
+        "coordinate": { "$ref": "#/$defs/coordinate" },
+        "version": { "type": "string", "minLength": 1 },
+        "source": { "$ref": "#/$defs/source" },
+        "contentHash": { "$ref": "#/$defs/hash" },
+        "contractHash": { "$ref": "#/$defs/hash" },
+        "provenance": { "$ref": "#/$defs/immutableRef" },
+        "supportEvidence": { "$ref": "#/$defs/immutableRef" }
+      }
+    },
+    "runtimeRef": { "type": "object", "additionalProperties": false, "required": ["id", "version"], "properties": { "id": { "type": "string" }, "version": { "type": "string" } } },
+    "uiFamilyRef": { "type": "object", "additionalProperties": false, "required": ["id", "major"], "properties": { "id": { "type": "string" }, "major": { "type": "integer", "minimum": 1 } } },
+    "source": { "type": "object", "additionalProperties": false, "required": ["url", "revision"], "properties": { "url": { "type": "string", "format": "uri" }, "revision": { "type": "string", "minLength": 1 } } },
+    "coordinate": { "oneOf": [
+      { "type": "object", "additionalProperties": false, "required": ["kind", "package"], "properties": { "kind": { "const": "npm" }, "package": { "type": "string" } } },
+      { "type": "object", "additionalProperties": false, "required": ["kind", "packageUrl", "product"], "properties": { "kind": { "const": "swiftpm" }, "packageUrl": { "type": "string", "format": "uri" }, "product": { "type": "string" } } },
+      { "type": "object", "additionalProperties": false, "required": ["kind", "group", "artifact"], "properties": { "kind": { "const": "maven" }, "group": { "type": "string" }, "artifact": { "type": "string" }, "classifier": { "type": "string" } } },
+      { "type": "object", "additionalProperties": false, "required": ["kind", "url"], "properties": { "kind": { "const": "binary" }, "url": { "type": "string", "format": "uri" } } }
+    ] },
+    "immutableRef": { "type": "object", "additionalProperties": false, "required": ["url", "contentHash"], "properties": { "url": { "type": "string", "format": "uri" }, "contentHash": { "$ref": "#/$defs/hash" } } }
+  }
+}

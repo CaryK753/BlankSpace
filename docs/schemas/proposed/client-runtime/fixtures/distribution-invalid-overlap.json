@@ -1,0 +1,12 @@
+{
+  "schema": "distribution-manifest.schema.json",
+  "valid": false,
+  "document": {
+    "schemaVersion": "1", "logicalId": "runtime-ios-swiftui", "logicalVersion": "1.0.0",
+    "contractHash": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "artifacts": [
+      { "id": "generic", "role": "renderer", "ecosystem": "swiftpm", "selector": { "platforms": ["ios"] }, "coordinate": { "kind": "swiftpm", "packageUrl": "https://example.invalid/generic.git", "product": "Generic" }, "version": "1.0.0", "source": { "url": "https://example.invalid/generic", "revision": "a" }, "contentHash": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb", "contractHash": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "provenance": { "url": "https://example.invalid/generic/provenance", "contentHash": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc" } },
+      { "id": "specific", "role": "renderer", "ecosystem": "swiftpm", "selector": { "platforms": ["ios"], "runtime": { "id": "runtime-ios-swiftui", "version": "1.0.0" }, "uiFamily": { "id": "swiftui", "major": 1 } }, "coordinate": { "kind": "swiftpm", "packageUrl": "https://example.invalid/specific.git", "product": "Specific" }, "version": "1.0.0", "source": { "url": "https://example.invalid/specific", "revision": "b" }, "contentHash": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd", "contractHash": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "provenance": { "url": "https://example.invalid/specific/provenance", "contentHash": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee" } }
+    ]
+  }
+}

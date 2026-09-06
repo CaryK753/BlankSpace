@@ -1,0 +1,15 @@
+{
+  "schema": "sync-protocol-v1.schema.json",
+  "valid": true,
+  "document": {
+    "kind": "sync-blob-transfer",
+    "schemaVersion": "1",
+    "correlationId": "corr-6",
+    "contentHash": "sha256:b1a6af65f25421707525a8ee3be19fa9813ee41476f9f4048f1c310a352d37b8",
+    "totalBytes": 8,
+    "chunks": [
+      { "chunkIndex": 0, "chunkHash": "sha256:9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08", "chunkBytes": 4, "payloadBase64": "dGVzdA==" },
+      { "chunkIndex": 1, "chunkHash": "sha256:8f4375ec65c2c4092a1cc21e76712472eae0de999384e8327c495957121db9c2", "chunkBytes": 4, "payloadBase64": "YmVzdA==" }
+    ]
+  }
+}
