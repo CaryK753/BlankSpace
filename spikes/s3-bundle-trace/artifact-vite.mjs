@@ -7,11 +7,14 @@ const require = createRequire(import.meta.resolve('vitest/package.json'));
 const vite = await import(pathToFileURL(require.resolve('vite')).href);
 const entry = 'packages/app/src/artifact-entry.ts';
 const hash = value => createHash('sha256').update(value).digest('hex');
-const clean = value => value.replace(/^[ \t]*\/\/#region .*\n/gm, '').replace(/^[ \t]*\/\/#endregion\n?/gm, '');
+const clean = value => value.replace(/\r\n?/g, '\n').replace(/^[ \t]*\/\/#region .*\n/gm, '').replace(/^[ \t]*\/\/#endregion\n?/gm, '');
 
 function outputHash(output) {
   if (output.type === 'chunk') return hash(clean(output.code));
   const source = typeof output.source === 'string' ? output.source : Buffer.from(output.source ?? []);
+  if (typeof source === 'string' || /\.(?:css|svg|js)$/.test(output.fileName)) {
+    return hash(clean(typeof source === 'string' ? source : source.toString('utf8')));
+  }
   return hash(source);
 }
 

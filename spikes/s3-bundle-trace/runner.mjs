@@ -52,6 +52,7 @@ function sha256(value) {
 
 function canonicalRenderedCode(value) {
   return value
+    .replace(/\r\n?/g, '\n')
     .replace(/^[ \t]*\/\/#region .*\n/gm, '')
     .replace(/^[ \t]*\/\/#endregion\n?/gm, '');
 }
