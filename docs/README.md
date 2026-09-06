@@ -21,9 +21,10 @@ Blankspace 处于架构设计和 Phase 1A spike 阶段，没有可用于创建�
 11. [AI、知识库与文档智能能力](ai-capabilities.md)
 12. [客户端 Runtime 与多端开发](client-runtimes.md)
 13. [跨平台 Design System](design-system.md)
-14. [基础 UI Shell 模板与路由](ui-templates.md)
-15. [升级与兼容性](upgrades.md)
-16. [Production Readiness Gate](production-readiness.md)
+14. [前端基础能力：i18n、图标与资源约定](frontend-foundations.md)
+15. [基础 UI Shell 模板与路由](ui-templates.md)
+16. [升级与兼容性](upgrades.md)
+17. [Production Readiness Gate](production-readiness.md)
 
 ### 框架贡献者
 
@@ -48,9 +49,10 @@ Blankspace 处于架构设计和 Phase 1A spike 阶段，没有可用于创建�
 3. [部署与运行责任](operations.md)
 4. [Platform Operations 与持续交付](platform-operations.md)
 5. [多产物 CI/CD 与客户端发布](ci-cd.md)
-6. [升级与兼容性](upgrades.md)
-7. [验证策略](testing-strategy.md)
-8. [决策与门禁台账](decision-backlog.md)
+6. [Framework Package 发布与 npm/pnpm 分发](package-publication.md)
+7. [升级与兼容性](upgrades.md)
+8. [验证策略](testing-strategy.md)
+9. [决策与门禁台账](decision-backlog.md)
 
 ### 产品和架构决策者
 
@@ -94,6 +96,7 @@ README 和领域文档用于解释，不覆盖 schema 或 RFC 的精确定义。
 | 基础 Desktop/Mobile Shell 与路由 | ui-templates、design-system | RFC-0009、RFC-0015～0017 | proposed UI contracts、S8 |
 | 多客户端 Runtime | client-runtimes | RFC-0015、RFC-0017 | CR1 Client Runtime |
 | 跨平台 Design System | design-system | RFC-0016、RFC-0017 | DS1 Design System |
+| 前端 i18n、语义图标与资源约定 | frontend-foundations、design-system | RFC-0009、RFC-0016～0017 | S8 locale/icon/a11y fixtures |
 | 升级 | upgrades | RFC-0010 | Phase 1C upgrade fixtures |
 | AI 开发 | developer-experience | RFC-0011 | Phase 1B AI journey |
 | 能力上限与指标 | roadmap | RFC-0012 | budgets、reference products |
@@ -109,12 +112,13 @@ README 和领域文档用于解释，不覆盖 schema 或 RFC 的精确定义。
 | Billing/Payment | kits、integration-catalog | RFC-0024 | Stripe/Waffo adapter corpus |
 | AI、Agent、知识库、联网研究与文档解析 | ai-capabilities、capability-catalog | RFC-0020、RFC-0025 | provider/agent/retrieval/parser eval 与安全 fixtures |
 | 软件供应链 | supply-chain | RFC-0017 | dependency review、SBOM、provenance、release gates |
+| Framework package / npm-pnpm 发布 | package-publication、supply-chain | RFC-0017 | pack/consumer fixtures、registry provenance、SC1 |
 | 部署与运维 | operations | host/database/upgrade RFC | S6/S7、release gates |
 | 镜像更新、渐进发布与回滚 | platform-operations | RFC-0026 | release/deployment/rollback/client-update fixtures |
 | Docker、Desktop 与 Mobile CI/CD | ci-cd、supply-chain | RFC-0017、RFC-0026 | proposed release contracts、SC1、平台签名/商店 evidence |
 | 生产资格 | production-readiness | RFC-0021～0024 | product-specific production report |
 
-矩阵中的 S3～S8 已有 Draft matrix，但除 S1 的临时证据外均尚未执行；链接表示实验规格入口，不代表已经存在实现证据。
+当前 S1 为 Provisional pass，S2 为 Pass，S3 的 JS module core 已推进到 Matrix frozen 并有 macOS arm64 执行证据；S4～S8 仍为 Draft matrix。链接表示实验规格入口，只有对应状态和 transcript/evidence 明确记录的部分才算已经执行。
 
 ## 状态词
 

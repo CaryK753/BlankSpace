@@ -160,6 +160,7 @@ Workspace 使用 `{ sourceId, workspaceId }` 在客户端定位。Local → Clou
 - [验证策略与证据](docs/testing-strategy.md)
 - [安全模型与信任边界](docs/security.md)
 - [软件供应链政策](docs/supply-chain.md)
+- [Framework Package 发布与 npm/pnpm 分发](docs/package-publication.md)
 - [部署与运行责任](docs/operations.md)
 - [Platform Operations 与持续交付](docs/platform-operations.md)
 - [多产物 CI/CD 与客户端发布](docs/ci-cd.md)
@@ -169,6 +170,7 @@ Workspace 使用 `{ sourceId, workspaceId }` 在客户端定位。Local → Clou
 - [CLI 与诊断契约](docs/cli-and-diagnostics.md)
 - [客户端 Runtime 与多端开发](docs/client-runtimes.md)
 - [跨平台 Design System](docs/design-system.md)
+- [前端基础能力：i18n、图标与资源约定](docs/frontend-foundations.md)
 - [基础 UI Shell 模板与路由](docs/ui-templates.md)
 - [上游升级与兼容性](docs/upgrades.md)
 - [Production Readiness Gate](docs/production-readiness.md)
@@ -187,4 +189,4 @@ Workspace 使用 `{ sourceId, workspaceId }` 在客户端定位。Local → Clou
 
 ## 下一步
 
-当前 Phase 1A 先推进 S1～S7 中与装配骨架直接相关的实验；S1 仍是 provisional pass，S2 已通过 Linux、macOS、Windows 的真实工具矩阵，下一工作项是冻结 S3 bundle trace contract、runner 与 fixtures。S8 属于 Phase 1C 的 UI Shell 门禁，不属于当前 1A 批次，但仍是完整 Phase 1 的必需实验。通过对应门禁后再实现 `remote-saas-core` 与 `workspace-saas` 参考产品。Local Workspace、Block 文档与 Local → Cloud 验证链从 Phase 2 开始推进，不进入 Phase 1 范围。
+当前 Phase 1A 先推进 S1～S7 中与装配骨架直接相关的实验；S1 仍是 provisional pass，S2 已通过 Linux、macOS、Windows 的真实工具矩阵，S3 的 canonical JS module trace core 已冻结并在 macOS arm64 上取得双 checkout/双 pnpm store 证据。下一工作项 `A1-S3-02` 将扩展 CSS、worker、WASM、assets、virtual modules，并补齐 Linux/macOS/Windows bundle trace 矩阵。S8 属于 Phase 1C 的 UI Shell 门禁，不属于当前 1A 批次，但仍是完整 Phase 1 的必需实验。通过对应门禁后再实现 `remote-saas-core` 与 `workspace-saas` 参考产品。Local Workspace、Block 文档与 Local → Cloud 验证链从 Phase 2 开始推进，不进入 Phase 1 范围。

@@ -1,0 +1,141 @@
+{
+  "schemaVersion": "1",
+  "environment": {
+    "platform": "darwin",
+    "arch": "arm64"
+  },
+  "tools": {
+    "node": "24.20.0",
+    "pnpm": "10.32.1",
+    "vite": "8.2.2"
+  },
+  "matrix": {
+    "checkoutCount": 2,
+    "pnpmStoreCount": 2
+  },
+  "traceHash": "855f208dd81cd0106e618cf6fc16aefc822afa084aaaf20bce355d6c06da0c14",
+  "fixtures": [
+    {
+      "id": "public-static",
+      "expected": "pass",
+      "result": {
+        "status": "pass",
+        "importKind": "static",
+        "sourceEdge": {
+          "schemaVersion": "1",
+          "importer": "packages/app/src/index.ts",
+          "specifier": "@fixture/library",
+          "mode": "web-build",
+          "target": "web",
+          "packageIdentity": "@fixture/library",
+          "exportSubpath": ".",
+          "logicalPath": "packages/library/src/browser.ts",
+          "format": "esm",
+          "conditions": [
+            "browser",
+            "production",
+            "import",
+            "default"
+          ],
+          "external": false
+        },
+        "bundleModules": [
+          {
+            "chunk": "assets/_blankspace-s3-entry.js",
+            "logicalPath": "packages/library/src/browser.ts",
+            "packageIdentity": "@fixture/library",
+            "target": "web",
+            "contentHash": "40c93108c85465a4072127ea2f3d85e36c6c3f619b6a9a5db3a56377a87ff169"
+          }
+        ]
+      }
+    },
+    {
+      "id": "public-dynamic-static",
+      "expected": "pass",
+      "result": {
+        "status": "pass",
+        "importKind": "dynamic-static",
+        "sourceEdge": {
+          "schemaVersion": "1",
+          "importer": "packages/app/src/index.ts",
+          "specifier": "@fixture/library/feature",
+          "mode": "web-build",
+          "target": "web",
+          "packageIdentity": "@fixture/library",
+          "exportSubpath": "./feature",
+          "logicalPath": "packages/library/src/feature.ts",
+          "format": "esm",
+          "conditions": [
+            "browser",
+            "production",
+            "import",
+            "default"
+          ],
+          "external": false
+        },
+        "bundleModules": [
+          {
+            "chunk": "assets/feature.js",
+            "logicalPath": "packages/library/src/feature.ts",
+            "packageIdentity": "@fixture/library",
+            "target": "web",
+            "contentHash": "bd3a70d38e42d414ef9e4e4680a376a70c42bf95e2a4fdac7bbb3f8423ebff65"
+          }
+        ]
+      }
+    },
+    {
+      "id": "undeclared-package",
+      "expected": "compiler-reject",
+      "result": {
+        "status": "compiler-reject",
+        "code": "E_UNDECLARED_DEPENDENCY",
+        "path": "specifier"
+      }
+    },
+    {
+      "id": "web-server-secret",
+      "expected": "compiler-reject",
+      "result": {
+        "status": "compiler-reject",
+        "code": "E_TARGET_BOUNDARY",
+        "path": "resolved.hasServerSecret"
+      }
+    },
+    {
+      "id": "web-server-target",
+      "expected": "compiler-reject",
+      "result": {
+        "status": "compiler-reject",
+        "code": "E_TARGET_BOUNDARY",
+        "path": "resolved.target"
+      }
+    },
+    {
+      "id": "private-export",
+      "expected": "compiler-reject",
+      "result": {
+        "status": "compiler-reject",
+        "code": "E_PRIVATE_EXPORT",
+        "path": "specifier"
+      }
+    },
+    {
+      "id": "package-escape",
+      "expected": "compiler-reject",
+      "result": {
+        "status": "compiler-reject",
+        "code": "E_PACKAGE_ESCAPE",
+        "path": "package.exports"
+      }
+    }
+  ],
+  "artifacts": [
+    { "kind": "asset", "sourceIdentity": "packages/app/src/artifact-logo.svg", "fileName": "assets/artifact-logo.svg", "target": "web", "contentHash": "21752a4061c37a1abd83ae4cc8eec42ca971e8b6823f429b410c2a090505face" },
+    { "kind": "css", "sourceIdentity": "packages/app/src/artifact-style.css", "fileName": "assets/artifact-entry.css", "target": "web", "contentHash": "77e79d60b467d1439ab7519f7564f7cdebe2218783183715028e32202f0db6d6" },
+    { "kind": "virtual-module", "sourceIdentity": "virtual:blankspace-s3", "fileName": "chunks/artifact-entry.js", "target": "web", "contentHash": "194b88d986e4cb5c022a3d8d2058417c0df25d44600181d9bcae4c6d9278161c" },
+    { "kind": "wasm", "sourceIdentity": "packages/app/src/artifact-module.wasm", "fileName": "assets/artifact-module.wasm", "target": "web", "contentHash": "93a44bbb96c751218e4c00d479e4c14358122a389acca16205b1e4d0dc5f9476" },
+    { "kind": "worker", "sourceIdentity": "packages/app/src/artifact-worker.ts", "fileName": "workers/artifact-worker.js", "target": "web", "contentHash": "9a629feaca2510f44ec91ffc5a3cfe95203d83e3f5023dda5a8538b93b908b27" }
+  ]
+}

@@ -41,14 +41,23 @@
       "evidence": ["2026-09-06 on macOS 27.0 (26A5425a), arm64, Node v24.20.0 and pnpm 10.32.1: TypeScript 5.9.3, Vite 8.2.2, Node and Vitest 4.1.11 reconciled five modes across two checkouts and two isolated pnpm stores; 109 Vitest, 8 S1 and 4 S2 tests plus build, typecheck and verify:docs passed. Canonical transcript is spikes/s2-resolver/transcripts/macos-arm64.json.", "GitHub Actions run 34016987463 for commit aab99489b492fb78bd0bc14b6f5fae69921fc9d0 passed the same two-checkout, two-store S2 corpus on ubuntu-24.04, macos-15 and windows-2025; all platforms matched records hash 71652e6c253cd52cfcd0dde6a97314ab1e389548396f6269d81fcb51bda0a969. Detailed evidence is recorded in .codex/tasks/a1-s2-04-tool-adapters-2026-09-06.md."]
     },
     {
-      "id": "A1-S3-01", "title": "Freeze bundle trace contract and fixture matrix", "status": "ready", "dependsOn": ["A1-S2-04"],
+      "id": "A1-S3-01", "title": "Freeze bundle trace contract and fixture matrix", "status": "done", "dependsOn": ["A1-S2-04"],
       "references": ["docs/spikes/S3-bundle-trace.md", "docs/testing-strategy.md", "docs/supply-chain.md"],
       "scope": ["canonical bundle trace schema", "Vite/Rollup observation runner and fixture matrix", "deterministic source edge to bundle module reconciliation"],
       "outputs": ["spike trace schema and runner", "bundle trace fixture corpus", "S3 evidence record"],
       "acceptance": ["trace excludes absolute and store paths and is deterministic across checkouts", "legal and illegal fixture edges reconcile before artifact publication", "tool versions, runner environments and failure choices are frozen"],
       "commands": ["fnm exec --using=24 pnpm build", "fnm exec --using=24 pnpm typecheck", "fnm exec --using=24 pnpm test", "fnm exec --using=24 pnpm verify:docs"],
       "nonGoals": ["Executable Registry", "Runtime lifecycle", "business Kits", "new runtime dependencies without supply-chain review"],
-      "evidence": []
+      "evidence": ["2026-09-06 on macOS 27.0 (26A5425a), arm64, Node v24.20.0, pnpm 10.32.1 and Vite 8.2.2: canonical JS module trace reconciled static and literal dynamic imports across two checkouts and two isolated pnpm stores; undeclared dependency, server SecretRef, cross-target import, private export and package escape failed before bundling; missing/extra bundle modules fail with stable reconciliation diagnostics. 109 Vitest, 8 S1, 4 S2 and 5 S3 tests plus build, typecheck and verify:docs passed. Canonical transcript is spikes/s3-bundle-trace/transcripts/macos-arm64.json with trace hash fc720952e1c552f46d3894077baf1f203fe3c8bc09596cc8f785bbccf3068e2e."]
+    },
+    {
+      "id": "A1-S3-02", "title": "Expand bundle trace artifact coverage and cross-platform evidence", "status": "ready", "dependsOn": ["A1-S3-01"],
+      "references": ["docs/spikes/S3-bundle-trace.md", "docs/rfcs/0013-phase-1-technology.md", "docs/testing-strategy.md", "docs/supply-chain.md"],
+      "scope": ["JS/CSS/worker/WASM/asset and virtual-module bundle observations", "artifact classification and forbidden artifact detection", "Linux/macOS/Windows canonical trace evidence"],
+      "outputs": ["expanded S3 trace schema and runner", "artifact fixture corpus", "cross-platform S3 transcripts and evidence"],
+      "acceptance": ["all RFC-0013 S3 artifact classes are observable without absolute or store paths", "unenabled or forbidden target artifacts fail publication reconciliation", "the common corpus produces the same canonical trace identity on Linux, macOS and Windows or records an explicit approved platform distinction", "S2 resolver records remain unchanged"],
+      "commands": ["fnm exec --using=24 pnpm build", "fnm exec --using=24 pnpm typecheck", "fnm exec --using=24 pnpm test", "fnm exec --using=24 pnpm verify:docs"],
+      "nonGoals": ["Executable Registry", "Runtime lifecycle", "business Kits", "production bundle budgets", "new runtime dependencies without supply-chain review"]
     }
   ]
 }

@@ -4,7 +4,7 @@
   "updatedAt": "2026-09-06",
   "phase": "phase-1a-spike",
   "production": "no-go",
-  "nextWorkItem": "A1-S3-01",
+  "nextWorkItem": "A1-S3-02",
   "implemented": [
     "strict-jsonc-parser-spike",
     "formal-v1-config-and-product-graph-schemas",
@@ -15,6 +15,7 @@
     "s2-native-tool-adapter-conformance-runner",
     "s2-macos-two-checkout-two-store-transcript",
     "s2-linux-macos-windows-conformance",
+    "s3-canonical-js-bundle-trace-and-reconciliation",
     "proposed-client-domain-ui-release-contract-fixtures"
   ],
   "unavailable": [
@@ -29,7 +30,7 @@
       "nextGate": "Replace the spike parser with the selected production validator and run the required cross-platform matrix."
     },
     "s2": { "status": "pass", "evidence": ["resolution-matrix", "resolution-record-v1-normalization", "workspace-source-resolver", "target-and-dynamic-import-policy", "typescript-node-vite-vitest-native-reconciliation", "linux-macos-windows-two-checkout-two-store-conformance"], "nextGate": "Keep the frozen S2 corpus as a cross-platform regression gate while S3 consumes the canonical records." },
-    "s3": { "status": "draft-matrix", "evidence": [], "nextGate": "Freeze trace schema, tool, runner and fixtures." },
+    "s3": { "status": "matrix-frozen", "evidence": ["canonical-js-bundle-trace-schema", "vite-8.2.2-observation-runner", "two-checkout-two-store-determinism", "source-edge-bundle-module-reconciliation", "macos-arm64-trace-fc720952e1c552f46d3894077baf1f203fe3c8bc09596cc8f785bbccf3068e2e"], "nextGate": "Expand the frozen trace to CSS, worker, WASM, assets and virtual modules, then run the Linux/macOS/Windows matrix." },
     "s4": { "status": "draft-matrix", "evidence": [], "nextGate": "Freeze Registry schema, generator, runner and fixtures." },
     "s5": { "status": "draft-matrix", "evidence": [], "nextGate": "Freeze lifecycle runner and fault fixtures." },
     "s6": { "status": "draft-matrix", "evidence": [], "nextGate": "Freeze Fastify, client, deadline and runner." },

@@ -9,6 +9,7 @@
 - `@blankspace/contracts`：导出 `RuntimeTarget`、`ProductGraphV1` 与 `ResolutionRecordV1` TypeScript 类型；正式 JSON Schema 覆盖 root config、product manifest、module、Product Graph V1、Resolution Record V1 与 RFC baseline。
 - `@blankspace/compiler`：提供严格 JSONC 解析/canonical hash、只消费内存输入的 `buildMinimalProductGraphs`，以及解析显式 workspace package roots 的 `resolveSourceImport`。
 - S2 conformance runner：真实调用 TypeScript、Node、Vite 与 Vitest，将五种 mode 的原生结果归一为逻辑路径并与 Compiler record 逐边对账；Linux、macOS、Windows 均已通过两个 checkout、两个 pnpm store 的同一 canonical records hash。
+- S3 JS bundle trace core：真实调用项目依赖图中的 Vite 8.2.2/Rolldown，将合法静态与字面量动态 source edge 对账到最终 bundle module，并对未声明依赖、server SecretRef、跨 target、private export、package escape 以及 missing/extra bundle module 返回稳定失败；macOS arm64 已通过双 checkout/双 pnpm store canonical trace，CSS/worker/WASM/assets/virtual modules 与跨平台证据仍未完成。
 - 文档验证：检查 JSON、Markdown 本地链接/围栏、RFC baseline、带 `$schema` 的 JSONC 示例和 proposed contract fixtures。
 
 当前没有 CLI、scaffolder、preset expansion、可发布的多工具 resolver adapter API、Executable Registry、Runtime host、Web/Server 应用、Identity/Database Kit、部署或客户端包。
@@ -77,4 +78,4 @@ const record = resolveSourceImport({
 
 ## 当前限制
 
-这套实现只证明确定性 Product Graph、workspace source resolution 和 import policy 的前置切片，不能创建或运行 SaaS。不要根据目标 CLI 示例发布 package、部署生产环境或宣称支持 Desktop/Mobile。下一条实现路径见 [Phase 1 蓝图](phase-1-blueprint.md)。
+这套实现只证明确定性 Product Graph、workspace source resolution/import policy，以及 S3 的 JS module bundle trace core；CSS、worker、WASM、assets、virtual modules、Executable Registry 和 Runtime 均未完成，因此仍不能创建或运行 SaaS。不要根据目标 CLI 示例发布 package、部署生产环境或宣称支持 Desktop/Mobile。下一条实现路径见 [Phase 1 蓝图](phase-1-blueprint.md)。

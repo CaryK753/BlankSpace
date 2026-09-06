@@ -1,0 +1,2 @@
+:root { --blankspace-s3-fixture: 1; }
+.fixture { background-image: url('./artifact-logo.svg'); }
