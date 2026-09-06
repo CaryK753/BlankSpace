@@ -47,15 +47,15 @@ fnm exec --using=24 pnpm verify:docs
 
 ## 4. 当前代码任务
 
-当前唯一 ready 工作项是 `A1-S5-03`：把已经冻结的 S5 lifecycle 与 Event dispatch corpus 放入 Linux、macOS、Windows conformance workflow，并对账同一 canonical scenario bytes。开始前完整阅读：
+当前唯一 ready 工作项是 `A1-S6-01`：在引入 Server 依赖前冻结 Fastify/HTTP client 候选版本、shutdown deadline、signal/故障场景和供应链审查。开始前完整阅读：
 
-1. [`implementation/phase-1a-work-items.json`](implementation/phase-1a-work-items.json) 中的 `A1-S5-03`；
-2. [S5 启动失败与资源回收](spikes/S5-lifecycle.md)；
+1. [`implementation/phase-1a-work-items.json`](implementation/phase-1a-work-items.json) 中的 `A1-S6-01`；
+2. [S6 Server Host、排空与关闭](spikes/S6-server.md)；
 3. [RFC-0001 Foundation Boundary](rfcs/0001-foundation-boundary.md)；
 4. [RFC-0002 Kit Contract](rfcs/0002-kit-contract.md)；
-5. [验证策略](testing-strategy.md)、[安全模型](security.md)与已通过的 S2/S3/S4 regression corpus。
+5. [验证策略](testing-strategy.md)、[安全模型](security.md)、[供应链政策](supply-chain.md)与已通过的 S2～S5 regression corpus。
 
-S4 已在 Linux、macOS、Windows 上取得 Pass；`A1-S5-01` 和 `A1-S5-02` 已在 macOS arm64 分别冻结生命周期 core 与 Event dispatch/drain，并保持原九个生命周期场景不变。`A1-S5-03` 只允许增加三平台 S5 workflow、canonical hash 对账和回归证据，不得加入 shutdown deadline、host 强制终止、S6 server、durable transport、真实 Service/Kit 或生产 Runtime host。若机器状态指向新的 work item，以机器状态和 work-item 文件为准，本节只作为人类导航。
+S2～S4 已取得 Pass；S5 lifecycle/Event corpus 已在 Linux、macOS、Windows 对账，但 deadline、signal 和 host termination 尚未验证，所以保持 Provisional pass。`A1-S6-01` 只冻结精确工具版本、deadline/diagnostic 字段、场景输入和依赖审查，不修改 package 依赖、不实现 Fastify adapter、不监听端口或发送真实请求。若机器状态指向新的 work item，以机器状态和 work-item 文件为准，本节只作为人类导航。
 
 ## 5. 决策顺序
 

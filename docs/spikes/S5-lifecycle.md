@@ -2,7 +2,7 @@
 
 ## 状态
 
-Provisional pass。`A1-S5-01` 与 `A1-S5-02` 已在 macOS arm64、Node.js v24.20.0 与 pnpm 10.32.1 上冻结 lifecycle core、Event publish/dispatch 与活动 dispatch 排空，并取得两份确定性本地 transcript。Linux、Windows 与完整三平台对账尚未完成；shutdown deadline 和 host 强制终止交给后续 S6 边界，因此当前 S5 仍不能计作 Pass。
+Provisional pass。`A1-S5-01` 与 `A1-S5-02` 已冻结 lifecycle core、Event publish/dispatch 与活动 dispatch 排空；`A1-S5-03` 已用 Node.js v24.20.0 与 pnpm 10.32.1 在 Ubuntu 24.04、macOS 15、Windows 2025 对账同一 frozen corpus。shutdown deadline、进程 signal 与 host termination 尚未由 S6 验证，因此完整 S5 仍不能计作 Pass。
 
 日期：2026-09-05。依据：RFC-0001、RFC-0002。
 
@@ -69,6 +69,14 @@ runner 使用 Node.js v24.20.0、pnpm 10.32.1 与已锁定的 Ajv 8.18.0，fixtu
 - 原九个 lifecycle 场景与 transcript 保持不变；Event matrix 连续运行两次得到 hash `452c665615c33df5fdaf81c45f13a87ce80fce536981784a2e89521c3dcc30b4`；
 - 完整本地工程门禁见 `.codex/tasks/a1-s5-02-event-dispatch-2026-09-06.md`。
 
+## A1-S5-03 证据
+
+- GitHub Actions run `34043351874` 在 Ubuntu 24.04、macOS 15 与 Windows 2025 全部通过 9 个 lifecycle 和 5 个 Event 场景；
+- 三个平台均通过 checked-in baseline assertion，匹配 lifecycle matrix hash `60634d7b…7151` 与 Event matrix hash `452c6656…0b4`；
+- 同一提交的 S2 run `34043351886`、S3 run `34043351842` 保持绿色；
+- S4 run `34043351840` 的 Windows 首次尝试在 Corepack 下载阶段失败，未进入项目代码；对同一提交重跑后，三平台全部通过；
+- 完整证据见 `.codex/tasks/a1-s5-03-cross-platform-conformance-2026-09-06.md`。
+
 ## 尚未完成
 
-`A1-S5-03` 仍需在 Linux、macOS、Windows 运行同一 9 个 lifecycle 与 5 个 Event 场景，并证明 canonical hashes 不受平台元数据影响。shutdown deadline、进程信号与 host 强制终止仍由 S6 验证，当前实现不提供这些保证。
+shutdown deadline、进程信号与 host termination 仍由 S6 验证，当前实现不提供这些保证。S5 corpus 继续作为跨平台 regression gate，不能把 portability pass 解释为生产 Runtime 已完成。

@@ -5,6 +5,7 @@
 [![S2 conformance](https://github.com/CaryK753/BlankSpace/actions/workflows/s2-conformance.yml/badge.svg)](https://github.com/CaryK753/BlankSpace/actions/workflows/s2-conformance.yml)
 [![S3 conformance](https://github.com/CaryK753/BlankSpace/actions/workflows/s3-conformance.yml/badge.svg)](https://github.com/CaryK753/BlankSpace/actions/workflows/s3-conformance.yml)
 [![S4 conformance](https://github.com/CaryK753/BlankSpace/actions/workflows/s4-conformance.yml/badge.svg)](https://github.com/CaryK753/BlankSpace/actions/workflows/s4-conformance.yml)
+[![S5 conformance](https://github.com/CaryK753/BlankSpace/actions/workflows/s5-conformance.yml/badge.svg)](https://github.com/CaryK753/BlankSpace/actions/workflows/s5-conformance.yml)
 [![License: AGPL-3.0](https://img.shields.io/badge/license-AGPL--3.0-5b5ce2)](LICENSE)
 
 Blankspace 是一个不会因为产品定制而失去上游更新能力的模块化应用底座。它把可持续升级的框架能力与产品自己的业务、界面和数据分开，让开发者可以从同一个稳定 core 连续构建多个产品。
@@ -47,9 +48,9 @@ Contracts / Compiler / Runtime / Diagnostics / Tooling
 | S2 Resolver | TypeScript、Node、Vite、Vitest 原生解析对账；Linux/macOS/Windows 双 checkout、双 store | Pass |
 | S3 Bundle trace | JS、CSS、worker、WASM、asset、virtual module 的跨平台 canonical trace | Pass |
 | S4 Registry | Graph/Registry joint identity、Service/Event bindings、18 组 mismatch、entry side-effect probe | Pass |
-| S5 Lifecycle | 生命周期 core、稳定 Event handler、嵌套深度限制和 dispatch 排空的 macOS 证据 | Provisional pass |
+| S5 Lifecycle | 9 个 lifecycle + 5 个 Event 场景跨 Linux/macOS/Windows 对账；host deadline 尚未验证 | Provisional pass |
 
-当前唯一 ready 工作项是 `A1-S5-03`：在 Linux、macOS、Windows 对账冻结的 S5 lifecycle/Event corpus。详见 [`docs/agent-start-here.md`](docs/agent-start-here.md)。
+当前唯一 ready 工作项是 `A1-S6-01`：先冻结 Server host 工具版本、deadline/故障契约与供应链审查，再引入实现依赖。详见 [`docs/agent-start-here.md`](docs/agent-start-here.md)。
 
 ## 当前可运行内容
 

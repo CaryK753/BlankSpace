@@ -101,13 +101,23 @@
       "evidence": ["2026-09-06 local macOS 27.0 (26A5425a) arm64, Node v24.20.0 and pnpm 10.32.1: register/factory/start/stopping publish rejection, stable serial handler order, additive handler diagnostics, depth-first nested correlation/causation, depth 33 rejection, and active-dispatch drain before reverse entry stop passed a deterministic two-run corpus. The original nine lifecycle scenarios remained byte-for-byte unchanged. 147 Vitest tests plus 8 S1, 4 S2, 7 S3, 4 S4 and 15 S5 tests, build, typecheck and verify:docs passed. Event transcript is spikes/s5-lifecycle/transcripts/macos-arm64-events.json with matrix hash 452c665615c33df5fdaf81c45f13a87ce80fce536981784a2e89521c3dcc30b4; details are in .codex/tasks/a1-s5-02-event-dispatch-2026-09-06.md."]
     },
     {
-      "id": "A1-S5-03", "title": "Run cross-platform S5 lifecycle conformance", "status": "ready", "dependsOn": ["A1-S5-02"],
+      "id": "A1-S5-03", "title": "Run cross-platform S5 lifecycle conformance", "status": "done", "dependsOn": ["A1-S5-02"],
       "references": ["docs/spikes/S5-lifecycle.md", "docs/testing-strategy.md", "docs/security.md"],
       "scope": ["Linux, macOS and Windows execution of the frozen lifecycle and Event matrices", "canonical scenario and matrix-hash reconciliation", "S2-S4 regression preservation"],
       "outputs": ["S5 cross-platform conformance workflow", "Linux/macOS/Windows evidence record", "final S5 portability decision"],
       "acceptance": ["all three operating systems pass the same 9 lifecycle and 5 Event scenarios", "canonical lifecycle and Event matrix hashes match the checked-in macOS baselines", "platform fields remain evidence metadata and do not alter scenario bytes", "S2-S4 conformance workflows remain green"],
       "commands": ["fnm exec --using=24 pnpm build", "fnm exec --using=24 pnpm typecheck", "fnm exec --using=24 pnpm test", "fnm exec --using=24 pnpm verify:docs"],
-      "nonGoals": ["shutdown deadline and forced host termination", "S6 server integration", "production Runtime host", "durable Event transport", "real Service implementations", "new runtime dependencies"]
+      "nonGoals": ["shutdown deadline and forced host termination", "S6 server integration", "production Runtime host", "durable Event transport", "real Service implementations", "new runtime dependencies"],
+      "evidence": ["GitHub Actions run 34043351874 for commit fd70c05b4a2e677c0a802cf4ecc2f376d46943c0 passed the frozen 9 lifecycle and 5 Event scenarios on ubuntu-24.04, macos-15 and windows-2025 with Node 24.20.0 and pnpm 10.32.1. All platforms matched lifecycle matrix hash 60634d7bbee5d4a47e38bf483df7ce357d998dfbff205dd282feab16df087151 and Event matrix hash 452c665615c33df5fdaf81c45f13a87ce80fce536981784a2e89521c3dcc30b4 through the checked-in baseline assertions. S2 run 34043351886 and S3 run 34043351842 passed on the same commit. S4 run 34043351840 passed on attempt 2 after the first Windows job failed during Corepack download before dependency installation or project tests; details are in .codex/tasks/a1-s5-03-cross-platform-conformance-2026-09-06.md."]
+    },
+    {
+      "id": "A1-S6-01", "title": "Freeze Server host toolchain and fault contract", "status": "ready", "dependsOn": ["A1-S5-03"],
+      "references": ["docs/spikes/S6-server.md", "docs/rfcs/0001-foundation-boundary.md", "docs/rfcs/0013-phase-1-technology.md", "docs/testing-strategy.md", "docs/security.md", "docs/supply-chain.md"],
+      "scope": ["exact Fastify and HTTP client candidate versions", "shutdown deadline and signal scenario contract", "dependency supply-chain review before installation"],
+      "outputs": ["frozen S6 matrix and diagnostic fields", "tool and version decision record", "dependency review evidence and implementation handoff"],
+      "acceptance": ["S6 document fixes exact candidate versions, runner environments, deadlines and scenario inputs", "listen, route failure, signal, active request, background task and repeated stop outcomes have stable expected diagnostics", "Fastify and client dependency trees, licenses, install scripts, maintenance and security signals are reviewed before package changes", "no Server adapter or new dependency is introduced by this work item"],
+      "commands": ["fnm exec --using=24 pnpm test", "fnm exec --using=24 pnpm verify:docs"],
+      "nonGoals": ["Fastify adapter implementation", "real network runner", "OS signal execution", "production Runtime host", "database integration", "new dependencies"]
     }
   ]
 }

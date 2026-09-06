@@ -193,9 +193,9 @@ TypeScript/ESM、Node.js 24 LTS、React-first、Fastify、PostgreSQL、JSON Sche
 
 当前执行状态：S1 已取得 [provisional pass](./spikes/S1-config.md)。Node.js 24.20.0 下已重新通过 S1 Node tests、TypeScript typecheck、Ajv 文档 schema 编译和最小 Product Graph 的 Vitest；S1 corpus 仍使用 Node test runner，最终 validator、完整 Vitest evidence 和原 S1 文档要求的跨平台环境尚未全部关闭，因此不计入正式通过，也不解除 1B gate。
 
-Phase 1A 已实现内存 `buildMinimalProductGraphs` 前置切片、正式 `ResolutionRecordV1`、workspace source resolver、target/dynamic import policy，以及通过 Linux/macOS/Windows 门禁的 S2 native resolution trace、S3 bundle/artifact trace 和 S4 Executable Registry conformance。S5 串行 lifecycle core、资源账本、启动失败回滚、稳定 Event dispatch、嵌套深度限制和活动 dispatch 排空已取得 macOS arm64 provisional evidence；完整 Runtime 与 CLI 仍未完成，当前工作项为 `A1-S5-03`。
+Phase 1A 已实现内存 `buildMinimalProductGraphs` 前置切片、正式 `ResolutionRecordV1`、workspace source resolver、target/dynamic import policy，以及通过 Linux/macOS/Windows 门禁的 S2 native resolution trace、S3 bundle/artifact trace 和 S4 Executable Registry conformance。S5 串行 lifecycle core、资源账本、启动失败回滚、稳定 Event dispatch、嵌套深度限制和活动 dispatch 排空已在 Linux、macOS、Windows 对账；完整 Runtime 与 CLI 仍未完成，当前工作项为 `A1-S6-01`。
 
-S2 的[统一解析矩阵](./spikes/S2-resolver.md)、S3 的[Bundle Trace Matrix](./spikes/S3-bundle-trace.md)和 S4 的[Graph/Registry 对账](./spikes/S4-registry.md)均已在 Linux、macOS、Windows 上取得 Pass。S5 lifecycle 与 Event dispatch 已完成本地 provisional gate；当前下一门禁是三平台运行同一 frozen corpus 并对账 canonical hashes。shutdown deadline 与 host 强制终止不属于 `A1-S5-03`。贡献流程和证据格式分别见[框架贡献指南](contributing.md)与[验证策略](testing-strategy.md)。
+S2 的[统一解析矩阵](./spikes/S2-resolver.md)、S3 的[Bundle Trace Matrix](./spikes/S3-bundle-trace.md)和 S4 的[Graph/Registry 对账](./spikes/S4-registry.md)均已在 Linux、macOS、Windows 上取得 Pass。S5 lifecycle 与 Event dispatch 也已完成三平台 canonical 对账，但在 shutdown deadline、signal 与 host termination 由 S6 验证前仍保持 Provisional pass。`A1-S6-01` 先冻结工具版本、故障契约和供应链证据，不提前实现 Server adapter。贡献流程和证据格式分别见[框架贡献指南](contributing.md)与[验证策略](testing-strategy.md)。
 
 ## 8. Adopter Preview Gate
 

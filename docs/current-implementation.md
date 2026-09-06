@@ -11,7 +11,7 @@
 - S2 conformance runner：真实调用 TypeScript、Node、Vite 与 Vitest，将五种 mode 的原生结果归一为逻辑路径并与 Compiler record 逐边对账；Linux、macOS、Windows 均已通过两个 checkout、两个 pnpm store 的同一 canonical records hash。
 - S3 bundle/artifact trace：真实调用项目依赖图中的 Vite 8.2.2/Rolldown，将合法静态与字面量动态 source edge 对账到最终 bundle module，并对未声明依赖、server SecretRef、跨 target、private export、package escape 以及 missing/extra bundle module 返回稳定失败；CSS、worker、WASM、静态 asset 与 virtual module 也进入 canonical artifact trace。Ubuntu 24.04、macOS 15、Windows 2025 已通过同一双 checkout/双 pnpm store corpus 和 checked-in trace baseline。
 - S4 Executable Registry：`ProductGraphV1` 包含 resolved `services`/`events`，`ExecutableRegistryV1` 只从 Graph 派生 entries/bindings/handlers；确定性 Graph→Registry generator、joint `assemblyId`、18 组 pre-factory mismatch 和隔离子进程的 generated-entry `fetch` 顶层副作用 probe 已在 Ubuntu 24.04、macOS 15、Windows 2025 运行同一 frozen corpus 并通过，S4 状态为 Pass。
-- S5 lifecycle/Event core：内存 A→B→C→D runner 已冻结串行 factory/start/stop、单一 ready、严格反序 stop、资源账本、启动失败回滚、幂等/并发 stop 与启动中取消；独立 Event runner 已冻结 ready 门控、稳定串行 handler、depth-first 嵌套、correlation/causation、深度 33 拒绝和 stop 前活动 dispatch 排空。当前仍只有 macOS arm64 本地证据，shutdown deadline 和生产 Runtime host 未实现。
+- S5 lifecycle/Event core：内存 A→B→C→D runner 已冻结串行 factory/start/stop、单一 ready、严格反序 stop、资源账本、启动失败回滚、幂等/并发 stop 与启动中取消；独立 Event runner 已冻结 ready 门控、稳定串行 handler、depth-first 嵌套、correlation/causation、深度 33 拒绝和 stop 前活动 dispatch 排空。9 个 lifecycle 与 5 个 Event 场景已在 Linux、macOS、Windows 对账；shutdown deadline 和生产 Runtime host 未实现。
 - 文档验证：检查 JSON、Markdown 本地链接/围栏、RFC baseline、带 `$schema` 的 JSONC 示例和 proposed contract fixtures。
 
 当前没有 CLI、scaffolder、preset expansion、可发布的多工具 resolver adapter API、可用于产品运行的完整 Executable Registry/Runtime host、Web/Server 应用、Identity/Database Kit、部署或客户端包。
@@ -80,4 +80,4 @@ const record = resolveSourceImport({
 
 ## 当前限制
 
-这套实现已经证明确定性 Product Graph 前置切片、workspace source resolution/import policy、完整 S3 bundle/artifact trace、通过跨平台门禁的 S4 Registry，以及本机 provisional-pass 的 S5 lifecycle/Event core。完整 Runtime、真实 Service provider selection、业务 Kits 与 CLI 仍未完成，因此仍不能创建或运行 SaaS。不要根据目标 CLI 示例发布 package、部署生产环境或宣称支持 Desktop/Mobile。当前唯一实现路径是 `A1-S5-03`：把冻结的 S5 corpus 放入 Linux、macOS、Windows 对账，详见 [Phase 1 蓝图](phase-1-blueprint.md)。
+这套实现已经证明确定性 Product Graph 前置切片、workspace source resolution/import policy、完整 S3 bundle/artifact trace、通过跨平台门禁的 S4 Registry，以及跨平台一致的 S5 lifecycle/Event core。完整 Runtime、真实 Service provider selection、业务 Kits 与 CLI 仍未完成，因此仍不能创建或运行 SaaS。不要根据目标 CLI 示例发布 package、部署生产环境或宣称支持 Desktop/Mobile。当前唯一实现路径是 `A1-S6-01`：先冻结 Server host 工具链、deadline/故障契约与依赖审查，详见 [Phase 1 蓝图](phase-1-blueprint.md)。
