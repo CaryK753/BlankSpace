@@ -9,10 +9,11 @@
 - `@blankspace/contracts`：导出 `RuntimeTarget`、`ProductGraphV1` 与 `ResolutionRecordV1` TypeScript 类型；正式 JSON Schema 覆盖 root config、product manifest、module、Product Graph V1、Resolution Record V1 与 RFC baseline。
 - `@blankspace/compiler`：提供严格 JSONC 解析/canonical hash、只消费内存输入的 `buildMinimalProductGraphs`，以及解析显式 workspace package roots 的 `resolveSourceImport`。
 - S2 conformance runner：真实调用 TypeScript、Node、Vite 与 Vitest，将五种 mode 的原生结果归一为逻辑路径并与 Compiler record 逐边对账；Linux、macOS、Windows 均已通过两个 checkout、两个 pnpm store 的同一 canonical records hash。
-- S3 JS bundle trace core：真实调用项目依赖图中的 Vite 8.2.2/Rolldown，将合法静态与字面量动态 source edge 对账到最终 bundle module，并对未声明依赖、server SecretRef、跨 target、private export、package escape 以及 missing/extra bundle module 返回稳定失败；macOS arm64 已通过双 checkout/双 pnpm store canonical trace，CSS/worker/WASM/assets/virtual modules 与跨平台证据仍未完成。
+- S3 bundle/artifact trace：真实调用项目依赖图中的 Vite 8.2.2/Rolldown，将合法静态与字面量动态 source edge 对账到最终 bundle module，并对未声明依赖、server SecretRef、跨 target、private export、package escape 以及 missing/extra bundle module 返回稳定失败；CSS、worker、WASM、静态 asset 与 virtual module 也进入 canonical artifact trace。Ubuntu 24.04、macOS 15、Windows 2025 已通过同一双 checkout/双 pnpm store corpus 和 checked-in trace baseline。
+- S4 Executable Registry entry-core spike：`ExecutableRegistryV1` schema/type、确定性 Graph→Registry generator、joint `assemblyId` 与 missing/extra/rewritten/order-drift mismatch verifier 已可运行；当前 ProductGraph 尚未声明 Service/Event，因此 Registry `bindings`/`handlers` 只允许为空，完整 S4 仍未通过。
 - 文档验证：检查 JSON、Markdown 本地链接/围栏、RFC baseline、带 `$schema` 的 JSONC 示例和 proposed contract fixtures。
 
-当前没有 CLI、scaffolder、preset expansion、可发布的多工具 resolver adapter API、Executable Registry、Runtime host、Web/Server 应用、Identity/Database Kit、部署或客户端包。
+当前没有 CLI、scaffolder、preset expansion、可发布的多工具 resolver adapter API、可用于产品运行的完整 Executable Registry/Runtime host、Web/Server 应用、Identity/Database Kit、部署或客户端包。
 
 ## 环境与命令
 
@@ -78,4 +79,4 @@ const record = resolveSourceImport({
 
 ## 当前限制
 
-这套实现只证明确定性 Product Graph、workspace source resolution/import policy，以及 S3 的 JS module bundle trace core；CSS、worker、WASM、assets、virtual modules、Executable Registry 和 Runtime 均未完成，因此仍不能创建或运行 SaaS。不要根据目标 CLI 示例发布 package、部署生产环境或宣称支持 Desktop/Mobile。下一条实现路径见 [Phase 1 蓝图](phase-1-blueprint.md)。
+这套实现已经证明确定性 Product Graph 前置切片、workspace source resolution/import policy、完整 S3 bundle/artifact trace，以及 S4 的 `ExecutableRegistryV1` entry-core、Graph/Registry 联合 assemblyId 和 pre-factory mismatch verifier。Service/Event bindings、guarded entry-module probe、Runtime lifecycle 与业务 Kits 仍未完成，因此仍不能创建或运行 SaaS。不要根据目标 CLI 示例发布 package、部署生产环境或宣称支持 Desktop/Mobile。下一条实现路径是 `A1-S4-02`，详见 [Phase 1 蓝图](phase-1-blueprint.md)。

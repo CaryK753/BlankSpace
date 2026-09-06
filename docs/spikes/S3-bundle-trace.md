@@ -2,16 +2,18 @@
 
 ## 状态
 
-**Matrix frozen（JS module core）**。`A1-S3-01` 已在 macOS arm64 上完成并固化 canonical JS module trace；整个 S3 尚未 Pass，因为 RFC-0013 要求的 CSS、worker、WASM、assets、virtual modules 与 Linux/macOS/Windows 证据仍由 `A1-S3-02` 继续完成。
+**Pass**。`A1-S3-01` 冻结了 canonical JS module trace core，`A1-S3-02` 已补齐 CSS、worker、WASM、静态 assets、virtual modules 和 Linux/macOS/Windows 跨平台证据。S3 现在作为 Phase 1A 的持续回归门保留。
 
-当前证据：
+最终证据：
 
 - Node `24.20.0`；
 - pnpm `10.32.1`；
 - Vite `8.2.2`，通过 Vitest 的项目依赖图解析，禁止从用户 home/父目录漂移获取 Vite；
-- 两个不同 checkout + 两个独立 pnpm store；
-- macOS arm64 canonical trace hash：`fc720952e1c552f46d3894077baf1f203fe3c8bc09596cc8f785bbccf3068e2e`；
-- transcript：`../../spikes/s3-bundle-trace/transcripts/macos-arm64.json`。
+- 每个平台内部使用两个不同 checkout + 两个独立 pnpm store；
+- canonical trace hash：`855f208dd81cd0106e618cf6fc16aefc822afa084aaaf20bce355d6c06da0c14`；
+- macOS baseline transcript：`../../spikes/s3-bundle-trace/transcripts/macos-arm64.json`；
+- GitHub Actions run `34022590661`：`ubuntu-24.04`、`macos-15`、`windows-2025` 全部通过同一 S3 corpus；
+- Windows 行尾差异通过仓库 `.gitattributes` 的 LF policy 与 trace 层 CRLF→LF canonicalization 消除，WASM 等二进制仍按原始字节哈希。
 
 ## 要回答的问题
 
@@ -52,20 +54,20 @@ Rolldown 当前会在 rendered module code 中注入包含 checkout 路径的 `/
 
 `public-static` 还覆盖 browser conditional export，因此最终 bundle module 必须继续与 S2 的 `web-build` ResolutionRecord 一致。
 
-## A1-S3-02：仍需完成的完整 S3 矩阵
+## A1-S3-02：完整 artifact matrix
 
-RFC-0013 要求 bundler adapter 检查全部最终产物，因此下一工作项继续冻结：
+RFC-0013 要求 bundler adapter 检查全部最终产物。当前固定 corpus 已覆盖：
 
-| Artifact class | 必须证明 |
+| Artifact class | 已验证内容 |
 | --- | --- |
-| JS chunks/modules | 当前 core 已冻结；扩展到完整 source edge set 与未启用 package 裁剪 |
-| CSS | CSS import、CSS module/asset reference 能映射到 owner/target，错误 target 不进入产物 |
-| Worker | worker entry/chunk 有独立 identity，不能绕过 Web/source policy |
-| WASM | WASM artifact 与 loader/module edge 可关联，hash 和路径确定 |
-| Static assets | SVG/PNG/font 等有 logical owner、artifact identity 与 content hash |
-| Virtual modules | Vite virtual module 必须有稳定 adapter-owned identity，不能记录临时绝对路径 |
+| JS chunks/modules | source edge → bundle module 对账、static/literal dynamic import、missing/extra module |
+| CSS | 独立 CSS output 可观察、来源 identity 与 content hash 稳定 |
+| Worker | worker entry 具有稳定 source identity 与独立 output hash |
+| WASM | WASM 作为二进制 artifact 按原始字节哈希并保持稳定路径 identity |
+| Static assets | SVG fixture 具有稳定 logical source identity、artifact path 与 content hash |
+| Virtual modules | Vite virtual module 使用 adapter-owned `virtual:blankspace-s3` identity，不记录临时绝对路径 |
 
-同时在 Linux、macOS、Windows 上运行同一 common corpus。允许真实平台差异，但差异必须是 trace schema 中显式、可解释的字段；不能以 OS 为理由跳过 canonical comparison。
+Linux、macOS、Windows 均运行同一 common corpus，并必须直接匹配 checked-in canonical fixtures/artifacts。平台文件系统或文本行尾差异不能通过跳过比较来规避，只允许在 canonicalization 规则中明确解释并回归测试。
 
 ## 工具与供应链约束
 
@@ -81,11 +83,11 @@ fnm exec --using=24 pnpm test
 fnm exec --using=24 pnpm verify:docs
 ```
 
-`A1-S3-01` 的 macOS 证据为：109 个 Vitest、8 个 S1、4 个 S2、5 个 S3 tests，以及 build、typecheck、verify:docs 全部通过。
+最终本地回归为：109 个 Vitest、8 个 S1、4 个 S2、7 个 S3 tests，以及 build、typecheck、verify:docs 全部通过；跨平台证据由 GitHub Actions run `34022590661` 提供。
 
 ## Pass 条件与失败选择
 
-S3 只有在以下条件全部满足后才能从 `matrix-frozen` 推进为 `pass`：
+S3 已满足以下 Pass 条件，后续任一项回归都应阻止对应提交/发布：
 
 1. Compiler 对全部非法 source edge 在 bundler 前失败；
 2. JS/CSS/worker/WASM/assets/virtual modules 均进入可检查的 canonical artifact trace；

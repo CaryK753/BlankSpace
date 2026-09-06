@@ -21,8 +21,8 @@
 | --- | --- | --- | --- |
 | [S1 Config](S1-config.md) | Provisional pass | Node 24 内置测试 8/8、Vitest、TypeScript、Ajv 与跨目录 hash 通过 | 用选定的生产 validator 替换 spike parser，并完成规定的跨平台矩阵 |
 | [S2 Resolver](S2-resolver.md) | Pass | Linux、macOS、Windows 上五种 mode、双 checkout 与双 pnpm store 对账同一 records hash | 保持 S2 corpus 为跨平台回归门，并由 S3 消费 canonical records |
-| [S3 Bundle trace](S3-bundle-trace.md) | Matrix frozen | JS module core 已在 macOS arm64 完成双 checkout/双 store canonical trace、负例与缺失/额外 module 对账 | 扩展 CSS/worker/WASM/assets/virtual modules，并完成 Linux/macOS/Windows 矩阵 |
-| [S4 Registry](S4-registry.md) | Draft matrix | 已起草 Graph/Registry mismatch 与副作用场景，无执行证据 | 锁定 Registry schema、生成器与 runner，完成 fixture 后冻结矩阵 |
+| [S3 Bundle trace](S3-bundle-trace.md) | Pass | JS/CSS/worker/WASM/assets/virtual modules 均进入 canonical trace；Linux、macOS、Windows 运行同一 corpus 并匹配 trace `855f208d…0c14` | 保持 S3 corpus 为跨平台回归门，并由 S4 消费稳定 Graph/产物边界 |
+| [S4 Registry](S4-registry.md) | Matrix frozen | `ExecutableRegistryV1` entry-core、joint assemblyId、Web/Server 生成、10 组 pre-factory mismatch 与双目录/双顺序 runner 已有本地证据 | 补齐 Service/Event bindings、guarded entry-module probe 与 Linux/macOS/Windows 完整矩阵 |
 | [S5 Lifecycle](S5-lifecycle.md) | Draft matrix | 已明确资源所有权和失败场景，无执行证据 | 锁定工具与 runner，完成 fixture 后冻结矩阵 |
 | [S6 Server](S6-server.md) | Draft matrix | 已起草端口、排空、signal 与 shutdown 场景，无执行证据 | 锁定 Fastify、client、deadline 与 runner，完成 fixture 后冻结矩阵 |
 | [S7 Database](S7-database.md) | Draft matrix | 已起草 Kysely/Drizzle/direct SQL 对比场景，无执行证据 | 锁定数据库、候选工具与 runner，完成 fixture 后冻结矩阵 |

@@ -118,7 +118,7 @@ README 和领域文档用于解释，不覆盖 schema 或 RFC 的精确定义。
 | Docker、Desktop 与 Mobile CI/CD | ci-cd、supply-chain | RFC-0017、RFC-0026 | proposed release contracts、SC1、平台签名/商店 evidence |
 | 生产资格 | production-readiness | RFC-0021～0024 | product-specific production report |
 
-当前 S1 为 Provisional pass，S2 为 Pass，S3 的 JS module core 已推进到 Matrix frozen 并有 macOS arm64 执行证据；S4～S8 仍为 Draft matrix。链接表示实验规格入口，只有对应状态和 transcript/evidence 明确记录的部分才算已经执行。
+当前 S1 为 Provisional pass，S2 与 S3 为 Pass；S3 已在 Linux、macOS、Windows 上验证 JS/CSS/worker/WASM/assets/virtual modules 的 canonical trace。S4 entry-core 已推进到 Matrix frozen，`ExecutableRegistryV1`、联合 assemblyId 与 pre-factory mismatch corpus 已有本地证据；S5～S8 仍为 Draft matrix，当前唯一 ready 工作项是 `A1-S4-02`。链接表示实验规格入口，只有对应状态和 transcript/evidence 明确记录的部分才算已经执行。
 
 ## 状态词
 

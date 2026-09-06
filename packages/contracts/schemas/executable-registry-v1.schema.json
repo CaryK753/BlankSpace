@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://blankspace.dev/schemas/executable-registry-v1.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["$schema", "schemaVersion", "frameworkVersion", "target", "assemblyId", "entries", "bindings", "handlers"],
+  "properties": {
+    "$schema": { "const": "https://blankspace.dev/schemas/executable-registry-v1.schema.json" },
+    "schemaVersion": { "const": "1" },
+    "frameworkVersion": { "type": "string", "minLength": 1 },
+    "target": { "enum": ["web", "server"] },
+    "assemblyId": { "$ref": "#/$defs/digest" },
+    "entries": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/entry" }
+    },
+    "bindings": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/binding" }
+    },
+    "handlers": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/handler" }
+    }
+  },
+  "$defs": {
+    "digest": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "identifier": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9.-]*$"
+    },
+    "entry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["entryId", "ownerId", "target", "module", "exportName"],
+      "properties": {
+        "entryId": { "$ref": "#/$defs/identifier" },
+        "ownerId": { "$ref": "#/$defs/identifier" },
+        "target": { "enum": ["web", "server"] },
+        "module": { "$ref": "shared.schema.json#/$defs/relativePath" },
+        "exportName": { "type": "string", "pattern": "^[A-Za-z_$][A-Za-z0-9_$]*$" }
+      }
+    },
+    "binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["serviceId", "providerId", "entryId"],
+      "properties": {
+        "serviceId": { "$ref": "#/$defs/identifier" },
+        "providerId": { "$ref": "#/$defs/identifier" },
+        "entryId": { "$ref": "#/$defs/identifier" }
+      }
+    },
+    "handler": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["eventId", "handlerId", "entryId"],
+      "properties": {
+        "eventId": { "$ref": "#/$defs/identifier" },
+        "handlerId": { "$ref": "#/$defs/identifier" },
+        "entryId": { "$ref": "#/$defs/identifier" }
+      }
+    }
+  }
+}

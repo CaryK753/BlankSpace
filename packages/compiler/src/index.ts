@@ -18,6 +18,15 @@ export {
 } from './graph/minimal-product-graph.js';
 
 export {
+  ExecutableRegistryError,
+  buildExecutableRegistry,
+  verifyExecutableRegistry,
+  type ExecutableRegistryAssembly,
+  type ExecutableRegistryDiagnostic,
+  type ExecutableRegistryDiagnosticCode,
+} from './registry/executable-registry.js';
+
+export {
   ResolutionRecordError,
   normalizeResolutionRecord,
   type ResolutionDiagnosticCode,

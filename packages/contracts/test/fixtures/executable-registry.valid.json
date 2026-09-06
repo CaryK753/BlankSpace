@@ -1,0 +1,18 @@
+{
+  "$schema": "https://blankspace.dev/schemas/executable-registry-v1.schema.json",
+  "schemaVersion": "1",
+  "frameworkVersion": "0.0.0",
+  "target": "web",
+  "assemblyId": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "entries": [
+    {
+      "entryId": "product.web",
+      "ownerId": "product",
+      "target": "web",
+      "module": "./product/frontend/index.js",
+      "exportName": "default"
+    }
+  ],
+  "bindings": [],
+  "handlers": []
+}

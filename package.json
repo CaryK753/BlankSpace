@@ -9,10 +9,11 @@
   "scripts": {
     "build": "tsc -b",
     "typecheck": "tsc -b --pretty false",
-    "test": "vitest run && pnpm test:s1 && pnpm test:s2 && pnpm test:s3",
+    "test": "vitest run && pnpm test:s1 && pnpm test:s2 && pnpm test:s3 && pnpm test:s4",
     "test:s1": "node --test spikes/s1-config/*.test.mjs",
     "test:s2": "pnpm build && node --test spikes/s2-resolver/*.test.mjs",
     "test:s3": "pnpm build && node --test spikes/s3-bundle-trace/*.test.mjs",
+    "test:s4": "pnpm build && node --test spikes/s4-registry/*.test.mjs",
     "verify:docs": "node scripts/verify-docs.mjs && node scripts/validate-proposed-client-contracts.mjs && node scripts/validate-proposed-domain-contracts.mjs && node scripts/validate-proposed-ui-contracts.mjs && node scripts/validate-proposed-release-contracts.mjs"
   },
   "devDependencies": {

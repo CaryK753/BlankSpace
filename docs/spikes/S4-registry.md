@@ -2,9 +2,9 @@
 
 ## 状态
 
-Draft matrix，尚未执行；Registry fixture 与生成器版本待锁定。
+**Matrix frozen（entry-core）**。`A1-S4-01` 已冻结 `ExecutableRegistryV1` schema/type、Graph→Registry 纯生成器、joint `assemblyId`、Web/Server entry-core、10 组 pre-factory mismatch、两个工作目录/两种输入顺序的 canonical runner 与 macOS arm64 baseline。完整 S4 仍未 Pass，因为 ProductGraph 的 Service/Event bindings、Registry handlers/bindings 对账、entry 顶层副作用 probe 与 Linux/macOS/Windows 完整证据由 `A1-S4-02` 继续完成。
 
-当前已有一个更小的前置实现：`buildMinimalProductGraphs` 可以从内存中的规范化 Product 配置、manifest 和 Module descriptors 生成 target-specific Graph，并验证输入顺序与工作目录不影响结果。它不读取文件、不执行 S2 resolver，也没有 Registry、binding、handler、content digest 或 Graph/Registry 联合 assemblyId，因此不构成 S4 执行证据，不能推进本页状态。
+现有 `buildMinimalProductGraphs` 仍只是 Phase 1A 的前置 Graph 子集：它可以从内存中的规范化 Product 配置、manifest 和 Module descriptors 生成 target-specific Graph，并验证输入顺序与工作目录不影响结果；当前 Graph 尚未声明 RFC-0004 要求的 Service/Event 节点，所以 entry-core Registry 明确拒绝任何非空 `bindings`/`handlers`。不得通过在 Registry 侧单独发明 binding 来绕过 Graph 事实源。
 
 ## 要回答的问题
 
@@ -32,6 +32,6 @@ Draft matrix，尚未执行；Registry fixture 与生成器版本待锁定。
 
 每个 mismatch 都在 factory 前失败；相同规范化输入逐字节生成相同 Registry。若静态 entry module 无法稳定生成，先收窄 entry/export 语法，不引入运行时目录扫描。
 
-## 尚待冻结
+## A1-S4-02 尚待关闭
 
-Registry schema、生成器版本、受限副作用 runner、fixtures、命令和跨平台证据。
+Entry-core schema、生成器、runner 与本地 baseline 已冻结。完整 S4 仍需：ProductGraph Service/Event binding 子集、Registry bindings/handlers 双向对账、重复/缺失/额外 binding/handler 负例、受限 entry 顶层副作用 probe，以及 Linux/macOS/Windows 的完整 conformance evidence。

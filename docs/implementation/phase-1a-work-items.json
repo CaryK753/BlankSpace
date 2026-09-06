@@ -51,13 +51,33 @@
       "evidence": ["2026-09-06 on macOS 27.0 (26A5425a), arm64, Node v24.20.0, pnpm 10.32.1 and Vite 8.2.2: canonical JS module trace reconciled static and literal dynamic imports across two checkouts and two isolated pnpm stores; undeclared dependency, server SecretRef, cross-target import, private export and package escape failed before bundling; missing/extra bundle modules fail with stable reconciliation diagnostics. 109 Vitest, 8 S1, 4 S2 and 5 S3 tests plus build, typecheck and verify:docs passed. Canonical transcript is spikes/s3-bundle-trace/transcripts/macos-arm64.json with trace hash fc720952e1c552f46d3894077baf1f203fe3c8bc09596cc8f785bbccf3068e2e."]
     },
     {
-      "id": "A1-S3-02", "title": "Expand bundle trace artifact coverage and cross-platform evidence", "status": "ready", "dependsOn": ["A1-S3-01"],
+      "id": "A1-S3-02", "title": "Expand bundle trace artifact coverage and cross-platform evidence", "status": "done", "dependsOn": ["A1-S3-01"],
       "references": ["docs/spikes/S3-bundle-trace.md", "docs/rfcs/0013-phase-1-technology.md", "docs/testing-strategy.md", "docs/supply-chain.md"],
       "scope": ["JS/CSS/worker/WASM/asset and virtual-module bundle observations", "artifact classification and forbidden artifact detection", "Linux/macOS/Windows canonical trace evidence"],
       "outputs": ["expanded S3 trace schema and runner", "artifact fixture corpus", "cross-platform S3 transcripts and evidence"],
       "acceptance": ["all RFC-0013 S3 artifact classes are observable without absolute or store paths", "unenabled or forbidden target artifacts fail publication reconciliation", "the common corpus produces the same canonical trace identity on Linux, macOS and Windows or records an explicit approved platform distinction", "S2 resolver records remain unchanged"],
       "commands": ["fnm exec --using=24 pnpm build", "fnm exec --using=24 pnpm typecheck", "fnm exec --using=24 pnpm test", "fnm exec --using=24 pnpm verify:docs"],
-      "nonGoals": ["Executable Registry", "Runtime lifecycle", "business Kits", "production bundle budgets", "new runtime dependencies without supply-chain review"]
+      "nonGoals": ["Executable Registry", "Runtime lifecycle", "business Kits", "production bundle budgets", "new runtime dependencies without supply-chain review"],
+      "evidence": ["2026-09-06 local macOS arm64: Vite 8.2.2 observed JS, CSS, worker, WASM, static asset and virtual-module outputs across two checkouts and two isolated pnpm stores; 109 Vitest, 8 S1, 4 S2 and 7 S3 tests plus build, typecheck and verify:docs passed. Canonical S3 transcript is spikes/s3-bundle-trace/transcripts/macos-arm64.json with trace hash 855f208dd81cd0106e618cf6fc16aefc822afa084aaaf20bce355d6c06da0c14.", "GitHub Actions run 34022590661 for commit fe2a25b passed the same S3 corpus on ubuntu-24.04, macos-15 and windows-2025 after LF/text-output canonicalization; all three platforms matched the checked-in canonical fixtures/artifacts and trace identity. S2 conformance remained green on the same change."]
+    },
+    {
+      "id": "A1-S4-01", "title": "Freeze Executable Registry contract and mismatch fixture matrix", "status": "done", "dependsOn": ["A1-S3-02"],
+      "references": ["docs/spikes/S4-registry.md", "docs/rfcs/0004-product-graph.md", "docs/phase-1-blueprint.md", "docs/testing-strategy.md"],
+      "scope": ["Executable Registry V1 canonical schema and TypeScript contract", "deterministic Graph-to-Registry generator spike", "assemblyId and entry mismatch diagnostics before factory import"],
+      "outputs": ["Registry schema and contract", "S4 generator/runner", "legal and mismatch fixture corpus"],
+      "acceptance": ["minimal web/server Graphs generate deterministic Registry records without absolute paths", "missing/extra/rewritten owner-target-export entries and assemblyId mismatch fail before factory execution", "input enumeration and checkout path do not change canonical Registry bytes", "Runtime scanning and lifecycle execution are not introduced"],
+      "commands": ["fnm exec --using=24 pnpm build", "fnm exec --using=24 pnpm typecheck", "fnm exec --using=24 pnpm test", "fnm exec --using=24 pnpm verify:docs"],
+      "nonGoals": ["factory execution", "Runtime lifecycle/start-stop", "Service implementation", "business Kits", "CLI publication"],
+      "evidence": ["2026-09-06 on macOS arm64, Node 24.20.0 and pnpm 10.32.1: ExecutableRegistryV1 schema/type, deterministic Graph-to-Registry generation, joint Graph/Registry assemblyId verification, web/server target coverage, and 10 mismatch fixtures all passed before factory execution. Registry runner baseline is spikes/s4-registry/transcripts/macos-arm64.json with assemblyId 936ccdc108f60095d64079ba24c4e8a1eff909b2937b59b3ef86906e7e9e7824 and registryHash 301eb581269790fdd607b4b148325acde18ad588d8d171d9654cdad19537bc4c. 136 Vitest tests plus S1-S4 runners, typecheck and verify:docs passed locally."]
+    },
+    {
+      "id": "A1-S4-02", "title": "Add binding reconciliation and guarded entry-module evidence", "status": "ready", "dependsOn": ["A1-S4-01"],
+      "references": ["docs/spikes/S4-registry.md", "docs/rfcs/0004-product-graph.md", "docs/phase-1-blueprint.md", "docs/testing-strategy.md", "docs/security.md"],
+      "scope": ["Phase 1 ProductGraph Service/Event binding subset", "Registry bindings/handlers generation and mismatch reconciliation", "generated entry-module top-level side-effect probe", "Linux/macOS/Windows S4 conformance"],
+      "outputs": ["expanded ProductGraph and Registry binding contracts", "binding/handler fixture corpus", "guarded entry-module probe", "cross-platform S4 evidence"],
+      "acceptance": ["Registry bindings and handlers are derived only from Graph declarations and sorted canonically", "duplicate/missing/extra or rewritten bindings and handlers fail before factory import", "entry modules produce no forbidden top-level business side effects under the guarded probe", "the common S4 corpus is stable on Linux, macOS and Windows", "Runtime scanning and lifecycle start-stop remain absent"],
+      "commands": ["fnm exec --using=24 pnpm build", "fnm exec --using=24 pnpm typecheck", "fnm exec --using=24 pnpm test", "fnm exec --using=24 pnpm verify:docs"],
+      "nonGoals": ["Runtime lifecycle/start-stop", "real Service implementations", "business Kits", "CLI publication", "S5 fault injection"]
     }
   ]
 }

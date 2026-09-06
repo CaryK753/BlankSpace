@@ -189,4 +189,4 @@ Workspace 使用 `{ sourceId, workspaceId }` 在客户端定位。Local → Clou
 
 ## 下一步
 
-当前 Phase 1A 先推进 S1～S7 中与装配骨架直接相关的实验；S1 仍是 provisional pass，S2 已通过 Linux、macOS、Windows 的真实工具矩阵，S3 的 canonical JS module trace core 已冻结并在 macOS arm64 上取得双 checkout/双 pnpm store 证据。下一工作项 `A1-S3-02` 将扩展 CSS、worker、WASM、assets、virtual modules，并补齐 Linux/macOS/Windows bundle trace 矩阵。S8 属于 Phase 1C 的 UI Shell 门禁，不属于当前 1A 批次，但仍是完整 Phase 1 的必需实验。通过对应门禁后再实现 `remote-saas-core` 与 `workspace-saas` 参考产品。Local Workspace、Block 文档与 Local → Cloud 验证链从 Phase 2 开始推进，不进入 Phase 1 范围。
+当前 Phase 1A 先推进 S1～S7 中与装配骨架直接相关的实验；S1 仍是 provisional pass，S2 与 S3 均已通过 Linux、macOS、Windows 的真实工具矩阵。S4 的 `ExecutableRegistryV1` entry-core、Graph→Registry 纯生成、joint assemblyId 与 pre-factory mismatch matrix 已冻结，当前状态为 Matrix frozen。下一工作项 `A1-S4-02` 将补齐 ProductGraph Service/Event bindings、Registry bindings/handlers 对账、guarded entry-module 顶层副作用证据和 S4 跨平台 conformance。S8 属于 Phase 1C 的 UI Shell 门禁，不属于当前 1A 批次，但仍是完整 Phase 1 的必需实验。通过对应门禁后再实现 `remote-saas-core` 与 `workspace-saas` 参考产品。Local Workspace、Block 文档与 Local → Cloud 验证链从 Phase 2 开始推进，不进入 Phase 1 范围。

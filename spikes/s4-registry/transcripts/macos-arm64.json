@@ -1,0 +1,33 @@
+{
+  "schemaVersion": "1",
+  "environment": {
+    "platform": "darwin",
+    "arch": "arm64"
+  },
+  "matrix": {
+    "workingDirectoryCount": 2,
+    "inputOrderCount": 2
+  },
+  "assemblyId": "936ccdc108f60095d64079ba24c4e8a1eff909b2937b59b3ef86906e7e9e7824",
+  "registryHash": "301eb581269790fdd607b4b148325acde18ad588d8d171d9654cdad19537bc4c",
+  "entryIds": [
+    "product.alpha.web",
+    "product.web",
+    "product.zeta.web"
+  ],
+  "bindings": 0,
+  "handlers": 0,
+  "factoryExecutions": 0,
+  "mismatches": [
+    { "id": "missing-entry", "code": "E_REGISTRY_ENTRY_MISSING", "path": "registry.entries" },
+    { "id": "extra-entry", "code": "E_REGISTRY_ENTRY_EXTRA", "path": "registry.entries" },
+    { "id": "rewritten-owner", "code": "E_REGISTRY_ENTRY_MISMATCH", "path": "registry.entries.product.alpha.web.ownerId" },
+    { "id": "rewritten-target", "code": "E_REGISTRY_ENTRY_MISMATCH", "path": "registry.entries.product.alpha.web.target" },
+    { "id": "rewritten-module", "code": "E_REGISTRY_ENTRY_MISMATCH", "path": "registry.entries.product.alpha.web.module" },
+    { "id": "rewritten-export", "code": "E_REGISTRY_ENTRY_MISMATCH", "path": "registry.entries.product.alpha.web.exportName" },
+    { "id": "assembly-mismatch", "code": "E_REGISTRY_ASSEMBLY_MISMATCH", "path": "assemblyId" },
+    { "id": "registry-order-drift", "code": "E_REGISTRY_ASSEMBLY_INVALID", "path": "registry.assemblyId" },
+    { "id": "extra-binding", "code": "E_REGISTRY_BINDING_EXTRA", "path": "registry.bindings" },
+    { "id": "extra-handler", "code": "E_REGISTRY_HANDLER_EXTRA", "path": "registry.handlers" }
+  ]
+}

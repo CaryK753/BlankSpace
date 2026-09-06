@@ -47,15 +47,15 @@ fnm exec --using=24 pnpm verify:docs
 
 ## 4. 当前代码任务
 
-当前唯一 ready 工作项是 `A1-S3-02`：在已经冻结的 JS module trace core 上扩展 CSS、worker、WASM、assets、virtual modules，并取得 Linux/macOS/Windows 的 canonical trace 证据。开始前完整阅读：
+当前唯一 ready 工作项是 `A1-S4-02`：在已冻结的 Executable Registry entry-core 上补齐 ProductGraph 的 Service/Event binding 子集、Registry bindings/handlers 对账，以及 guarded entry-module 顶层副作用证据。开始前完整阅读：
 
-1. [`implementation/phase-1a-work-items.json`](implementation/phase-1a-work-items.json) 中的 `A1-S3-02`；
-2. [S3 Bundle Trace Matrix](spikes/S3-bundle-trace.md)；
-3. [RFC-0013 Phase 1 技术方向](rfcs/0013-phase-1-technology.md)；
-4. [验证策略](testing-strategy.md)；
-5. [软件供应链政策](supply-chain.md)与当前 S2/S3 transcripts。
+1. [`implementation/phase-1a-work-items.json`](implementation/phase-1a-work-items.json) 中的 `A1-S4-02`；
+2. [S4 Graph 与 Executable Registry 对账](spikes/S4-registry.md)；
+3. [RFC-0004 Product Graph 与 Runtime Entries](rfcs/0004-product-graph.md)；
+4. [Phase 1 实施蓝图](phase-1-blueprint.md)；
+5. [验证策略](testing-strategy.md)、[安全模型](security.md)与已经冻结的 S2/S3/S4 entry-core corpus。
 
-`A1-S3-01` 已完成 canonical JS module trace、双 checkout/双 store 确定性、Compiler 负例和 missing/extra module reconciliation。当前工作项不得实现 Executable Registry、Runtime lifecycle、业务 Kit 或生产 bundle budgets；若完整 artifact observation 需要新增依赖，先走供应链审查，若 Vite/Rolldown 无法给出稳定 trace，则按 RFC-0013 记录更换 bundler/分析器的 blocker。若机器状态指向新的 work item，以机器状态和 work-item 文件为准，本节只作为人类导航。
+`A1-S4-01` 已冻结 `ExecutableRegistryV1` schema/type、Graph→Registry 纯生成、joint assemblyId、Web/Server entry-core、10 组 pre-factory mismatch 和双工作目录/双输入顺序基线。当前工作项可以扩展静态 Graph/Registry contract 和受控 import probe，但不得实现 Runtime lifecycle/start-stop、真实业务 Service/Kit 或 CLI 发布；Runtime 仍不能通过运行时扫描源码/package metadata 来“补齐”Registry。若机器状态指向新的 work item，以机器状态和 work-item 文件为准，本节只作为人类导航。
 
 ## 5. 决策顺序
 
