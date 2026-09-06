@@ -23,7 +23,7 @@
 | [S2 Resolver](S2-resolver.md) | Pass | Linux、macOS、Windows 上五种 mode、双 checkout 与双 pnpm store 对账同一 records hash | 保持 S2 corpus 为跨平台回归门，并由 S3 消费 canonical records |
 | [S3 Bundle trace](S3-bundle-trace.md) | Pass | JS/CSS/worker/WASM/assets/virtual modules 均进入 canonical trace；Linux、macOS、Windows 运行同一 corpus 并匹配 trace `855f208d…0c14` | 保持 S3 corpus 为跨平台回归门，并由 S4 消费稳定 Graph/产物边界 |
 | [S4 Registry](S4-registry.md) | Pass | resolved Service/Event bindings、Registry 双向对账、18 组 pre-factory mismatch、双目录/双顺序和 guarded `fetch` entry probe 已在 Linux/macOS/Windows 匹配同一 canonical identity | 保持 S4 corpus 为跨平台回归门，并由 S5 消费显式 Graph + Registry |
-| [S5 Lifecycle](S5-lifecycle.md) | Provisional pass | 串行 factory/start/stop、单一 ready、资源账本、失败回滚、幂等/并发 stop 与启动中取消已在 macOS arm64 取得确定性本地证据 | 冻结生命周期 Event dispatch、嵌套深度和活动 dispatch 排空，再执行 Linux/macOS/Windows 完整对账 |
+| [S5 Lifecycle](S5-lifecycle.md) | Provisional pass | 生命周期 core 与 Event dispatch/drain 已在 macOS arm64 冻结：稳定 handler 顺序、depth-first 嵌套、深度 33 拒绝和 stop 前排空均有确定性 transcript | 在 Linux、macOS、Windows 运行同一 9 个 lifecycle + 5 个 Event 场景并保持 S2～S4 绿色 |
 | [S6 Server](S6-server.md) | Draft matrix | 已起草端口、排空、signal 与 shutdown 场景，无执行证据 | 锁定 Fastify、client、deadline 与 runner，完成 fixture 后冻结矩阵 |
 | [S7 Database](S7-database.md) | Draft matrix | 已起草 Kysely/Drizzle/direct SQL 对比场景，无执行证据 | 锁定数据库、候选工具与 runner，完成 fixture 后冻结矩阵 |
 | [S8 UI](S8-ui.md) | Draft matrix | 已起草双 Shell、标准状态、视觉与 a11y 场景，无执行证据 | 锁定 UI、浏览器、容差与 runner，完成 fixture 后冻结矩阵 |

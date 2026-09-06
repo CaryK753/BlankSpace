@@ -1,0 +1,139 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://blankspace.dev/schemas/spikes/s5-event-dispatch-transcript-v1.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "environment", "matrix", "matrixHash", "scenarios"],
+  "properties": {
+    "schemaVersion": { "const": "1" },
+    "environment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["platform", "arch", "node"],
+      "properties": {
+        "platform": { "type": "string", "minLength": 1 },
+        "arch": { "type": "string", "minLength": 1 },
+        "node": { "type": "string", "pattern": "^v24\\." }
+      }
+    },
+    "matrix": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["runCount", "scenarioCount"],
+      "properties": {
+        "runCount": { "const": 2 },
+        "scenarioCount": { "const": 5 }
+      }
+    },
+    "matrixHash": { "$ref": "#/$defs/digest" },
+    "scenarios": {
+      "type": "array",
+      "minItems": 5,
+      "maxItems": 5,
+      "items": { "$ref": "#/$defs/scenario" }
+    }
+  },
+  "$defs": {
+    "digest": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "diagnostic": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["code", "phase", "eventId", "eventInstanceId", "message"],
+      "properties": {
+        "code": {
+          "enum": [
+            "E_EVENT_PUBLISH_LIFECYCLE",
+            "E_EVENT_HANDLER_FAILED",
+            "E_EVENT_DISPATCH_DEPTH"
+          ]
+        },
+        "phase": { "enum": ["register", "factory", "start", "stopping", "dispatch"] },
+        "handlerId": { "type": "string", "minLength": 1 },
+        "eventId": { "type": "string", "minLength": 1 },
+        "eventInstanceId": { "type": "string", "minLength": 1 },
+        "dispatchDepth": { "type": "integer", "minimum": 1, "maximum": 33 },
+        "message": { "type": "string", "minLength": 1 }
+      }
+    },
+    "envelope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "eventId",
+        "eventInstanceId",
+        "correlationId",
+        "causationId",
+        "dispatchDepth"
+      ],
+      "properties": {
+        "eventId": { "type": "string", "minLength": 1 },
+        "eventInstanceId": { "type": "string", "minLength": 1 },
+        "correlationId": { "type": "string", "minLength": 1 },
+        "causationId": {
+          "anyOf": [
+            { "type": "null" },
+            { "type": "string", "minLength": 1 }
+          ]
+        },
+        "dispatchDepth": { "type": "integer", "minimum": 1, "maximum": 32 }
+      }
+    },
+    "scenario": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "trace", "diagnostics", "finalState"],
+      "properties": {
+        "id": {
+          "enum": [
+            "lifecycle-rejections",
+            "stable-order-and-handler-failure",
+            "nested-depth-first",
+            "depth-limit",
+            "active-dispatch-drain"
+          ]
+        },
+        "trace": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "dispatchTrace": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "diagnostics": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/diagnostic" }
+        },
+        "rejections": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/diagnostic" }
+        },
+        "rejection": { "$ref": "#/$defs/diagnostic" },
+        "handlerRuns": { "type": "integer", "minimum": 0 },
+        "handlerOrder": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "envelopes": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/envelope" }
+        },
+        "publishResolved": { "type": "boolean" },
+        "recurseDepths": {
+          "type": "array",
+          "items": { "type": "integer", "minimum": 1, "maximum": 32 }
+        },
+        "tailDepths": {
+          "type": "array",
+          "items": { "type": "integer", "minimum": 1, "maximum": 32 }
+        },
+        "maxObservedDepth": { "const": 32 },
+        "stoppedBeforeHandlerRelease": { "type": "boolean" },
+        "finalState": { "const": "stopped" }
+      }
+    }
+  }
+}

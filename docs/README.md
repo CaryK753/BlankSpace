@@ -119,7 +119,7 @@ README 和领域文档用于解释，不覆盖 schema 或 RFC 的精确定义。
 | Docker、Desktop 与 Mobile CI/CD | ci-cd、supply-chain | RFC-0017、RFC-0026 | proposed release contracts、SC1、平台签名/商店 evidence |
 | 生产资格 | production-readiness | RFC-0021～0024 | product-specific production report |
 
-当前 S1 为 Provisional pass，S2、S3、S4 为 Pass；S4 已在 Linux、macOS、Windows 上验证 `ExecutableRegistryV1`、joint assemblyId、resolved Service/Event bindings、18 组 pre-factory mismatch 与 guarded generated-entry probe。S5～S8 仍为 Draft matrix，当前唯一 ready 工作项是 `A1-S5-01`，先冻结串行生命周期与资源回收 core，不提前实现 Event dispatch 或 host termination。链接表示实验规格入口，只有对应状态和 transcript/evidence 明确记录的部分才算已经执行。
+当前 S1、S5 为 Provisional pass，S2、S3、S4 为 Pass；S4 已在 Linux、macOS、Windows 上验证 `ExecutableRegistryV1`、joint assemblyId、resolved Service/Event bindings、18 组 pre-factory mismatch 与 guarded generated-entry probe。S5 已在 macOS arm64 冻结 lifecycle core、稳定 Event dispatch、嵌套深度限制与活动 dispatch 排空，当前唯一 ready 工作项是 `A1-S5-03`，补齐 Linux、macOS、Windows 对账。链接表示实验规格入口，只有对应状态和 transcript/evidence 明确记录的部分才算已经执行。
 
 ## 状态词
 

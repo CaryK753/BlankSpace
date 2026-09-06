@@ -47,9 +47,9 @@ Contracts / Compiler / Runtime / Diagnostics / Tooling
 | S2 Resolver | TypeScript、Node、Vite、Vitest 原生解析对账；Linux/macOS/Windows 双 checkout、双 store | Pass |
 | S3 Bundle trace | JS、CSS、worker、WASM、asset、virtual module 的跨平台 canonical trace | Pass |
 | S4 Registry | Graph/Registry joint identity、Service/Event bindings、18 组 mismatch、entry side-effect probe | Pass |
-| S5 Lifecycle | 串行 start/stop、ready、资源账本、失败回滚、幂等/并发 stop 的 macOS 证据 | Provisional pass |
+| S5 Lifecycle | 生命周期 core、稳定 Event handler、嵌套深度限制和 dispatch 排空的 macOS 证据 | Provisional pass |
 
-当前唯一 ready 工作项是 `A1-S5-02`：冻结生命周期感知的进程内 Event dispatch、嵌套深度与活动 dispatch 排空。详见 [`docs/agent-start-here.md`](docs/agent-start-here.md)。
+当前唯一 ready 工作项是 `A1-S5-03`：在 Linux、macOS、Windows 对账冻结的 S5 lifecycle/Event corpus。详见 [`docs/agent-start-here.md`](docs/agent-start-here.md)。
 
 ## 当前可运行内容
 

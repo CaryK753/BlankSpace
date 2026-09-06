@@ -47,15 +47,15 @@ fnm exec --using=24 pnpm verify:docs
 
 ## 4. 当前代码任务
 
-当前唯一 ready 工作项是 `A1-S5-02`：在已经冻结的 S5 lifecycle core 上补齐生命周期感知的进程内 Event dispatch、嵌套深度和活动 dispatch 排空。开始前完整阅读：
+当前唯一 ready 工作项是 `A1-S5-03`：把已经冻结的 S5 lifecycle 与 Event dispatch corpus 放入 Linux、macOS、Windows conformance workflow，并对账同一 canonical scenario bytes。开始前完整阅读：
 
-1. [`implementation/phase-1a-work-items.json`](implementation/phase-1a-work-items.json) 中的 `A1-S5-02`；
+1. [`implementation/phase-1a-work-items.json`](implementation/phase-1a-work-items.json) 中的 `A1-S5-03`；
 2. [S5 启动失败与资源回收](spikes/S5-lifecycle.md)；
 3. [RFC-0001 Foundation Boundary](rfcs/0001-foundation-boundary.md)；
 4. [RFC-0002 Kit Contract](rfcs/0002-kit-contract.md)；
 5. [验证策略](testing-strategy.md)、[安全模型](security.md)与已通过的 S2/S3/S4 regression corpus。
 
-S4 已在 Linux、macOS、Windows 上取得 Pass；`A1-S5-01` 的串行生命周期与资源账本已取得 macOS arm64 provisional evidence。`A1-S5-02` 只允许增加进程内、best-effort、稳定 handler 顺序的 Event dispatch，并验证 register/factory/start/stopping 拒绝、ready 后嵌套 depth-first dispatch、最大深度 32、handler failure diagnostics 和 stop 前活动 dispatch 排空。不得加入 durable transport、retry、outbox、shutdown deadline、host 强制终止、真实网络/数据库资源、生产 Runtime 扫描或业务 Service/Kit。若机器状态指向新的 work item，以机器状态和 work-item 文件为准，本节只作为人类导航。
+S4 已在 Linux、macOS、Windows 上取得 Pass；`A1-S5-01` 和 `A1-S5-02` 已在 macOS arm64 分别冻结生命周期 core 与 Event dispatch/drain，并保持原九个生命周期场景不变。`A1-S5-03` 只允许增加三平台 S5 workflow、canonical hash 对账和回归证据，不得加入 shutdown deadline、host 强制终止、S6 server、durable transport、真实 Service/Kit 或生产 Runtime host。若机器状态指向新的 work item，以机器状态和 work-item 文件为准，本节只作为人类导航。
 
 ## 5. 决策顺序
 
@@ -72,8 +72,8 @@ S4 已在 Linux、macOS、Windows 上取得 Pass；`A1-S5-01` 的串行生命周
 ## 6. 常见误区
 
 - `buildMinimalProductGraphs` 的输入是内存对象，不是完整 Compiler 入口。
-- `assemblyId` 当前只是 graph-local；Graph/Registry 联合 identity 尚未实现。
-- S2 已由三平台真实工具矩阵证明为 Pass；S3 仍必须独立证明最终 bundle module 与 source edge 对账。
+- `assemblyId` 已在 S4 对 Graph/Registry 建立联合 identity；Runtime 仍不得重新扫描或重写 Registry。
+- S2、S3、S4 已由三平台真实工具矩阵证明为 Pass；后续 workflow 必须保持这些 regression corpus 绿色。
 - `dist/` 存在不代表发布流程已经完成。
 - 文档中的 `blankspace ...` 大多是目标 CLI；当前使用 pnpm scripts。
 - proposed schemas 供实验使用，不是当前稳定 package API。

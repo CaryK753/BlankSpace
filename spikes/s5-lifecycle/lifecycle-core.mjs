@@ -1,3 +1,5 @@
+import { InProcessEventDispatcher } from './event-dispatch-core.mjs';
+
 export function deferred() {
   let resolve;
   let reject;
@@ -112,13 +114,27 @@ export class LifecycleCore {
   #shutdown = deferred();
   #shutdownResolved = false;
   #shutdownResult = null;
+  #events;
 
-  constructor({ entries, ledger, trace }) {
+  constructor({ entries, handlers = [], ledger, trace }) {
     this.#entries = entries;
     this.#ledger = ledger;
     this.#trace = trace;
     this.state = 'idle';
+    this.phase = 'register';
     this.readyCount = 0;
+    this.#events = new InProcessEventDispatcher({
+      handlers,
+      getPhase: () => this.phase,
+    });
+  }
+
+  publish(event) {
+    return this.#events.publish(event);
+  }
+
+  eventDiagnostics() {
+    return this.#events.diagnostics();
   }
 
   async start() {
@@ -128,17 +144,19 @@ export class LifecycleCore {
     for (const spec of this.#entries) {
       if (this.#stopRequested) return this.#stopBeforeReady();
 
+      this.phase = 'factory';
       this.#trace.push(`factory:${spec.id}`);
       let instance;
       try {
-        instance = spec.factory();
+        instance = spec.factory({ publish: event => this.publish(event) });
       } catch (error) {
         return this.#startupFailure(spec.id, 'factory', error);
       }
 
+      this.phase = 'start';
       this.#trace.push(`start:${spec.id}`);
       try {
-        await instance.start?.();
+        await instance.start?.({ publish: event => this.publish(event) });
       } catch (error) {
         return this.#startupFailure(spec.id, 'start', error);
       }
@@ -149,6 +167,7 @@ export class LifecycleCore {
 
     if (this.#stopRequested) return this.#stopBeforeReady();
     this.state = 'ready';
+    this.phase = 'ready';
     this.readyCount += 1;
     this.#trace.push('ready');
     return { status: 'ready', state: this.state };
@@ -176,6 +195,7 @@ export class LifecycleCore {
 
     if (this.state === 'idle') {
       this.state = 'stopped';
+      this.phase = 'stopped';
       this.#resolveShutdown(this.#terminalResult('stopped', []));
       return this.#shutdown.promise;
     }
@@ -203,6 +223,7 @@ export class LifecycleCore {
     const stopDiagnostics = await this.#stopStarted();
     diagnostics.push(...stopDiagnostics);
     this.state = 'failed';
+    this.phase = 'failed';
     const terminal = this.#terminalResult('failed', diagnostics);
     this.#shutdownResult = terminal;
     this.#resolveShutdown(terminal);
@@ -219,9 +240,12 @@ export class LifecycleCore {
     if (this.#stopTask !== null) return this.#stopTask;
     this.#stopTask = (async () => {
       this.state = 'stopping';
+      this.phase = 'stopping';
       this.#trace.push(`stopping:${reason}`);
+      await this.#events.drain();
       const diagnostics = await this.#stopStarted();
       this.state = 'stopped';
+      this.phase = 'stopped';
       const result = this.#terminalResult('stopped', diagnostics);
       this.#shutdownResult = result;
       this.#resolveShutdown(result);

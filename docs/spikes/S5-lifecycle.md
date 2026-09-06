@@ -2,7 +2,7 @@
 
 ## 状态
 
-Provisional pass。`A1-S5-01` 已在 macOS arm64、Node.js v24.20.0 与 pnpm 10.32.1 上冻结串行 factory/start/stop、ready 状态、资源账本、失败回滚和幂等/并发 stop，并取得确定性本地 transcript。`A1-S5-02` 继续冻结 Event publish/dispatch 与活动 dispatch 排空；shutdown deadline、host 强制终止和跨平台最终证据尚未完成，因此完整 S5 不能计作 Pass。
+Provisional pass。`A1-S5-01` 与 `A1-S5-02` 已在 macOS arm64、Node.js v24.20.0 与 pnpm 10.32.1 上冻结 lifecycle core、Event publish/dispatch 与活动 dispatch 排空，并取得两份确定性本地 transcript。Linux、Windows 与完整三平台对账尚未完成；shutdown deadline 和 host 强制终止交给后续 S6 边界，因此当前 S5 仍不能计作 Pass。
 
 日期：2026-09-05。依据：RFC-0001、RFC-0002。
 
@@ -16,7 +16,7 @@ Provisional pass。`A1-S5-01` 已在 macOS arm64、Node.js v24.20.0 与 pnpm 10.
 
 factory 只产生内存对象；start 获取可观测的测试连接、监听器和后台任务句柄。每种故障单独运行，资源 ID 固定，比较事件顺序与最终余额。测试只允许具有有界行为的协作式入口；进程挂死与 host 强制终止交给 S6。
 
-core runner 使用 Node.js v24.20.0、pnpm 10.32.1 与已锁定的 Ajv 8.18.0，fixture 位于 `spikes/s5-lifecycle/`，通过 `fnm exec --using=24 pnpm test:s5` 执行。首份 transcript 为 `spikes/s5-lifecycle/transcripts/macos-arm64.json`；Linux/Windows 和 Event dispatch 证据仍待后续工作项补齐。
+runner 使用 Node.js v24.20.0、pnpm 10.32.1 与已锁定的 Ajv 8.18.0，fixture 位于 `spikes/s5-lifecycle/`，通过 `fnm exec --using=24 pnpm test:s5` 执行。生命周期与 Event transcript 分别为 `spikes/s5-lifecycle/transcripts/macos-arm64.json` 和 `spikes/s5-lifecycle/transcripts/macos-arm64-events.json`；两者的 canonical scenario bytes 在重复运行间一致。
 
 ## 故障矩阵
 
@@ -59,6 +59,16 @@ core runner 使用 Node.js v24.20.0、pnpm 10.32.1 与已锁定的 Ajv 8.18.0，
 - corpus 连续执行两次的 canonical scenario bytes 相同，matrix hash 记录在本地 transcript；
 - 完整本地工程门禁见 `.codex/tasks/a1-s5-01-lifecycle-core-2026-09-06.md`。
 
+## A1-S5-02 证据
+
+- register、factory、start 与 stopping 阶段发布均返回 `E_EVENT_PUBLISH_LIFECYCLE`，handler 执行次数为零；
+- ready 后 handler 按稳定 ID 串行执行，中间 handler 失败记录 `E_EVENT_HANDLER_FAILED`，外层 `publish()` 仍完成；
+- 嵌套发布严格 depth-first，根/子/叶事件保持同一 correlationId，并用父 eventInstanceId 形成 causation 链；
+- dispatchDepth 最大为 32，第 33 层返回 `E_EVENT_DISPATCH_DEPTH`，当前 handler 记失败后其余已排定 handler 继续；
+- stop 进入 stopping 后拒绝新发布，等待已开始的 handler 完成，再按 B→A 反序停止；
+- 原九个 lifecycle 场景与 transcript 保持不变；Event matrix 连续运行两次得到 hash `452c665615c33df5fdaf81c45f13a87ce80fce536981784a2e89521c3dcc30b4`；
+- 完整本地工程门禁见 `.codex/tasks/a1-s5-02-event-dispatch-2026-09-06.md`。
+
 ## 尚未完成
 
-register/start/stopping 阶段的 publish 拒绝、ready 后稳定 handler 顺序、嵌套 dispatch/depth 33、handler failure 与 active dispatch drain 由 `A1-S5-02` 继续实现。shutdown deadline、host 强制终止和 Linux/macOS/Windows 完整 S5 对账仍无证据。
+`A1-S5-03` 仍需在 Linux、macOS、Windows 运行同一 9 个 lifecycle 与 5 个 Event 场景，并证明 canonical hashes 不受平台元数据影响。shutdown deadline、进程信号与 host 强制终止仍由 S6 验证，当前实现不提供这些保证。

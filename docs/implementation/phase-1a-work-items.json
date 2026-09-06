@@ -91,13 +91,23 @@
       "evidence": ["2026-09-06 local macOS arm64, Node 24.20.0 and pnpm 10.32.1: the serial A-to-D lifecycle, single ready transition, strict reverse stop, resource ledger, factory/start/partial-start cleanup failures, additive stop diagnostics, shared sequential/concurrent stop result, and bounded start cancellation passed a deterministic two-run corpus. 147 Vitest tests plus S1-S5 runners, build, typecheck and verify:docs passed. Canonical local transcript is spikes/s5-lifecycle/transcripts/macos-arm64.json; details are in .codex/tasks/a1-s5-01-lifecycle-core-2026-09-06.md."]
     },
     {
-      "id": "A1-S5-02", "title": "Freeze lifecycle-aware event dispatch and drain matrix", "status": "ready", "dependsOn": ["A1-S5-01"],
+      "id": "A1-S5-02", "title": "Freeze lifecycle-aware event dispatch and drain matrix", "status": "done", "dependsOn": ["A1-S5-01"],
       "references": ["docs/spikes/S5-lifecycle.md", "docs/rfcs/0001-foundation-boundary.md", "docs/rfcs/0002-kit-contract.md", "docs/testing-strategy.md", "docs/security.md"],
       "scope": ["lifecycle-gated in-process Event publish and stable handler order", "depth-first nested dispatch with correlation, causation and depth limits", "handler failure diagnostics and active-dispatch drain before stop"],
       "outputs": ["S5 Event dispatch runner", "nested and lifecycle rejection fixture corpus", "stable dispatch diagnostics and local transcript evidence"],
       "acceptance": ["register, factory, start and stopping phases reject new publish without running handlers", "ready dispatch runs handlers by stable handler id and records handler failures without rejecting the outer publish", "nested publish is depth-first and preserves correlation/causation while depth 33 is rejected without infinite recursion", "stop rejects new publish, waits for already active bounded dispatch, then performs the existing reverse-order entry stop", "S5 core lifecycle scenarios and S2-S4 regressions remain unchanged"],
       "commands": ["fnm exec --using=24 pnpm build", "fnm exec --using=24 pnpm typecheck", "fnm exec --using=24 pnpm test", "fnm exec --using=24 pnpm verify:docs"],
-      "nonGoals": ["durable Event transport or retry", "transactional outbox", "shutdown deadline and forced host termination", "parallel handlers", "real Service implementations", "production Runtime host", "S6 server integration"]
+      "nonGoals": ["durable Event transport or retry", "transactional outbox", "shutdown deadline and forced host termination", "parallel handlers", "real Service implementations", "production Runtime host", "S6 server integration"],
+      "evidence": ["2026-09-06 local macOS 27.0 (26A5425a) arm64, Node v24.20.0 and pnpm 10.32.1: register/factory/start/stopping publish rejection, stable serial handler order, additive handler diagnostics, depth-first nested correlation/causation, depth 33 rejection, and active-dispatch drain before reverse entry stop passed a deterministic two-run corpus. The original nine lifecycle scenarios remained byte-for-byte unchanged. 147 Vitest tests plus 8 S1, 4 S2, 7 S3, 4 S4 and 15 S5 tests, build, typecheck and verify:docs passed. Event transcript is spikes/s5-lifecycle/transcripts/macos-arm64-events.json with matrix hash 452c665615c33df5fdaf81c45f13a87ce80fce536981784a2e89521c3dcc30b4; details are in .codex/tasks/a1-s5-02-event-dispatch-2026-09-06.md."]
+    },
+    {
+      "id": "A1-S5-03", "title": "Run cross-platform S5 lifecycle conformance", "status": "ready", "dependsOn": ["A1-S5-02"],
+      "references": ["docs/spikes/S5-lifecycle.md", "docs/testing-strategy.md", "docs/security.md"],
+      "scope": ["Linux, macOS and Windows execution of the frozen lifecycle and Event matrices", "canonical scenario and matrix-hash reconciliation", "S2-S4 regression preservation"],
+      "outputs": ["S5 cross-platform conformance workflow", "Linux/macOS/Windows evidence record", "final S5 portability decision"],
+      "acceptance": ["all three operating systems pass the same 9 lifecycle and 5 Event scenarios", "canonical lifecycle and Event matrix hashes match the checked-in macOS baselines", "platform fields remain evidence metadata and do not alter scenario bytes", "S2-S4 conformance workflows remain green"],
+      "commands": ["fnm exec --using=24 pnpm build", "fnm exec --using=24 pnpm typecheck", "fnm exec --using=24 pnpm test", "fnm exec --using=24 pnpm verify:docs"],
+      "nonGoals": ["shutdown deadline and forced host termination", "S6 server integration", "production Runtime host", "durable Event transport", "real Service implementations", "new runtime dependencies"]
     }
   ]
 }

@@ -1,0 +1,290 @@
+{
+  "schemaVersion": "1",
+  "environment": {
+    "platform": "darwin",
+    "arch": "arm64",
+    "node": "v24.20.0"
+  },
+  "matrix": {
+    "runCount": 2,
+    "scenarioCount": 5
+  },
+  "matrixHash": "452c665615c33df5fdaf81c45f13a87ce80fce536981784a2e89521c3dcc30b4",
+  "scenarios": [
+    {
+      "id": "lifecycle-rejections",
+      "trace": [
+        "factory:A",
+        "start:A",
+        "ready",
+        "stopping:requested",
+        "stop:A"
+      ],
+      "diagnostics": [],
+      "rejections": [
+        {
+          "code": "E_EVENT_PUBLISH_LIFECYCLE",
+          "phase": "register",
+          "eventId": "event.lifecycle",
+          "eventInstanceId": "register-event",
+          "message": "Event event.lifecycle cannot be published during register."
+        },
+        {
+          "code": "E_EVENT_PUBLISH_LIFECYCLE",
+          "phase": "factory",
+          "eventId": "event.lifecycle",
+          "eventInstanceId": "factory-event",
+          "message": "Event event.lifecycle cannot be published during factory."
+        },
+        {
+          "code": "E_EVENT_PUBLISH_LIFECYCLE",
+          "phase": "start",
+          "eventId": "event.lifecycle",
+          "eventInstanceId": "start-event",
+          "message": "Event event.lifecycle cannot be published during start."
+        },
+        {
+          "code": "E_EVENT_PUBLISH_LIFECYCLE",
+          "phase": "stopping",
+          "eventId": "event.lifecycle",
+          "eventInstanceId": "stopping-event",
+          "message": "Event event.lifecycle cannot be published during stopping."
+        }
+      ],
+      "handlerRuns": 0,
+      "finalState": "stopped"
+    },
+    {
+      "id": "stable-order-and-handler-failure",
+      "trace": [
+        "factory:A",
+        "start:A",
+        "ready",
+        "stopping:requested",
+        "stop:A"
+      ],
+      "diagnostics": [
+        {
+          "code": "E_EVENT_HANDLER_FAILED",
+          "phase": "dispatch",
+          "handlerId": "handler.m",
+          "eventId": "event.ordered",
+          "eventInstanceId": "ordered-root",
+          "dispatchDepth": 1,
+          "message": "ordered middle handler failed."
+        }
+      ],
+      "handlerOrder": [
+        "handler.a",
+        "handler.m",
+        "handler.z"
+      ],
+      "envelopes": [
+        {
+          "eventId": "event.ordered",
+          "eventInstanceId": "ordered-root",
+          "correlationId": "correlation-root",
+          "causationId": null,
+          "dispatchDepth": 1
+        },
+        {
+          "eventId": "event.ordered",
+          "eventInstanceId": "ordered-root",
+          "correlationId": "correlation-root",
+          "causationId": null,
+          "dispatchDepth": 1
+        },
+        {
+          "eventId": "event.ordered",
+          "eventInstanceId": "ordered-root",
+          "correlationId": "correlation-root",
+          "causationId": null,
+          "dispatchDepth": 1
+        }
+      ],
+      "publishResolved": true,
+      "finalState": "stopped"
+    },
+    {
+      "id": "nested-depth-first",
+      "trace": [
+        "factory:A",
+        "start:A",
+        "ready",
+        "root.a:start",
+        "child.a:start",
+        "leaf.a",
+        "child.a:end",
+        "child.z",
+        "root.a:end",
+        "root.z",
+        "stopping:requested",
+        "stop:A"
+      ],
+      "dispatchTrace": [
+        "root.a:start",
+        "child.a:start",
+        "leaf.a",
+        "child.a:end",
+        "child.z",
+        "root.a:end",
+        "root.z"
+      ],
+      "diagnostics": [],
+      "envelopes": [
+        {
+          "eventId": "event.root",
+          "eventInstanceId": "root-1",
+          "correlationId": "correlation-root",
+          "causationId": null,
+          "dispatchDepth": 1
+        },
+        {
+          "eventId": "event.child",
+          "eventInstanceId": "child-1",
+          "correlationId": "correlation-root",
+          "causationId": "root-1",
+          "dispatchDepth": 2
+        },
+        {
+          "eventId": "event.leaf",
+          "eventInstanceId": "leaf-1",
+          "correlationId": "correlation-root",
+          "causationId": "child-1",
+          "dispatchDepth": 3
+        },
+        {
+          "eventId": "event.child",
+          "eventInstanceId": "child-1",
+          "correlationId": "correlation-root",
+          "causationId": "root-1",
+          "dispatchDepth": 2
+        },
+        {
+          "eventId": "event.root",
+          "eventInstanceId": "root-1",
+          "correlationId": "correlation-root",
+          "causationId": null,
+          "dispatchDepth": 1
+        }
+      ],
+      "finalState": "stopped"
+    },
+    {
+      "id": "depth-limit",
+      "trace": [
+        "factory:A",
+        "start:A",
+        "ready",
+        "stopping:requested",
+        "stop:A"
+      ],
+      "diagnostics": [
+        {
+          "code": "E_EVENT_DISPATCH_DEPTH",
+          "phase": "dispatch",
+          "handlerId": "loop.a-recurse",
+          "eventId": "event.loop",
+          "eventInstanceId": "loop-33",
+          "dispatchDepth": 33,
+          "message": "Event event.loop exceeds maximum dispatch depth 32."
+        }
+      ],
+      "recurseDepths": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32
+      ],
+      "tailDepths": [
+        32,
+        31,
+        30,
+        29,
+        28,
+        27,
+        26,
+        25,
+        24,
+        23,
+        22,
+        21,
+        20,
+        19,
+        18,
+        17,
+        16,
+        15,
+        14,
+        13,
+        12,
+        11,
+        10,
+        9,
+        8,
+        7,
+        6,
+        5,
+        4,
+        3,
+        2,
+        1
+      ],
+      "maxObservedDepth": 32,
+      "finalState": "stopped"
+    },
+    {
+      "id": "active-dispatch-drain",
+      "trace": [
+        "factory:A",
+        "start:A",
+        "factory:B",
+        "start:B",
+        "ready",
+        "handler:slow:start",
+        "stopping:requested",
+        "handler:slow:end",
+        "stop:B",
+        "stop:A"
+      ],
+      "diagnostics": [],
+      "rejection": {
+        "code": "E_EVENT_PUBLISH_LIFECYCLE",
+        "phase": "stopping",
+        "eventId": "event.slow",
+        "eventInstanceId": "slow-2",
+        "message": "Event event.slow cannot be published during stopping."
+      },
+      "stoppedBeforeHandlerRelease": false,
+      "finalState": "stopped"
+    }
+  ]
+}
