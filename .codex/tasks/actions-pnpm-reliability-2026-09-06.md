@@ -13,7 +13,7 @@
 - [x] 为 S2～S5 workflow 复用同一跨平台 pnpm 激活脚本
 - [x] 验证脚本语法、版本锁定和失败退出行为
 - [x] 运行 build、typecheck、test、verify:docs
-- [ ] 推送并验证 Linux、macOS、Windows Actions
+- [x] 推送并验证 Linux、macOS、Windows Actions
 
 ## 范围边界
 
@@ -24,3 +24,10 @@
 ## 根因证据
 
 S4 run `34043351840` 的 Windows 首次 attempt 在 `corepack install --global pnpm@10.32.1` 中触发 Node Undici assertion，尚未进入 `pnpm install` 或项目测试；同一提交重跑后通过，符合瞬时工具下载故障特征。
+
+## 验证证据
+
+- candidate commit：`bd3669b0977d81943385c500eb8b1eb183f5c256`；
+- S2 run `34044136724`、S3 run `34044136676`、S4 run `34044136716`、S5 run `34044136679` 全部通过；
+- 四个 workflow 的 Ubuntu 24.04、macOS 15、Windows 2025 共 12 个 job 全部通过；
+- 12 个 `Activate pinned pnpm` 步骤均成功并继续完成各自 frozen conformance corpus。
