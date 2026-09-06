@@ -34,9 +34,8 @@ jobs:
           package-manager-cache: false
 
       - name: Activate pinned pnpm
-        run: |
-          corepack enable
-          corepack install --global pnpm@10.32.1
+        shell: bash
+        run: bash .github/scripts/activate-pnpm.sh
 
       - name: Install frozen dependencies
         run: pnpm install --frozen-lockfile --ignore-scripts
