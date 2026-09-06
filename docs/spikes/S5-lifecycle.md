@@ -2,7 +2,7 @@
 
 ## 状态
 
-Draft matrix，`A1-S5-01` 已 ready，尚未执行；首个切片只冻结串行 factory/start/stop、ready 状态、资源账本、失败回滚和幂等/并发 stop。Event publish/dispatch、shutdown deadline 与 host 强制终止暂不属于该 work item；在 runner、fixtures 和本地 transcript 固化前不能计作 Matrix frozen 或 Pass。
+Provisional pass。`A1-S5-01` 已在 macOS arm64、Node.js v24.20.0 与 pnpm 10.32.1 上冻结串行 factory/start/stop、ready 状态、资源账本、失败回滚和幂等/并发 stop，并取得确定性本地 transcript。`A1-S5-02` 继续冻结 Event publish/dispatch 与活动 dispatch 排空；shutdown deadline、host 强制终止和跨平台最终证据尚未完成，因此完整 S5 不能计作 Pass。
 
 日期：2026-09-05。依据：RFC-0001、RFC-0002。
 
@@ -16,7 +16,7 @@ Draft matrix，`A1-S5-01` 已 ready，尚未执行；首个切片只冻结串行
 
 factory 只产生内存对象；start 获取可观测的测试连接、监听器和后台任务句柄。每种故障单独运行，资源 ID 固定，比较事件顺序与最终余额。测试只允许具有有界行为的协作式入口；进程挂死与 host 强制终止交给 S6。
 
-目标环境为 Node.js 24 和锁定的测试工具。开始执行前补齐 Node patch、测试工具精确版本、runner OS、fixture 路径和执行命令；这些字段缺失时本实验保持 Draft matrix。
+core runner 使用 Node.js v24.20.0、pnpm 10.32.1 与已锁定的 Ajv 8.18.0，fixture 位于 `spikes/s5-lifecycle/`，通过 `fnm exec --using=24 pnpm test:s5` 执行。首份 transcript 为 `spikes/s5-lifecycle/transcripts/macos-arm64.json`；Linux/Windows 和 Event dispatch 证据仍待后续工作项补齐。
 
 ## 故障矩阵
 
@@ -49,6 +49,16 @@ factory 只产生内存对象；start 获取可观测的测试连接、监听器
 
 先检查是否把资源获取放进 factory，或让失败 start 依赖 Runtime.stop。若遵守契约的多个入口仍重复实现复杂且易错的回收，再提交 RFC 评估可选资源清理 helper；实验前不增加第二套生命周期或 DI 容器。
 
+## A1-S5-01 证据
+
+- A→B→C→D 逐个 factory/start，全部成功后只进入一次 ready，关闭严格按 D→C→B→A；
+- C factory、资源获取前 start、部分启动、自身清理失败与正常 stop 失败均有独立 fixture；
+- 主启动错误不会被清理错误覆盖，故意残留的资源会保留 owner、release attempt 和余额；
+- 连续与并发 stop 共用一个 shutdown promise 和终态对象，每个资源最多释放一次；
+- C 的有界 start 期间请求 stop 后不进入 D/ready，待 C 完成后按 C→B→A 回收；
+- corpus 连续执行两次的 canonical scenario bytes 相同，matrix hash 记录在本地 transcript；
+- 完整本地工程门禁见 `.codex/tasks/a1-s5-01-lifecycle-core-2026-09-06.md`。
+
 ## 尚未完成
 
-精确工具版本、测试 fixture、运行证据与 Runtime 实现均未交付。这里的矩阵细化 Proposed 契约，不构成通过证据。
+register/start/stopping 阶段的 publish 拒绝、ready 后稳定 handler 顺序、嵌套 dispatch/depth 33、handler failure 与 active dispatch drain 由 `A1-S5-02` 继续实现。shutdown deadline、host 强制终止和 Linux/macOS/Windows 完整 S5 对账仍无证据。

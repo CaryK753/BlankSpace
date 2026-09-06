@@ -4,7 +4,7 @@
   "updatedAt": "2026-09-06",
   "phase": "phase-1a-spike",
   "production": "no-go",
-  "nextWorkItem": "A1-S5-01",
+  "nextWorkItem": "A1-S5-02",
   "implemented": [
     "strict-jsonc-parser-spike",
     "formal-v1-config-and-product-graph-schemas",
@@ -23,7 +23,8 @@
     "s4-resolved-service-event-registry-reconciliation",
     "s4-guarded-entry-side-effect-probe",
     "s4-linux-macos-windows-conformance",
-    "proposed-client-domain-ui-release-contract-fixtures"
+    "proposed-client-domain-ui-release-contract-fixtures",
+    "s5-serial-lifecycle-and-resource-ledger-core"
   ],
   "unavailable": [
     "product-scaffolder", "cli", "preset-expansion", "published-tool-resolver-adapter-api",
@@ -39,7 +40,7 @@
     "s2": { "status": "pass", "evidence": ["resolution-matrix", "resolution-record-v1-normalization", "workspace-source-resolver", "target-and-dynamic-import-policy", "typescript-node-vite-vitest-native-reconciliation", "linux-macos-windows-two-checkout-two-store-conformance"], "nextGate": "Keep the frozen S2 corpus as a cross-platform regression gate while S3 consumes the canonical records." },
     "s3": { "status": "pass", "evidence": ["canonical-bundle-and-artifact-trace-schema", "vite-8.2.2-observation-runner", "two-checkout-two-store-determinism", "source-edge-bundle-module-reconciliation", "css-worker-wasm-asset-virtual-module-observation", "linux-macos-windows-conformance", "trace-855f208dd81cd0106e618cf6fc16aefc822afa084aaaf20bce355d6c06da0c14", "github-actions-34022590661"], "nextGate": "Keep the frozen S3 corpus as a cross-platform regression gate while S4 generates and reconciles Executable Registry records." },
     "s4": { "status": "pass", "evidence": ["executable-registry-v1-schema-and-types", "joint-graph-registry-assembly-id", "resolved-service-event-graph-bindings", "registry-binding-handler-reconciliation", "eighteen-mismatch-pre-factory-corpus", "guarded-generated-entry-fetch-probe", "two-working-directory-two-input-order-determinism", "linux-macos-windows-conformance", "assembly-ecb16708efa35789d3f9aa9ccf603b9c48348bd7c097ba315738a4a09f6c1ba5", "registry-155dfc7f1f9a7d4f76c1b4c02e32618df699161db9f4d56086a9b55e5e5d730b", "github-actions-34026361015"], "nextGate": "Keep the frozen S4 corpus as a cross-platform regression gate while S5 consumes explicit Graph and Registry records." },
-    "s5": { "status": "draft-matrix", "evidence": [], "nextGate": "Freeze the serial lifecycle state machine, resource ledger and startup/stop fault fixtures without adding event dispatch or host termination." },
+    "s5": { "status": "provisional-pass", "evidence": ["serial-a-to-d-factory-start-stop", "single-ready-transition", "resource-ledger-and-partial-start-cleanup", "idempotent-and-concurrent-stop", "bounded-start-cancellation", "local-macos-arm64-transcript"], "nextGate": "Freeze lifecycle-gated Event dispatch, nested depth and active-dispatch drain fixtures, then run the complete S5 corpus across Linux, macOS and Windows." },
     "s6": { "status": "draft-matrix", "evidence": [], "nextGate": "Freeze Fastify, client, deadline and runner." },
     "s7": { "status": "draft-matrix", "evidence": [], "nextGate": "Freeze PostgreSQL access and migration candidates." },
     "s8": { "status": "draft-matrix", "evidence": [], "nextGate": "Freeze UI, browser, accessibility and visual matrix." },

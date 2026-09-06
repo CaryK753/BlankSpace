@@ -189,4 +189,4 @@ Workspace 使用 `{ sourceId, workspaceId }` 在客户端定位。Local → Clou
 
 ## 下一步
 
-当前 Phase 1A 先推进 S1～S7 中与装配骨架直接相关的实验；S1 仍是 provisional pass，S2、S3、S4 均已通过 Linux、macOS、Windows 的真实工具矩阵。S4 现已覆盖 `ExecutableRegistryV1`、Graph/Registry joint assemblyId、resolved Service/Event bindings、18 组 pre-factory mismatch 和受限 generated-entry side-effect probe。下一工作项 `A1-S5-01` 开始冻结串行 factory/start/stop 生命周期、资源账本、启动失败回滚以及幂等/并发 stop；Event dispatch、shutdown deadline 和 host 强制终止暂不进入该 work item。S8 属于 Phase 1C 的 UI Shell 门禁，不属于当前 1A 批次，但仍是完整 Phase 1 的必需实验。通过对应门禁后再实现 `remote-saas-core` 与 `workspace-saas` 参考产品。Local Workspace、Block 文档与 Local → Cloud 验证链从 Phase 2 开始推进，不进入 Phase 1 范围。
+当前 Phase 1A 先推进 S1～S7 中与装配骨架直接相关的实验；S1 仍是 provisional pass，S2、S3、S4 均已通过 Linux、macOS、Windows 的真实工具矩阵。S5 串行 lifecycle core、资源账本、启动失败回滚以及幂等/并发 stop 已取得 macOS arm64 provisional evidence；下一工作项 `A1-S5-02` 补齐生命周期 Event dispatch、嵌套深度和活动 dispatch 排空，shutdown deadline 和 host 强制终止仍不进入该工作项。S8 属于 Phase 1C 的 UI Shell 门禁，不属于当前 1A 批次，但仍是完整 Phase 1 的必需实验。通过对应门禁后再实现 `remote-saas-core` 与 `workspace-saas` 参考产品。Local Workspace、Block 文档与 Local → Cloud 验证链从 Phase 2 开始推进，不进入 Phase 1 范围。

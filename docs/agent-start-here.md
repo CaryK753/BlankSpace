@@ -47,15 +47,15 @@ fnm exec --using=24 pnpm verify:docs
 
 ## 4. 当前代码任务
 
-当前唯一 ready 工作项是 `A1-S5-01`：冻结串行 A→B→C→D factory/start/stop 生命周期 core、ready 状态、资源账本、启动失败回滚，以及幂等/并发 stop。开始前完整阅读：
+当前唯一 ready 工作项是 `A1-S5-02`：在已经冻结的 S5 lifecycle core 上补齐生命周期感知的进程内 Event dispatch、嵌套深度和活动 dispatch 排空。开始前完整阅读：
 
-1. [`implementation/phase-1a-work-items.json`](implementation/phase-1a-work-items.json) 中的 `A1-S5-01`；
+1. [`implementation/phase-1a-work-items.json`](implementation/phase-1a-work-items.json) 中的 `A1-S5-02`；
 2. [S5 启动失败与资源回收](spikes/S5-lifecycle.md)；
 3. [RFC-0001 Foundation Boundary](rfcs/0001-foundation-boundary.md)；
 4. [RFC-0002 Kit Contract](rfcs/0002-kit-contract.md)；
 5. [验证策略](testing-strategy.md)、[安全模型](security.md)与已通过的 S2/S3/S4 regression corpus。
 
-S4 已在 Linux、macOS、Windows 上取得 Pass。`A1-S5-01` 只允许实现最小、可测试的生命周期状态机和内存资源账本：不得提前加入 Event publish/dispatch、shutdown deadline、host 强制终止、真实网络/数据库资源、生产 Runtime 扫描或业务 Service/Kit。失败 start 的自身清理必须由 fixture 显式建模，Runtime 只反序停止已经成功 started 的前置 entries；主启动错误不能被 stop/cleanup 错误覆盖。若机器状态指向新的 work item，以机器状态和 work-item 文件为准，本节只作为人类导航。
+S4 已在 Linux、macOS、Windows 上取得 Pass；`A1-S5-01` 的串行生命周期与资源账本已取得 macOS arm64 provisional evidence。`A1-S5-02` 只允许增加进程内、best-effort、稳定 handler 顺序的 Event dispatch，并验证 register/factory/start/stopping 拒绝、ready 后嵌套 depth-first dispatch、最大深度 32、handler failure diagnostics 和 stop 前活动 dispatch 排空。不得加入 durable transport、retry、outbox、shutdown deadline、host 强制终止、真实网络/数据库资源、生产 Runtime 扫描或业务 Service/Kit。若机器状态指向新的 work item，以机器状态和 work-item 文件为准，本节只作为人类导航。
 
 ## 5. 决策顺序
 

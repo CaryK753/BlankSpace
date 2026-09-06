@@ -1,0 +1,559 @@
+{
+  "schemaVersion": "1",
+  "environment": {
+    "platform": "darwin",
+    "arch": "arm64",
+    "node": "v24.20.0"
+  },
+  "matrix": {
+    "runCount": 2,
+    "scenarioCount": 9
+  },
+  "matrixHash": "60634d7bbee5d4a47e38bf483df7ce357d998dfbff205dd282feab16df087151",
+  "scenarios": [
+    {
+      "id": "success",
+      "outcome": "stopped",
+      "state": "stopped",
+      "readyCount": 1,
+      "primaryError": null,
+      "diagnostics": [],
+      "trace": [
+        "factory:A",
+        "start:A",
+        "acquire:A:A.primary",
+        "factory:B",
+        "start:B",
+        "acquire:B:B.primary",
+        "factory:C",
+        "start:C",
+        "acquire:C:C.primary",
+        "factory:D",
+        "start:D",
+        "acquire:D:D.primary",
+        "ready",
+        "stopping:requested",
+        "stop:D",
+        "release:D:D.primary",
+        "stop:C",
+        "release:C:C.primary",
+        "stop:B",
+        "release:B:B.primary",
+        "stop:A",
+        "release:A:A.primary"
+      ],
+      "resourceBalance": 0,
+      "resources": [
+        {
+          "ownerId": "A",
+          "resourceId": "A.primary",
+          "acquireCount": 1,
+          "releaseAttempts": 1,
+          "releaseCount": 1,
+          "active": false
+        },
+        {
+          "ownerId": "B",
+          "resourceId": "B.primary",
+          "acquireCount": 1,
+          "releaseAttempts": 1,
+          "releaseCount": 1,
+          "active": false
+        },
+        {
+          "ownerId": "C",
+          "resourceId": "C.primary",
+          "acquireCount": 1,
+          "releaseAttempts": 1,
+          "releaseCount": 1,
+          "active": false
+        },
+        {
+          "ownerId": "D",
+          "resourceId": "D.primary",
+          "acquireCount": 1,
+          "releaseAttempts": 1,
+          "releaseCount": 1,
+          "active": false
+        }
+      ]
+    },
+    {
+      "id": "factory-failure-c",
+      "outcome": "startup-failed",
+      "state": "failed",
+      "readyCount": 0,
+      "primaryError": {
+        "code": "E_C_FACTORY_FAILED",
+        "entryId": "C",
+        "phase": "factory",
+        "message": "C factory failed."
+      },
+      "diagnostics": [],
+      "trace": [
+        "factory:A",
+        "start:A",
+        "acquire:A:A.primary",
+        "factory:B",
+        "start:B",
+        "acquire:B:B.primary",
+        "factory:C",
+        "stop:B",
+        "release:B:B.primary",
+        "stop:A",
+        "release:A:A.primary"
+      ],
+      "resourceBalance": 0,
+      "resources": [
+        {
+          "ownerId": "A",
+          "resourceId": "A.primary",
+          "acquireCount": 1,
+          "releaseAttempts": 1,
+          "releaseCount": 1,
+          "active": false
+        },
+        {
+          "ownerId": "B",
+          "resourceId": "B.primary",
+          "acquireCount": 1,
+          "releaseAttempts": 1,
+          "releaseCount": 1,
+          "active": false
+        }
+      ]
+    },
+    {
+      "id": "start-failure-before-resource-c",
+      "outcome": "startup-failed",
+      "state": "failed",
+      "readyCount": 0,
+      "primaryError": {
+        "code": "E_C_START_FAILED",
+        "entryId": "C",
+        "phase": "start",
+        "message": "C start failed before acquiring a resource."
+      },
+      "diagnostics": [],
+      "trace": [
+        "factory:A",
+        "start:A",
+        "acquire:A:A.primary",
+        "factory:B",
+        "start:B",
+        "acquire:B:B.primary",
+        "factory:C",
+        "start:C",
+        "stop:B",
+        "release:B:B.primary",
+        "stop:A",
+        "release:A:A.primary"
+      ],
+      "resourceBalance": 0,
+      "resources": [
+        {
+          "ownerId": "A",
+          "resourceId": "A.primary",
+          "acquireCount": 1,
+          "releaseAttempts": 1,
+          "releaseCount": 1,
+          "active": false
+        },
+        {
+          "ownerId": "B",
+          "resourceId": "B.primary",
+          "acquireCount": 1,
+          "releaseAttempts": 1,
+          "releaseCount": 1,
+          "active": false
+        }
+      ]
+    },
+    {
+      "id": "partial-start-clean-c",
+      "outcome": "startup-failed",
+      "state": "failed",
+      "readyCount": 0,
+      "primaryError": {
+        "code": "E_C_START_FAILED",
+        "entryId": "C",
+        "phase": "start",
+        "message": "C start failed after acquiring a resource."
+      },
+      "diagnostics": [],
+      "trace": [
+        "factory:A",
+        "start:A",
+        "acquire:A:A.primary",
+        "factory:B",
+        "start:B",
+        "acquire:B:B.primary",
+        "factory:C",
+        "start:C",
+        "acquire:C:C.primary",
+        "release:C:C.primary",
+        "stop:B",
+        "release:B:B.primary",
+        "stop:A",
+        "release:A:A.primary"
+      ],
+      "resourceBalance": 0,
+      "resources": [
+        {
+          "ownerId": "A",
+          "resourceId": "A.primary",
+          "acquireCount": 1,
+          "releaseAttempts": 1,
+          "releaseCount": 1,
+          "active": false
+        },
+        {
+          "ownerId": "B",
+          "resourceId": "B.primary",
+          "acquireCount": 1,
+          "releaseAttempts": 1,
+          "releaseCount": 1,
+          "active": false
+        },
+        {
+          "ownerId": "C",
+          "resourceId": "C.primary",
+          "acquireCount": 1,
+          "releaseAttempts": 1,
+          "releaseCount": 1,
+          "active": false
+        }
+      ]
+    },
+    {
+      "id": "partial-start-cleanup-failure-c",
+      "outcome": "startup-failed",
+      "state": "failed",
+      "readyCount": 0,
+      "primaryError": {
+        "code": "E_C_START_FAILED",
+        "entryId": "C",
+        "phase": "start",
+        "message": "C start failed after acquiring a resource."
+      },
+      "diagnostics": [
+        {
+          "code": "E_RESOURCE_RELEASE_FAILED",
+          "entryId": "C",
+          "phase": "start-cleanup",
+          "resourceId": "C.primary",
+          "message": "Resource C.primary failed to release."
+        }
+      ],
+      "trace": [
+        "factory:A",
+        "start:A",
+        "acquire:A:A.primary",
+        "factory:B",
+        "start:B",
+        "acquire:B:B.primary",
+        "factory:C",
+        "start:C",
+        "acquire:C:C.primary",
+        "release:C:C.primary:fail",
+        "stop:B",
+        "release:B:B.primary",
+        "stop:A",
+        "release:A:A.primary"
+      ],
+      "resourceBalance": 1,
+      "resources": [
+        {
+          "ownerId": "A",
+          "resourceId": "A.primary",
+          "acquireCount": 1,
+          "releaseAttempts": 1,
+          "releaseCount": 1,
+          "active": false
+        },
+        {
+          "ownerId": "B",
+          "resourceId": "B.primary",
+          "acquireCount": 1,
+          "releaseAttempts": 1,
+          "releaseCount": 1,
+          "active": false
+        },
+        {
+          "ownerId": "C",
+          "resourceId": "C.primary",
+          "acquireCount": 1,
+          "releaseAttempts": 1,
+          "releaseCount": 0,
+          "active": true
+        }
+      ]
+    },
+    {
+      "id": "stop-failure-c",
+      "outcome": "stopped-with-diagnostics",
+      "state": "stopped",
+      "readyCount": 1,
+      "primaryError": null,
+      "diagnostics": [
+        {
+          "code": "E_C_STOP_FAILED",
+          "entryId": "C",
+          "phase": "stop",
+          "message": "C stop failed after releasing owned resources."
+        }
+      ],
+      "trace": [
+        "factory:A",
+        "start:A",
+        "acquire:A:A.primary",
+        "factory:B",
+        "start:B",
+        "acquire:B:B.primary",
+        "factory:C",
+        "start:C",
+        "acquire:C:C.primary",
+        "factory:D",
+        "start:D",
+        "acquire:D:D.primary",
+        "ready",
+        "stopping:requested",
+        "stop:D",
+        "release:D:D.primary",
+        "stop:C",
+        "release:C:C.primary",
+        "stop:B",
+        "release:B:B.primary",
+        "stop:A",
+        "release:A:A.primary"
+      ],
+      "resourceBalance": 0,
+      "resources": [
+        {
+          "ownerId": "A",
+          "resourceId": "A.primary",
+          "acquireCount": 1,
+          "releaseAttempts": 1,
+          "releaseCount": 1,
+          "active": false
+        },
+        {
+          "ownerId": "B",
+          "resourceId": "B.primary",
+          "acquireCount": 1,
+          "releaseAttempts": 1,
+          "releaseCount": 1,
+          "active": false
+        },
+        {
+          "ownerId": "C",
+          "resourceId": "C.primary",
+          "acquireCount": 1,
+          "releaseAttempts": 1,
+          "releaseCount": 1,
+          "active": false
+        },
+        {
+          "ownerId": "D",
+          "resourceId": "D.primary",
+          "acquireCount": 1,
+          "releaseAttempts": 1,
+          "releaseCount": 1,
+          "active": false
+        }
+      ]
+    },
+    {
+      "id": "sequential-double-stop",
+      "outcome": "stopped",
+      "state": "stopped",
+      "readyCount": 1,
+      "primaryError": null,
+      "diagnostics": [],
+      "trace": [
+        "factory:A",
+        "start:A",
+        "acquire:A:A.primary",
+        "factory:B",
+        "start:B",
+        "acquire:B:B.primary",
+        "factory:C",
+        "start:C",
+        "acquire:C:C.primary",
+        "factory:D",
+        "start:D",
+        "acquire:D:D.primary",
+        "ready",
+        "stopping:requested",
+        "stop:D",
+        "release:D:D.primary",
+        "stop:C",
+        "release:C:C.primary",
+        "stop:B",
+        "release:B:B.primary",
+        "stop:A",
+        "release:A:A.primary"
+      ],
+      "resourceBalance": 0,
+      "resources": [
+        {
+          "ownerId": "A",
+          "resourceId": "A.primary",
+          "acquireCount": 1,
+          "releaseAttempts": 1,
+          "releaseCount": 1,
+          "active": false
+        },
+        {
+          "ownerId": "B",
+          "resourceId": "B.primary",
+          "acquireCount": 1,
+          "releaseAttempts": 1,
+          "releaseCount": 1,
+          "active": false
+        },
+        {
+          "ownerId": "C",
+          "resourceId": "C.primary",
+          "acquireCount": 1,
+          "releaseAttempts": 1,
+          "releaseCount": 1,
+          "active": false
+        },
+        {
+          "ownerId": "D",
+          "resourceId": "D.primary",
+          "acquireCount": 1,
+          "releaseAttempts": 1,
+          "releaseCount": 1,
+          "active": false
+        }
+      ],
+      "stopPromiseShared": true,
+      "terminalResultShared": true
+    },
+    {
+      "id": "concurrent-stop",
+      "outcome": "stopped",
+      "state": "stopped",
+      "readyCount": 1,
+      "primaryError": null,
+      "diagnostics": [],
+      "trace": [
+        "factory:A",
+        "start:A",
+        "acquire:A:A.primary",
+        "factory:B",
+        "start:B",
+        "acquire:B:B.primary",
+        "factory:C",
+        "start:C",
+        "acquire:C:C.primary",
+        "factory:D",
+        "start:D",
+        "acquire:D:D.primary",
+        "ready",
+        "stopping:requested",
+        "stop:D",
+        "release:D:D.primary",
+        "stop:C",
+        "release:C:C.primary",
+        "stop:B",
+        "release:B:B.primary",
+        "stop:A",
+        "release:A:A.primary"
+      ],
+      "resourceBalance": 0,
+      "resources": [
+        {
+          "ownerId": "A",
+          "resourceId": "A.primary",
+          "acquireCount": 1,
+          "releaseAttempts": 1,
+          "releaseCount": 1,
+          "active": false
+        },
+        {
+          "ownerId": "B",
+          "resourceId": "B.primary",
+          "acquireCount": 1,
+          "releaseAttempts": 1,
+          "releaseCount": 1,
+          "active": false
+        },
+        {
+          "ownerId": "C",
+          "resourceId": "C.primary",
+          "acquireCount": 1,
+          "releaseAttempts": 1,
+          "releaseCount": 1,
+          "active": false
+        },
+        {
+          "ownerId": "D",
+          "resourceId": "D.primary",
+          "acquireCount": 1,
+          "releaseAttempts": 1,
+          "releaseCount": 1,
+          "active": false
+        }
+      ],
+      "stopPromiseShared": true,
+      "terminalResultShared": true
+    },
+    {
+      "id": "stop-during-start-c",
+      "outcome": "stopped-before-ready",
+      "state": "stopped",
+      "readyCount": 0,
+      "primaryError": null,
+      "diagnostics": [],
+      "trace": [
+        "factory:A",
+        "start:A",
+        "acquire:A:A.primary",
+        "factory:B",
+        "start:B",
+        "acquire:B:B.primary",
+        "factory:C",
+        "start:C",
+        "acquire:C:C.primary",
+        "stopping:start-cancelled",
+        "stop:C",
+        "release:C:C.primary",
+        "stop:B",
+        "release:B:B.primary",
+        "stop:A",
+        "release:A:A.primary"
+      ],
+      "resourceBalance": 0,
+      "resources": [
+        {
+          "ownerId": "A",
+          "resourceId": "A.primary",
+          "acquireCount": 1,
+          "releaseAttempts": 1,
+          "releaseCount": 1,
+          "active": false
+        },
+        {
+          "ownerId": "B",
+          "resourceId": "B.primary",
+          "acquireCount": 1,
+          "releaseAttempts": 1,
+          "releaseCount": 1,
+          "active": false
+        },
+        {
+          "ownerId": "C",
+          "resourceId": "C.primary",
+          "acquireCount": 1,
+          "releaseAttempts": 1,
+          "releaseCount": 1,
+          "active": false
+        }
+      ],
+      "startResult": "stopped-before-ready"
+    }
+  ]
+}

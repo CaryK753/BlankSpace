@@ -1,0 +1,101 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://blankspace.dev/schemas/spikes/s5-lifecycle-transcript-v1.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "environment", "matrix", "matrixHash", "scenarios"],
+  "properties": {
+    "schemaVersion": { "const": "1" },
+    "environment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["platform", "arch", "node"],
+      "properties": {
+        "platform": { "type": "string", "minLength": 1 },
+        "arch": { "type": "string", "minLength": 1 },
+        "node": { "type": "string", "pattern": "^v24\\." }
+      }
+    },
+    "matrix": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["runCount", "scenarioCount"],
+      "properties": {
+        "runCount": { "const": 2 },
+        "scenarioCount": { "const": 9 }
+      }
+    },
+    "matrixHash": { "$ref": "#/$defs/digest" },
+    "scenarios": {
+      "type": "array",
+      "minItems": 9,
+      "maxItems": 9,
+      "items": { "$ref": "#/$defs/scenario" }
+    }
+  },
+  "$defs": {
+    "digest": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "diagnostic": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["code", "entryId", "phase", "message"],
+      "properties": {
+        "code": { "type": "string", "pattern": "^E_[A-Z0-9_]+$" },
+        "entryId": { "type": "string", "minLength": 1 },
+        "phase": { "enum": ["factory", "start", "start-cleanup", "stop"] },
+        "resourceId": { "type": "string", "minLength": 1 },
+        "message": { "type": "string", "minLength": 1 }
+      }
+    },
+    "resource": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["ownerId", "resourceId", "acquireCount", "releaseAttempts", "releaseCount", "active"],
+      "properties": {
+        "ownerId": { "type": "string", "minLength": 1 },
+        "resourceId": { "type": "string", "minLength": 1 },
+        "acquireCount": { "const": 1 },
+        "releaseAttempts": { "type": "integer", "minimum": 0, "maximum": 1 },
+        "releaseCount": { "type": "integer", "minimum": 0, "maximum": 1 },
+        "active": { "type": "boolean" }
+      }
+    },
+    "scenario": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "outcome", "state", "readyCount", "primaryError", "diagnostics", "trace", "resourceBalance", "resources"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "outcome": { "enum": ["stopped", "startup-failed", "stopped-with-diagnostics", "stopped-before-ready"] },
+        "state": { "enum": ["stopped", "failed"] },
+        "readyCount": { "type": "integer", "minimum": 0, "maximum": 1 },
+        "primaryError": {
+          "anyOf": [
+            { "type": "null" },
+            { "$ref": "#/$defs/diagnostic" }
+          ]
+        },
+        "diagnostics": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/diagnostic" }
+        },
+        "trace": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "resourceBalance": { "type": "integer", "minimum": 0 },
+        "resources": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/resource" }
+        },
+        "stopPromiseShared": { "type": "boolean" },
+        "terminalResultShared": { "type": "boolean" },
+        "startResult": { "const": "stopped-before-ready" }
+      }
+    }
+  }
+}
