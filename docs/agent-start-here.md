@@ -47,14 +47,14 @@ fnm exec --using=24 pnpm verify:docs
 
 ## 4. 当前代码任务
 
-当前唯一进行中的工作项是 `A1-S2-04`：TypeScript、Node、Vite 与 Vitest trace adapters 及 macOS 多 checkout/store transcript 已落地，仍需在 Linux 与 Windows 执行同一 runner。继续前完整阅读：
+当前唯一 ready 工作项是 `A1-S3-01`：冻结 bundle trace contract、Vite/Rollup observation runner 与 fixture matrix。开始前完整阅读：
 
-1. [`implementation/phase-1a-work-items.json`](implementation/phase-1a-work-items.json) 中的 `A1-S2-04`；
-2. [S2 Resolver Matrix](spikes/S2-resolver.md)；
+1. [`implementation/phase-1a-work-items.json`](implementation/phase-1a-work-items.json) 中的 `A1-S3-01`；
+2. [S3 Bundle Trace Matrix](spikes/S3-bundle-trace.md)；
 3. [验证策略](testing-strategy.md)；
-4. 当前 `packages/compiler/src/resolution/` 与测试 fixture。
+4. [软件供应链政策](supply-chain.md)与当前 S2 records/fixture。
 
-该工作项只处理工具解析结果与 Compiler record 的逐边对账及 S2 环境矩阵，不检查最终 bundle，也不实现 Executable Registry 或业务 Kit。若当前环境不能覆盖 Linux、macOS、Windows 和多 store-dir，不得用单机结果把 S2 提升为 Pass，应记录可复现 blocker。若机器状态指向新的 work item，以机器状态和 work-item 文件为准，本节只作为人类导航。
+该工作项只冻结 source edge 与 bundle module 的 canonical trace、对账 runner 和合法/非法 fixture，不实现 Executable Registry、Runtime lifecycle 或业务 Kit。若需要新增依赖、公共 contract 尚未定义或 Vite/Rollup 无法提供稳定 trace，应记录 blocker，不自行扩大设计。若机器状态指向新的 work item，以机器状态和 work-item 文件为准，本节只作为人类导航。
 
 ## 5. 决策顺序
 
@@ -72,7 +72,7 @@ fnm exec --using=24 pnpm verify:docs
 
 - `buildMinimalProductGraphs` 的输入是内存对象，不是完整 Compiler 入口。
 - `assemblyId` 当前只是 graph-local；Graph/Registry 联合 identity 尚未实现。
-- S2 的最终 Pass 需要真实工具 adapter 和跨平台矩阵；完成 resolver core 不会使 S2 变成 Pass。
+- S2 已由三平台真实工具矩阵证明为 Pass；S3 仍必须独立证明最终 bundle module 与 source edge 对账。
 - `dist/` 存在不代表发布流程已经完成。
 - 文档中的 `blankspace ...` 大多是目标 CLI；当前使用 pnpm scripts。
 - proposed schemas 供实验使用，不是当前稳定 package API。

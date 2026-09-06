@@ -4,7 +4,7 @@
   "updatedAt": "2026-09-06",
   "phase": "phase-1a-spike",
   "production": "no-go",
-  "nextWorkItem": "A1-S2-04",
+  "nextWorkItem": "A1-S3-01",
   "implemented": [
     "strict-jsonc-parser-spike",
     "formal-v1-config-and-product-graph-schemas",
@@ -14,6 +14,7 @@
     "target-boundary-and-dynamic-import-policy",
     "s2-native-tool-adapter-conformance-runner",
     "s2-macos-two-checkout-two-store-transcript",
+    "s2-linux-macos-windows-conformance",
     "proposed-client-domain-ui-release-contract-fixtures"
   ],
   "unavailable": [
@@ -27,7 +28,7 @@
       "evidence": ["node-24-tests", "vitest", "typescript", "ajv", "cross-directory-hash"],
       "nextGate": "Replace the spike parser with the selected production validator and run the required cross-platform matrix."
     },
-    "s2": { "status": "provisional-pass", "evidence": ["resolution-matrix", "resolution-record-v1-normalization", "workspace-source-resolver", "target-and-dynamic-import-policy", "typescript-node-vite-vitest-native-reconciliation", "macos-two-checkout-two-store-transcript"], "nextGate": "Run the same canonical transcript on Linux and Windows and match the records hash." },
+    "s2": { "status": "pass", "evidence": ["resolution-matrix", "resolution-record-v1-normalization", "workspace-source-resolver", "target-and-dynamic-import-policy", "typescript-node-vite-vitest-native-reconciliation", "linux-macos-windows-two-checkout-two-store-conformance"], "nextGate": "Keep the frozen S2 corpus as a cross-platform regression gate while S3 consumes the canonical records." },
     "s3": { "status": "draft-matrix", "evidence": [], "nextGate": "Freeze trace schema, tool, runner and fixtures." },
     "s4": { "status": "draft-matrix", "evidence": [], "nextGate": "Freeze Registry schema, generator, runner and fixtures." },
     "s5": { "status": "draft-matrix", "evidence": [], "nextGate": "Freeze lifecycle runner and fault fixtures." },

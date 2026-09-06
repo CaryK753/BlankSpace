@@ -20,7 +20,7 @@
 | Spike | 状态 | 已有证据 | 下一门槛 |
 | --- | --- | --- | --- |
 | [S1 Config](S1-config.md) | Provisional pass | Node 24 内置测试 8/8、Vitest、TypeScript、Ajv 与跨目录 hash 通过 | 用选定的生产 validator 替换 spike parser，并完成规定的跨平台矩阵 |
-| [S2 Resolver](S2-resolver.md) | Provisional pass | macOS 上 TypeScript、Node、Vite、Vitest 五种 mode 跨两个 checkout/两个 pnpm store 对账通过 | 在 Linux 与 Windows 运行同一 runner 并匹配 canonical records hash |
+| [S2 Resolver](S2-resolver.md) | Pass | Linux、macOS、Windows 上五种 mode、双 checkout 与双 pnpm store 对账同一 records hash | 保持 S2 corpus 为跨平台回归门，并由 S3 消费 canonical records |
 | [S3 Bundle trace](S3-bundle-trace.md) | Draft matrix | 已起草 source edge、bundle trace 与裁剪场景，无执行证据 | 锁定 trace schema、工具与 runner，完成 fixture 后冻结矩阵 |
 | [S4 Registry](S4-registry.md) | Draft matrix | 已起草 Graph/Registry mismatch 与副作用场景，无执行证据 | 锁定 Registry schema、生成器与 runner，完成 fixture 后冻结矩阵 |
 | [S5 Lifecycle](S5-lifecycle.md) | Draft matrix | 已明确资源所有权和失败场景，无执行证据 | 锁定工具与 runner，完成 fixture 后冻结矩阵 |

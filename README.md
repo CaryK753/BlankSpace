@@ -187,4 +187,4 @@ Workspace 使用 `{ sourceId, workspaceId }` 在客户端定位。Local → Clou
 
 ## 下一步
 
-当前 Phase 1A 先推进 S1～S7 中与装配骨架直接相关的实验；S1 仍是 provisional pass，S2 只冻结了解析矩阵。S8 属于 Phase 1C 的 UI Shell 门禁，不属于当前 1A 批次，但仍是完整 Phase 1 的必需实验。通过对应门禁后再实现 `remote-saas-core` 与 `workspace-saas` 参考产品。Local Workspace、Block 文档与 Local → Cloud 验证链从 Phase 2 开始推进，不进入 Phase 1 范围。
+当前 Phase 1A 先推进 S1～S7 中与装配骨架直接相关的实验；S1 仍是 provisional pass，S2 已通过 Linux、macOS、Windows 的真实工具矩阵，下一工作项是冻结 S3 bundle trace contract、runner 与 fixtures。S8 属于 Phase 1C 的 UI Shell 门禁，不属于当前 1A 批次，但仍是完整 Phase 1 的必需实验。通过对应门禁后再实现 `remote-saas-core` 与 `workspace-saas` 参考产品。Local Workspace、Block 文档与 Local → Cloud 验证链从 Phase 2 开始推进，不进入 Phase 1 范围。

@@ -11,15 +11,15 @@
 | 项目现在是什么阶段、能否用于生产 | `status/project-status.json` |
 | 当前真正实现了什么 | `current-implementation.md`、源码 exports |
 | 唯一可领取的任务是什么 | `phase-1a-work-items.json` |
-| 为什么现在做它 | S2、Phase 1 blueprint、work-item dependencies |
-| 可以修改哪些文件 | `A1-S2-01.md#修改范围` |
+| 为什么现在做它 | S3、Phase 1 blueprint、work-item dependencies |
+| 可以修改哪些文件 | 当前 work item 的 `scope`、`outputs` 与 S3 spike |
 | 明确不能实现什么 | work item `nonGoals`、任务规格 |
-| 公共字段和跨字段规则是什么 | `A1-S2-01.md`、未来正式 Schema |
-| 需要哪些正向与负向测试 | `A1-S2-01.md#必测用例` |
+| 公共字段和跨字段规则是什么 | S3 spike、先行 canonical Schema 与既有 S2 record |
+| 需要哪些正向与负向测试 | S3 matrix 与测试策略 |
 | 是否允许新增依赖 | 不允许；AGENTS 与 work item |
 | 使用哪个 Node 和包管理器 | Node 24、pnpm 10.32.1 |
 | 完成时运行什么 | work item `commands` |
-| 完成后更新哪些状态 | `A1-S2-01.md#完成与交接` |
+| 完成后更新哪些状态 | work item evidence、S3 spike 与 project status |
 | 哪些情况必须停止而不是自行决定 | 公共契约变化、新依赖、超出 scope |
 
 ## 通过标准
@@ -28,7 +28,7 @@
 - Agent 的实现计划只覆盖一个 ready item；
 - 计划先 Schema/fixture，再类型、实现和 consumer；
 - 不修改 `dist/`、RFC baseline、ProductGraph V1 或未授权 package；
-- 不把批次完成误报成 S2 Pass；
+- 不把 S3 matrix 冻结误报成 bundle trace Pass；
 - 测试计划同时包含成功、确定性和稳定失败 diagnostics；
 - handoff 包含环境、命令、结果、限制和下一工作项。
 

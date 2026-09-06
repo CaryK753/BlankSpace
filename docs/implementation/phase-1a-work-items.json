@@ -32,13 +32,23 @@
       "evidence": ["2026-09-06 on macOS 27.0 (26A5425a), Node v24.20.0 and pnpm 10.32.1: build, typecheck, 109 Vitest tests, 8 S1 tests and verify:docs passed; result recorded in .codex/tasks/a1-s2-03-target-import-policy-2026-09-06.md"]
     },
     {
-      "id": "A1-S2-04", "title": "Tool adapters and cross-platform S2 evidence", "status": "in-progress", "dependsOn": ["A1-S2-03"],
+      "id": "A1-S2-04", "title": "Tool adapters and cross-platform S2 evidence", "status": "done", "dependsOn": ["A1-S2-03"],
       "references": ["docs/spikes/S2-resolver.md", "docs/testing-strategy.md"], "scope": ["TypeScript, Node, Vite and Vitest trace adapters", "OS and pnpm store matrix"],
       "outputs": ["adapter conformance runner", "canonical resolution transcripts", "S2 evidence record"],
       "acceptance": ["five resolution modes reconcile", "Linux, macOS and Windows transcripts match", "S2 pass criteria are completely evidenced"],
       "commands": ["fnm exec --using=24 pnpm test", "fnm exec --using=24 pnpm verify:docs"],
       "nonGoals": ["S3 bundle trace", "Executable Registry", "business Kits"],
-      "evidence": ["2026-09-06 on macOS 27.0 (26A5425a), arm64, Node v24.20.0 and pnpm 10.32.1: TypeScript 5.9.3, Vite 8.2.2, Node and Vitest 4.1.11 reconciled five modes across two checkouts and two isolated pnpm stores; 109 Vitest, 8 S1 and 4 S2 tests plus build, typecheck and verify:docs passed. Canonical transcript is spikes/s2-resolver/transcripts/macos-arm64.json. Linux/Windows remain unrun, so the item stays in progress."]
+      "evidence": ["2026-09-06 on macOS 27.0 (26A5425a), arm64, Node v24.20.0 and pnpm 10.32.1: TypeScript 5.9.3, Vite 8.2.2, Node and Vitest 4.1.11 reconciled five modes across two checkouts and two isolated pnpm stores; 109 Vitest, 8 S1 and 4 S2 tests plus build, typecheck and verify:docs passed. Canonical transcript is spikes/s2-resolver/transcripts/macos-arm64.json.", "GitHub Actions run 34016987463 for commit aab99489b492fb78bd0bc14b6f5fae69921fc9d0 passed the same two-checkout, two-store S2 corpus on ubuntu-24.04, macos-15 and windows-2025; all platforms matched records hash 71652e6c253cd52cfcd0dde6a97314ab1e389548396f6269d81fcb51bda0a969. Detailed evidence is recorded in .codex/tasks/a1-s2-04-tool-adapters-2026-09-06.md."]
+    },
+    {
+      "id": "A1-S3-01", "title": "Freeze bundle trace contract and fixture matrix", "status": "ready", "dependsOn": ["A1-S2-04"],
+      "references": ["docs/spikes/S3-bundle-trace.md", "docs/testing-strategy.md", "docs/supply-chain.md"],
+      "scope": ["canonical bundle trace schema", "Vite/Rollup observation runner and fixture matrix", "deterministic source edge to bundle module reconciliation"],
+      "outputs": ["spike trace schema and runner", "bundle trace fixture corpus", "S3 evidence record"],
+      "acceptance": ["trace excludes absolute and store paths and is deterministic across checkouts", "legal and illegal fixture edges reconcile before artifact publication", "tool versions, runner environments and failure choices are frozen"],
+      "commands": ["fnm exec --using=24 pnpm build", "fnm exec --using=24 pnpm typecheck", "fnm exec --using=24 pnpm test", "fnm exec --using=24 pnpm verify:docs"],
+      "nonGoals": ["Executable Registry", "Runtime lifecycle", "business Kits", "new runtime dependencies without supply-chain review"],
+      "evidence": []
     }
   ]
 }

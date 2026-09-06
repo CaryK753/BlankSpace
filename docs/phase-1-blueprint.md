@@ -193,9 +193,9 @@ TypeScript/ESM、Node.js 24 LTS、React-first、Fastify、PostgreSQL、JSON Sche
 
 当前执行状态：S1 已取得 [provisional pass](./spikes/S1-config.md)。Node.js 24.20.0 下已重新通过 S1 Node tests、TypeScript typecheck、Ajv 文档 schema 编译和最小 Product Graph 的 Vitest；S1 corpus 仍使用 Node test runner，最终 validator、完整 Vitest evidence 和原 S1 文档要求的跨平台环境尚未全部关闭，因此不计入正式通过，也不解除 1B gate。
 
-Phase 1A 已实现一个不含文件系统解析的 `buildMinimalProductGraphs` 前置切片：它只消费内存中的规范化配置、manifest 与 Module descriptors，生成 web/server target-specific Graph，并验证 schema、稳定排序、错误码、inputHash/graph-local assemblyId 和跨工作目录确定性。Preset、S2 resolver、Service/Event、Executable Registry、Graph/Registry 联合 assemblyId、bundle trace 与 CLI 均未实现；该切片不改变 S2～S4 状态。
+Phase 1A 已实现内存 `buildMinimalProductGraphs` 前置切片、正式 `ResolutionRecordV1`、workspace source resolver、target/dynamic import policy，以及 TypeScript、Node、Vite、Vitest 的 S2 native trace runner。Preset、Service/Event、Executable Registry、Graph/Registry 联合 assemblyId、bundle trace 与 CLI 均未实现。
 
-S2 的[统一解析矩阵](./spikes/S2-resolver.md)已经冻结，尚未实现或执行。贡献流程和证据格式分别见[框架贡献指南](contributing.md)与[验证策略](testing-strategy.md)。
+S2 的[统一解析矩阵](./spikes/S2-resolver.md)已在 Linux、macOS、Windows 上执行并取得 Pass；当前下一工作项是冻结 S3 bundle trace schema、runner 与 fixture matrix。贡献流程和证据格式分别见[框架贡献指南](contributing.md)与[验证策略](testing-strategy.md)。
 
 ## 8. Adopter Preview Gate
 

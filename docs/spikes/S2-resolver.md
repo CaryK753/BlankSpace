@@ -2,7 +2,7 @@
 
 ## 状态
 
-Provisional pass：macOS matrix 已执行，Linux 与 Windows 尚未执行。
+Pass：Linux、macOS 与 Windows matrix 已执行并匹配同一 canonical records hash。
 
 冻结日期：2026-09-04。
 
@@ -148,3 +148,16 @@ fixture 覆盖 web/server 可依赖 shared、shared 不可依赖 web/server、we
 Linux 与 Windows 仍为未运行。Docker daemon 已启动并可被只读探测，但当前任务执行策略阻止 `docker pull` 和 `docker run`，且不允许在任务内申请额外授权；本机也没有 Windows runner。因此 S2 只推进到 Provisional pass，A1-S2-04 保持 `in-progress`，不得标为完成。
 
 仓库已准备 `.github/workflows/s2-conformance.yml`，使用固定 commit SHA 的 checkout/setup-node actions，在 `ubuntu-24.04`、`macos-15` 和 `windows-2025` 上运行同一 `pnpm test:s2`。该 workflow 只有进入远端并实际成功后才能作为跨 OS 证据；文件存在本身不推进状态。
+
+## A1-S2-04 跨平台关闭证据
+
+2026-09-06，提交 `aab99489b492fb78bd0bc14b6f5fae69921fc9d0` 的 GitHub Actions run [34016987463](https://github.com/CaryK753/BlankSpace/actions/runs/34016987463) 在 `ubuntu-24.04`、`macos-15` 和 `windows-2025` 上全部通过：
+
+- 三个平台均使用 Node.js 24.20.0 与 pnpm 10.32.1；
+- TypeScript、Node、Vite 与 Vitest adapter 均执行五种 mode；
+- 每个平台都运行两个不同 checkout 与两个隔离 pnpm store；
+- Linux、macOS、Windows 均与 canonical edges 和 records hash `71652e6c253cd52cfcd0dde6a97314ab1e389548396f6269d81fcb51bda0a969` 一致；
+- Windows 运行通过 transcript schema 的机器路径检查，盘符、反斜杠、`node_modules` 与 pnpm store realpath 均未进入 record；
+- `E_TEST_RESOLUTION_DRIFT` 负向 probe 在三平台保持失败关闭。
+
+规定矩阵已完整执行且没有跳过项，S2 因此推进为 Pass。S3 可以消费已冻结的 resolution records，但这不代表 bundle trace、Executable Registry 或 Runtime 已实现。

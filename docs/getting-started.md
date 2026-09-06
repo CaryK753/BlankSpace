@@ -238,6 +238,6 @@ AI 不得修改 generated 文件来消除错误，也不得通过全局 ignore/s
 
 ## 12. 当前可以做什么
 
-当前仓库可用于评审架构、RFC、JSON Schema 和 spikes。S1 已验证 JSONC 子集、canonicalization、跨目录 hash、schema corpus、当前环境的 TypeScript typecheck 与 Ajv schema 编译，但仍需在 Node.js 24 下重跑并取得 Vitest evidence。S2 目前只冻结了解析矩阵。
+当前仓库可用于评审架构、RFC、JSON Schema 和 spikes，也可运行最小 Product Graph 与 workspace source resolver。S1 已取得 provisional pass；S2 已在 Linux、macOS、Windows 上通过 TypeScript、Node、Vite、Vitest 五种 mode 及双 checkout/双 pnpm store 矩阵。当前下一工作项是 S3 bundle trace contract 与 fixture matrix。
 
 因此现在不要按照本文命令创建真实产品，也不要基于示例发布 Kit。实施进度以 [Phase 1 实施蓝图](phase-1-blueprint.md) 和 [开发路线图](roadmap.md) 为准；设计细节分别见 [开发者体验](developer-experience.md)、[Product Module](product-modules.md)、[Optional Kit](kits.md)、[升级协议](upgrades.md) 与 [核心术语](glossary.md)。
