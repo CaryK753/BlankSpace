@@ -8,26 +8,123 @@
     "workingDirectoryCount": 2,
     "inputOrderCount": 2
   },
-  "assemblyId": "936ccdc108f60095d64079ba24c4e8a1eff909b2937b59b3ef86906e7e9e7824",
-  "registryHash": "301eb581269790fdd607b4b148325acde18ad588d8d171d9654cdad19537bc4c",
+  "assemblyId": "ecb16708efa35789d3f9aa9ccf603b9c48348bd7c097ba315738a4a09f6c1ba5",
+  "registryHash": "155dfc7f1f9a7d4f76c1b4c02e32618df699161db9f4d56086a9b55e5e5d730b",
   "entryIds": [
     "product.alpha.web",
     "product.web",
     "product.zeta.web"
   ],
-  "bindings": 0,
-  "handlers": 0,
+  "bindings": 2,
+  "handlers": 2,
   "factoryExecutions": 0,
+  "entryProbe": {
+    "guardedOperations": [
+      "fetch"
+    ],
+    "safe": {
+      "status": "pass",
+      "code": null,
+      "topLevelEffects": 0,
+      "factoryExecutions": 0
+    },
+    "unsafe": {
+      "status": "reject",
+      "code": "E_ENTRY_TOP_LEVEL_SIDE_EFFECT",
+      "topLevelEffects": 1,
+      "factoryExecutions": 0
+    }
+  },
   "mismatches": [
-    { "id": "missing-entry", "code": "E_REGISTRY_ENTRY_MISSING", "path": "registry.entries" },
-    { "id": "extra-entry", "code": "E_REGISTRY_ENTRY_EXTRA", "path": "registry.entries" },
-    { "id": "rewritten-owner", "code": "E_REGISTRY_ENTRY_MISMATCH", "path": "registry.entries.product.alpha.web.ownerId" },
-    { "id": "rewritten-target", "code": "E_REGISTRY_ENTRY_MISMATCH", "path": "registry.entries.product.alpha.web.target" },
-    { "id": "rewritten-module", "code": "E_REGISTRY_ENTRY_MISMATCH", "path": "registry.entries.product.alpha.web.module" },
-    { "id": "rewritten-export", "code": "E_REGISTRY_ENTRY_MISMATCH", "path": "registry.entries.product.alpha.web.exportName" },
-    { "id": "assembly-mismatch", "code": "E_REGISTRY_ASSEMBLY_MISMATCH", "path": "assemblyId" },
-    { "id": "registry-order-drift", "code": "E_REGISTRY_ASSEMBLY_INVALID", "path": "registry.assemblyId" },
-    { "id": "extra-binding", "code": "E_REGISTRY_BINDING_EXTRA", "path": "registry.bindings" },
-    { "id": "extra-handler", "code": "E_REGISTRY_HANDLER_EXTRA", "path": "registry.handlers" }
+    {
+      "id": "missing-entry",
+      "code": "E_REGISTRY_ENTRY_MISSING",
+      "path": "registry.entries"
+    },
+    {
+      "id": "extra-entry",
+      "code": "E_REGISTRY_ENTRY_EXTRA",
+      "path": "registry.entries"
+    },
+    {
+      "id": "rewritten-owner",
+      "code": "E_REGISTRY_ENTRY_MISMATCH",
+      "path": "registry.entries.product.alpha.web.ownerId"
+    },
+    {
+      "id": "rewritten-target",
+      "code": "E_REGISTRY_ENTRY_MISMATCH",
+      "path": "registry.entries.product.alpha.web.target"
+    },
+    {
+      "id": "rewritten-module",
+      "code": "E_REGISTRY_ENTRY_MISMATCH",
+      "path": "registry.entries.product.alpha.web.module"
+    },
+    {
+      "id": "rewritten-export",
+      "code": "E_REGISTRY_ENTRY_MISMATCH",
+      "path": "registry.entries.product.alpha.web.exportName"
+    },
+    {
+      "id": "assembly-mismatch",
+      "code": "E_REGISTRY_ASSEMBLY_MISMATCH",
+      "path": "assemblyId"
+    },
+    {
+      "id": "registry-order-drift",
+      "code": "E_REGISTRY_ASSEMBLY_INVALID",
+      "path": "registry.assemblyId"
+    },
+    {
+      "id": "missing-binding",
+      "code": "E_REGISTRY_BINDING_MISSING",
+      "path": "registry.bindings"
+    },
+    {
+      "id": "extra-binding",
+      "code": "E_REGISTRY_BINDING_EXTRA",
+      "path": "registry.bindings"
+    },
+    {
+      "id": "duplicate-binding",
+      "code": "E_REGISTRY_BINDING_DUPLICATE",
+      "path": "registry.bindings"
+    },
+    {
+      "id": "rewritten-provider",
+      "code": "E_REGISTRY_BINDING_MISMATCH",
+      "path": "registry.bindings.service.clock.providerId"
+    },
+    {
+      "id": "rewritten-binding-entry",
+      "code": "E_REGISTRY_BINDING_MISMATCH",
+      "path": "registry.bindings.service.clock.entryId"
+    },
+    {
+      "id": "missing-handler",
+      "code": "E_REGISTRY_HANDLER_MISSING",
+      "path": "registry.handlers"
+    },
+    {
+      "id": "extra-handler",
+      "code": "E_REGISTRY_HANDLER_EXTRA",
+      "path": "registry.handlers"
+    },
+    {
+      "id": "duplicate-handler",
+      "code": "E_REGISTRY_HANDLER_DUPLICATE",
+      "path": "registry.handlers"
+    },
+    {
+      "id": "rewritten-event",
+      "code": "E_REGISTRY_HANDLER_MISMATCH",
+      "path": "registry.handlers.handler.alpha-tick.eventId"
+    },
+    {
+      "id": "rewritten-handler-entry",
+      "code": "E_REGISTRY_HANDLER_MISMATCH",
+      "path": "registry.handlers.handler.alpha-tick.entryId"
+    }
   ]
 }

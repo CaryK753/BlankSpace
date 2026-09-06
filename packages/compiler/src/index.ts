@@ -12,9 +12,11 @@ export {
   buildMinimalProductGraphs,
   type MinimalGraphDiagnostic,
   type MinimalProductConfigInput,
+  type MinimalProductEventBindingInput,
   type MinimalProductGraphInput,
   type MinimalProductManifestInput,
   type MinimalProductModuleInput,
+  type MinimalProductServiceBindingInput,
 } from './graph/minimal-product-graph.js';
 
 export {

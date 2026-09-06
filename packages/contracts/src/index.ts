@@ -10,7 +10,9 @@ export type {
 export type {
   ProductGraphDiagnosticV1,
   ProductGraphEntryV1,
+  ProductGraphEventBindingV1,
   ProductGraphModuleV1,
+  ProductGraphServiceBindingV1,
   ProductGraphV1,
   RuntimeTarget,
 } from './product-graph.js';

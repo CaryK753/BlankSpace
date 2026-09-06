@@ -17,5 +17,19 @@
       "exportName": "default"
     }
   ],
+  "services": [
+    {
+      "serviceId": "blankspace.projects",
+      "providerId": "projects",
+      "entryId": "product.projects.web"
+    }
+  ],
+  "events": [
+    {
+      "eventId": "blankspace.projects.created",
+      "handlerId": "projects.refresh",
+      "entryId": "product.projects.web"
+    }
+  ],
   "diagnostics": []
 }

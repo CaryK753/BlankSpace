@@ -12,6 +12,8 @@
     "assemblyId",
     "modules",
     "entries",
+    "services",
+    "events",
     "diagnostics"
   ],
   "properties": {
@@ -28,6 +30,14 @@
     "entries": {
       "type": "array",
       "items": { "$ref": "#/$defs/entry" }
+    },
+    "services": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/serviceBinding" }
+    },
+    "events": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/eventBinding" }
     },
     "diagnostics": {
       "type": "array",
@@ -62,6 +72,26 @@
         "target": { "enum": ["web", "server"] },
         "module": { "$ref": "shared.schema.json#/$defs/relativePath" },
         "exportName": { "type": "string", "pattern": "^[A-Za-z_$][A-Za-z0-9_$]*$" }
+      }
+    },
+    "serviceBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["serviceId", "providerId", "entryId"],
+      "properties": {
+        "serviceId": { "$ref": "#/$defs/identifier" },
+        "providerId": { "$ref": "#/$defs/identifier" },
+        "entryId": { "$ref": "#/$defs/identifier" }
+      }
+    },
+    "eventBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["eventId", "handlerId", "entryId"],
+      "properties": {
+        "eventId": { "$ref": "#/$defs/identifier" },
+        "handlerId": { "$ref": "#/$defs/identifier" },
+        "entryId": { "$ref": "#/$defs/identifier" }
       }
     },
     "diagnostic": {

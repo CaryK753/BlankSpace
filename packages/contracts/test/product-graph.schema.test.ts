@@ -25,6 +25,8 @@ describe('ProductGraphV1 schema', () => {
     ['absolute module paths', { ...validGraph, entries: [{ ...validGraph.entries[0], module: '/tmp/index.js' }] }],
     ['invalid target values', { ...validGraph, target: 'desktop' }],
     ['non-canonical digests', { ...validGraph, inputHash: 'SHA256:abc' }],
+    ['invalid service identifiers', { ...validGraph, services: [{ ...validGraph.services[0], serviceId: 'Blankspace.Projects' }] }],
+    ['invalid event handler identifiers', { ...validGraph, events: [{ ...validGraph.events[0], handlerId: 'projects/refresh' }] }],
   ])('rejects %s', (_label, candidate) => {
     expect(validate(candidate)).toBe(false);
   });

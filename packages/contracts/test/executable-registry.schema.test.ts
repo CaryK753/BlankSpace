@@ -20,6 +20,20 @@ describe('ExecutableRegistryV1 schema', () => {
     expect(validate(validRegistry), JSON.stringify(validate.errors)).toBe(true);
   });
 
+  test('accepts explicit Service bindings and Event handlers', () => {
+    const candidate = {
+      ...validRegistry,
+      bindings: [
+        { serviceId: 'service.clock', providerId: 'product', entryId: 'product.web' },
+      ],
+      handlers: [
+        { eventId: 'event.tick', handlerId: 'handler.tick', entryId: 'product.web' },
+      ],
+    };
+
+    expect(validate(candidate), JSON.stringify(validate.errors)).toBe(true);
+  });
+
   test.each([
     ['unknown fields', { ...validRegistry, generatedAt: '2026-09-06T00:00:00Z' }],
     ['absolute module paths', { ...validRegistry, entries: [{ ...validRegistry.entries[0], module: '/tmp/index.js' }] }],

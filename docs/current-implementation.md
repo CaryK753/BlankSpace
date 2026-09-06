@@ -10,7 +10,7 @@
 - `@blankspace/compiler`：提供严格 JSONC 解析/canonical hash、只消费内存输入的 `buildMinimalProductGraphs`，以及解析显式 workspace package roots 的 `resolveSourceImport`。
 - S2 conformance runner：真实调用 TypeScript、Node、Vite 与 Vitest，将五种 mode 的原生结果归一为逻辑路径并与 Compiler record 逐边对账；Linux、macOS、Windows 均已通过两个 checkout、两个 pnpm store 的同一 canonical records hash。
 - S3 bundle/artifact trace：真实调用项目依赖图中的 Vite 8.2.2/Rolldown，将合法静态与字面量动态 source edge 对账到最终 bundle module，并对未声明依赖、server SecretRef、跨 target、private export、package escape 以及 missing/extra bundle module 返回稳定失败；CSS、worker、WASM、静态 asset 与 virtual module 也进入 canonical artifact trace。Ubuntu 24.04、macOS 15、Windows 2025 已通过同一双 checkout/双 pnpm store corpus 和 checked-in trace baseline。
-- S4 Executable Registry entry-core spike：`ExecutableRegistryV1` schema/type、确定性 Graph→Registry generator、joint `assemblyId` 与 missing/extra/rewritten/order-drift mismatch verifier 已可运行；当前 ProductGraph 尚未声明 Service/Event，因此 Registry `bindings`/`handlers` 只允许为空，完整 S4 仍未通过。
+- S4 Executable Registry full candidate：`ProductGraphV1` 现包含 resolved `services`/`events`，`ExecutableRegistryV1` 只从 Graph 派生 entries/bindings/handlers；确定性 Graph→Registry generator、joint `assemblyId`、18 组 pre-factory mismatch 和隔离子进程的 generated-entry `fetch` 顶层副作用 probe 已在 macOS arm64 本地通过。完整 S4 仍等待 Linux/macOS/Windows 同一 corpus 的最终证据。
 - 文档验证：检查 JSON、Markdown 本地链接/围栏、RFC baseline、带 `$schema` 的 JSONC 示例和 proposed contract fixtures。
 
 当前没有 CLI、scaffolder、preset expansion、可发布的多工具 resolver adapter API、可用于产品运行的完整 Executable Registry/Runtime host、Web/Server 应用、Identity/Database Kit、部署或客户端包。
@@ -40,7 +40,7 @@ const graphs = buildMinimalProductGraphs({
 });
 ```
 
-输入不是文件路径入口；调用方必须自己提供已解析的对象。当前函数不会展开 preset、读取 Module 文件、解析 packages、生成 Registry 或构建 bundle。失败只覆盖非法 entry 路径、重复 Module ID 和 target 没有 entry，并通过 `ProductGraphBuildError.diagnostics` 返回稳定 code/path/message。
+输入不是文件路径入口；调用方必须自己提供已解析的对象。当前函数不会展开 preset、读取 Module 文件、解析 packages、选择 Service provider、生成 Registry 或构建 bundle。它可以接收已经解析好的 `services`/`events`，验证 binding/handler 引用的 entry、同 target 重复 Service provider 与重复 handler identity，并把 resolved facts 按 target 写入 ProductGraph；失败通过 `ProductGraphBuildError.diagnostics` 返回稳定 code/path/message。
 
 ## Workspace 源码解析 API
 
@@ -79,4 +79,4 @@ const record = resolveSourceImport({
 
 ## 当前限制
 
-这套实现已经证明确定性 Product Graph 前置切片、workspace source resolution/import policy、完整 S3 bundle/artifact trace，以及 S4 的 `ExecutableRegistryV1` entry-core、Graph/Registry 联合 assemblyId 和 pre-factory mismatch verifier。Service/Event bindings、guarded entry-module probe、Runtime lifecycle 与业务 Kits 仍未完成，因此仍不能创建或运行 SaaS。不要根据目标 CLI 示例发布 package、部署生产环境或宣称支持 Desktop/Mobile。下一条实现路径是 `A1-S4-02`，详见 [Phase 1 蓝图](phase-1-blueprint.md)。
+这套实现已经证明确定性 Product Graph 前置切片、workspace source resolution/import policy、完整 S3 bundle/artifact trace，以及 S4 full candidate 的 resolved Service/Event bindings、Graph→Registry entries/bindings/handlers、联合 assemblyId、pre-factory mismatch verifier 与受限 generated-entry probe。S4 仍等待跨平台门禁，Runtime lifecycle、真实 Service provider selection、业务 Kits 与 CLI 仍未完成，因此仍不能创建或运行 SaaS。不要根据目标 CLI 示例发布 package、部署生产环境或宣称支持 Desktop/Mobile。当前 `A1-S4-02` 只剩 Linux/macOS/Windows conformance，详见 [Phase 1 蓝图](phase-1-blueprint.md)。

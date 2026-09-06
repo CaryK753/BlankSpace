@@ -2,9 +2,9 @@
 
 ## 状态
 
-**Matrix frozen（entry-core）**。`A1-S4-01` 已冻结 `ExecutableRegistryV1` schema/type、Graph→Registry 纯生成器、joint `assemblyId`、Web/Server entry-core、10 组 pre-factory mismatch、两个工作目录/两种输入顺序的 canonical runner 与 macOS arm64 baseline。完整 S4 仍未 Pass，因为 ProductGraph 的 Service/Event bindings、Registry handlers/bindings 对账、entry 顶层副作用 probe 与 Linux/macOS/Windows 完整证据由 `A1-S4-02` 继续完成。
+**Matrix frozen（full candidate，cross-platform pending）**。`A1-S4-01` 已冻结 entry-core；`A1-S4-02` 现已在本地补齐 ProductGraph resolved Service/Event binding 子集、Registry bindings/handlers 双向对账、18 组 pre-factory mismatch，以及隔离子进程中的 generated-entry 顶层副作用 probe。macOS arm64 canonical assemblyId 为 `ecb16708efa35789d3f9aa9ccf603b9c48348bd7c097ba315738a4a09f6c1ba5`，Registry hash 为 `155dfc7f1f9a7d4f76c1b4c02e32618df699161db9f4d56086a9b55e5e5d730b`。完整 S4 仍未 Pass，最后门禁是 Linux/macOS/Windows 同一 corpus 的 conformance evidence。
 
-现有 `buildMinimalProductGraphs` 仍只是 Phase 1A 的前置 Graph 子集：它可以从内存中的规范化 Product 配置、manifest 和 Module descriptors 生成 target-specific Graph，并验证输入顺序与工作目录不影响结果；当前 Graph 尚未声明 RFC-0004 要求的 Service/Event 节点，所以 entry-core Registry 明确拒绝任何非空 `bindings`/`handlers`。不得通过在 Registry 侧单独发明 binding 来绕过 Graph 事实源。
+`buildMinimalProductGraphs` 仍是 Phase 1A 的前置 Graph 子集：它不做 Service provider selection，也不扩展公共 Module descriptor 来伪装完整 Compiler。当前内部输入只接受已经解析好的 `services`/`events`，按 target 过滤、验证 entry 引用和重复 identity，再把这些 resolved facts 写入 ProductGraph；Registry 只能从 Graph 派生同一 bindings/handlers，不能单独发明依赖决定。
 
 ## 要回答的问题
 
@@ -34,4 +34,4 @@
 
 ## A1-S4-02 尚待关闭
 
-Entry-core schema、生成器、runner 与本地 baseline 已冻结。完整 S4 仍需：ProductGraph Service/Event binding 子集、Registry bindings/handlers 双向对账、重复/缺失/额外 binding/handler 负例、受限 entry 顶层副作用 probe，以及 Linux/macOS/Windows 的完整 conformance evidence。
+本地功能与证据已经齐全：147 个 Vitest、S1～S4 runners、build/typecheck/verify:docs 均通过；S4 transcript 现包含 2 个 Service bindings、2 个 Event handlers、18 组 mismatch，以及只 guard `fetch` 的受限 generated-entry probe。当前唯一剩余验收项是 GitHub Actions 上 Linux、macOS、Windows 三平台运行同一 frozen corpus 并匹配 canonical assembly/Registry identity；该 probe 只证明受限 fixture，不宣称静态阻止所有可能的 JavaScript 顶层副作用。

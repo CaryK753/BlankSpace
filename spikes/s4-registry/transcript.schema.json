@@ -3,7 +3,7 @@
   "$id": "https://blankspace.dev/schemas/spikes/s4-registry-transcript-v1.schema.json",
   "type": "object",
   "additionalProperties": false,
-  "required": ["schemaVersion", "environment", "matrix", "assemblyId", "registryHash", "entryIds", "bindings", "handlers", "factoryExecutions", "mismatches"],
+  "required": ["schemaVersion", "environment", "matrix", "assemblyId", "registryHash", "entryIds", "bindings", "handlers", "factoryExecutions", "entryProbe", "mismatches"],
   "properties": {
     "schemaVersion": { "const": "1" },
     "environment": {
@@ -32,12 +32,43 @@
       "uniqueItems": true,
       "items": { "type": "string", "minLength": 1 }
     },
-    "bindings": { "const": 0 },
-    "handlers": { "const": 0 },
+    "bindings": { "const": 2 },
+    "handlers": { "const": 2 },
     "factoryExecutions": { "const": 0 },
+    "entryProbe": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["guardedOperations", "safe", "unsafe"],
+      "properties": {
+        "guardedOperations": { "const": ["fetch"] },
+        "safe": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["status", "code", "topLevelEffects", "factoryExecutions"],
+          "properties": {
+            "status": { "const": "pass" },
+            "code": { "type": "null" },
+            "topLevelEffects": { "const": 0 },
+            "factoryExecutions": { "const": 0 }
+          }
+        },
+        "unsafe": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["status", "code", "topLevelEffects", "factoryExecutions"],
+          "properties": {
+            "status": { "const": "reject" },
+            "code": { "const": "E_ENTRY_TOP_LEVEL_SIDE_EFFECT" },
+            "topLevelEffects": { "const": 1 },
+            "factoryExecutions": { "const": 0 }
+          }
+        }
+      }
+    },
     "mismatches": {
       "type": "array",
-      "minItems": 10,
+      "minItems": 18,
+      "maxItems": 18,
       "items": {
         "type": "object",
         "additionalProperties": false,

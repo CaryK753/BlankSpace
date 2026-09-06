@@ -145,6 +145,58 @@ describe('buildMinimalProductGraphs', () => {
 
     expectDiagnostics(candidate, ['E_TARGET_ENTRY_MISSING', 'E_TARGET_ENTRY_MISSING']);
   });
+
+  test('partitions resolved Service bindings and Event handlers by target and sorts them canonically', () => {
+    const candidate = input();
+    candidate.services = [
+      { serviceId: 'service.web', providerId: 'zeta', entryId: 'product.zeta.web' },
+      { serviceId: 'service.server', providerId: 'alpha', entryId: 'product.alpha.server' },
+    ];
+    candidate.events = [
+      { eventId: 'event.web', handlerId: 'handler.web', entryId: 'product.zeta.web' },
+      { eventId: 'event.server', handlerId: 'handler.server', entryId: 'product.alpha.server' },
+    ];
+
+    const [server, web] = buildMinimalProductGraphs(candidate);
+    expect(server?.services).toEqual([
+      { serviceId: 'service.server', providerId: 'alpha', entryId: 'product.alpha.server' },
+    ]);
+    expect(server?.events).toEqual([
+      { eventId: 'event.server', handlerId: 'handler.server', entryId: 'product.alpha.server' },
+    ]);
+    expect(web?.services).toEqual([
+      { serviceId: 'service.web', providerId: 'zeta', entryId: 'product.zeta.web' },
+    ]);
+    expect(web?.events).toEqual([
+      { eventId: 'event.web', handlerId: 'handler.web', entryId: 'product.zeta.web' },
+    ]);
+  });
+
+  test('rejects bindings and handlers that reference unknown or disabled entries', () => {
+    const candidate = input();
+    candidate.services = [
+      { serviceId: 'service.missing', providerId: 'missing', entryId: 'product.missing.web' },
+    ];
+    candidate.events = [
+      { eventId: 'event.missing', handlerId: 'handler.missing', entryId: 'product.missing.web' },
+    ];
+
+    expectDiagnostics(candidate, ['E_EVENT_HANDLER_ENTRY_MISSING', 'E_SERVICE_BINDING_ENTRY_MISSING']);
+  });
+
+  test('rejects duplicate Service providers and handler identities within a target', () => {
+    const candidate = input();
+    candidate.services = [
+      { serviceId: 'service.clock', providerId: 'alpha', entryId: 'product.alpha.server' },
+      { serviceId: 'service.clock', providerId: 'product', entryId: 'product.server' },
+    ];
+    candidate.events = [
+      { eventId: 'event.one', handlerId: 'handler.same', entryId: 'product.alpha.server' },
+      { eventId: 'event.two', handlerId: 'handler.same', entryId: 'product.server' },
+    ];
+
+    expectDiagnostics(candidate, ['E_EVENT_HANDLER_DUPLICATE', 'E_SERVICE_BINDING_DUPLICATE']);
+  });
 });
 
 function expectDiagnostics(input: MinimalProductGraphInput, codes: string[]): void {

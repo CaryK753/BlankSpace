@@ -19,7 +19,19 @@ test('S4 generates one deterministic joint Graph/Registry assembly', async () =>
     'product.web',
     'product.zeta.web',
   ]);
+  assert.equal(transcript.bindings, 2);
+  assert.equal(transcript.handlers, 2);
   assert.equal(transcript.factoryExecutions, 0);
+  assert.deepEqual(transcript.entryProbe, {
+    guardedOperations: ['fetch'],
+    safe: { status: 'pass', code: null, topLevelEffects: 0, factoryExecutions: 0 },
+    unsafe: {
+      status: 'reject',
+      code: 'E_ENTRY_TOP_LEVEL_SIDE_EFFECT',
+      topLevelEffects: 1,
+      factoryExecutions: 0,
+    },
+  });
 });
 
 test('S4 mismatch corpus fails before factory execution', async () => {
@@ -35,8 +47,16 @@ test('S4 mismatch corpus fails before factory execution', async () => {
       ['rewritten-export', 'E_REGISTRY_ENTRY_MISMATCH'],
       ['assembly-mismatch', 'E_REGISTRY_ASSEMBLY_MISMATCH'],
       ['registry-order-drift', 'E_REGISTRY_ASSEMBLY_INVALID'],
+      ['missing-binding', 'E_REGISTRY_BINDING_MISSING'],
       ['extra-binding', 'E_REGISTRY_BINDING_EXTRA'],
+      ['duplicate-binding', 'E_REGISTRY_BINDING_DUPLICATE'],
+      ['rewritten-provider', 'E_REGISTRY_BINDING_MISMATCH'],
+      ['rewritten-binding-entry', 'E_REGISTRY_BINDING_MISMATCH'],
+      ['missing-handler', 'E_REGISTRY_HANDLER_MISSING'],
       ['extra-handler', 'E_REGISTRY_HANDLER_EXTRA'],
+      ['duplicate-handler', 'E_REGISTRY_HANDLER_DUPLICATE'],
+      ['rewritten-event', 'E_REGISTRY_HANDLER_MISMATCH'],
+      ['rewritten-handler-entry', 'E_REGISTRY_HANDLER_MISMATCH'],
     ],
   );
   assert.equal(transcript.factoryExecutions, 0);
@@ -55,6 +75,7 @@ test('S4 canonical content matches the checked-in baseline', async () => {
   assert.equal(actual.bindings, expected.bindings);
   assert.equal(actual.handlers, expected.handlers);
   assert.equal(actual.factoryExecutions, expected.factoryExecutions);
+  assert.deepEqual(actual.entryProbe, expected.entryProbe);
   if (process.platform === 'darwin' && process.arch === 'arm64') {
     assert.deepEqual(actual, expected);
   }

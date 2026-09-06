@@ -13,6 +13,18 @@ export interface ProductGraphEntryV1 {
   exportName: string;
 }
 
+export interface ProductGraphServiceBindingV1 {
+  serviceId: string;
+  providerId: string;
+  entryId: string;
+}
+
+export interface ProductGraphEventBindingV1 {
+  eventId: string;
+  handlerId: string;
+  entryId: string;
+}
+
 export interface ProductGraphDiagnosticV1 {
   code: string;
   severity: 'warning';
@@ -28,5 +40,7 @@ export interface ProductGraphV1 {
   assemblyId: string;
   modules: ProductGraphModuleV1[];
   entries: ProductGraphEntryV1[];
+  services: ProductGraphServiceBindingV1[];
+  events: ProductGraphEventBindingV1[];
   diagnostics: ProductGraphDiagnosticV1[];
 }

@@ -8,6 +8,7 @@ import {
   buildMinimalProductGraphs,
   verifyExecutableRegistry,
 } from '../../packages/compiler/dist/index.js';
+import { runEntrySideEffectProbe } from './entry-side-effect-probe.mjs';
 
 function stableJson(value) {
   return `${JSON.stringify(value, null, 2)}\n`;
@@ -41,17 +42,31 @@ function input() {
         entries: { web: './product/modules/alpha/frontend/index.js' },
       },
     ],
+    services: [
+      { serviceId: 'service.search', providerId: 'zeta', entryId: 'product.zeta.web' },
+      { serviceId: 'service.clock', providerId: 'alpha', entryId: 'product.alpha.web' },
+    ],
+    events: [
+      { eventId: 'event.updated', handlerId: 'handler.zeta-updated', entryId: 'product.zeta.web' },
+      { eventId: 'event.tick', handlerId: 'handler.alpha-tick', entryId: 'product.alpha.web' },
+    ],
   };
 }
 
 function buildVariant(reverse = false) {
   const candidate = input();
-  if (reverse) candidate.modules.reverse();
+  if (reverse) {
+    candidate.modules.reverse();
+    candidate.services.reverse();
+    candidate.events.reverse();
+  }
   const graph = buildMinimalProductGraphs(candidate)[0];
   if (graph === undefined) throw new Error('S4 fixture did not produce a web graph.');
   if (reverse) {
     graph.modules.reverse();
     graph.entries.reverse();
+    graph.services.reverse();
+    graph.events.reverse();
   }
   return buildExecutableRegistry(graph);
 }
@@ -103,19 +118,43 @@ function mismatchMatrix(assembly) {
     diagnostic('registry-order-drift', assembly, (_graph, registry) => {
       registry.entries.reverse();
     }),
+    diagnostic('missing-binding', assembly, (_graph, registry) => {
+      registry.bindings = registry.bindings.slice(1);
+    }),
     diagnostic('extra-binding', assembly, (_graph, registry) => {
       registry.bindings.push({
-        serviceId: 'service.clock',
-        providerId: 'provider.clock',
+        serviceId: 'service.extra',
+        providerId: 'extra',
         entryId: registry.entries[0].entryId,
       });
     }),
+    diagnostic('duplicate-binding', assembly, (_graph, registry) => {
+      registry.bindings.push({ ...registry.bindings[0] });
+    }),
+    diagnostic('rewritten-provider', assembly, (_graph, registry) => {
+      registry.bindings[0].providerId = 'rewritten-provider';
+    }),
+    diagnostic('rewritten-binding-entry', assembly, (_graph, registry) => {
+      registry.bindings[0].entryId = 'product.zeta.web';
+    }),
+    diagnostic('missing-handler', assembly, (_graph, registry) => {
+      registry.handlers = registry.handlers.slice(1);
+    }),
     diagnostic('extra-handler', assembly, (_graph, registry) => {
       registry.handlers.push({
-        eventId: 'event.tick',
-        handlerId: 'handler.tick',
+        eventId: 'event.extra',
+        handlerId: 'handler.extra',
         entryId: registry.entries[0].entryId,
       });
+    }),
+    diagnostic('duplicate-handler', assembly, (_graph, registry) => {
+      registry.handlers.push({ ...registry.handlers[0] });
+    }),
+    diagnostic('rewritten-event', assembly, (_graph, registry) => {
+      registry.handlers[0].eventId = 'event.rewritten';
+    }),
+    diagnostic('rewritten-handler-entry', assembly, (_graph, registry) => {
+      registry.handlers[0].entryId = 'product.zeta.web';
     }),
   ];
 }
@@ -134,6 +173,7 @@ export async function runRegistryMatrix() {
       throw new Error('S4 Registry output changed across working-directory/input-order variants.');
     }
     verifyExecutableRegistry(left.graph, left.registry);
+    const entryProbe = await runEntrySideEffectProbe();
 
     const canonical = { graph: left.graph, registry: left.registry };
     return {
@@ -145,7 +185,8 @@ export async function runRegistryMatrix() {
       entryIds: left.registry.entries.map(entry => entry.entryId),
       bindings: left.registry.bindings.length,
       handlers: left.registry.handlers.length,
-      factoryExecutions: 0,
+      factoryExecutions: entryProbe.safe.factoryExecutions + entryProbe.unsafe.factoryExecutions,
+      entryProbe,
       mismatches: mismatchMatrix(left),
     };
   } finally {

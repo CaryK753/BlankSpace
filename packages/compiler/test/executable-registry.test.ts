@@ -43,6 +43,19 @@ function graph() {
   return buildMinimalProductGraphs(input())[0]!;
 }
 
+function graphWithBindings() {
+  const candidate = input();
+  candidate.services = [
+    { serviceId: 'service.search', providerId: 'zeta', entryId: 'product.zeta.web' },
+    { serviceId: 'service.clock', providerId: 'alpha', entryId: 'product.alpha.web' },
+  ];
+  candidate.events = [
+    { eventId: 'event.updated', handlerId: 'handler.zeta-updated', entryId: 'product.zeta.web' },
+    { eventId: 'event.tick', handlerId: 'handler.alpha-tick', entryId: 'product.alpha.web' },
+  ];
+  return buildMinimalProductGraphs(candidate)[0]!;
+}
+
 function expectDiagnostic(run: () => void, code: string, path?: string): void {
   try {
     run();
@@ -202,30 +215,65 @@ describe('Executable Registry V1', () => {
     );
   });
 
-  test('rejects non-empty bindings and handlers until ProductGraph declares them', () => {
-    const assembly = buildExecutableRegistry(graph());
-    const binding = structuredClone(assembly.registry);
-    binding.bindings.push({
-      serviceId: 'service.clock',
-      providerId: 'provider.clock',
-      entryId: binding.entries[0]!.entryId,
-    });
-    expectDiagnostic(
-      () => verifyExecutableRegistry(assembly.graph, binding),
-      'E_REGISTRY_BINDING_EXTRA',
-      'registry.bindings',
-    );
+  test('derives canonical Service bindings and Event handlers only from Graph declarations', () => {
+    const assembly = buildExecutableRegistry(graphWithBindings());
 
-    const handler = structuredClone(assembly.registry);
-    handler.handlers.push({
-      eventId: 'event.tick',
-      handlerId: 'handler.tick',
-      entryId: handler.entries[0]!.entryId,
-    });
+    expect(assembly.registry.bindings).toEqual([
+      { serviceId: 'service.clock', providerId: 'alpha', entryId: 'product.alpha.web' },
+      { serviceId: 'service.search', providerId: 'zeta', entryId: 'product.zeta.web' },
+    ]);
+    expect(assembly.registry.handlers).toEqual([
+      { eventId: 'event.tick', handlerId: 'handler.alpha-tick', entryId: 'product.alpha.web' },
+      { eventId: 'event.updated', handlerId: 'handler.zeta-updated', entryId: 'product.zeta.web' },
+    ]);
+    verifyExecutableRegistry(assembly.graph, assembly.registry);
+  });
+
+  test('rejects missing, extra, duplicate and rewritten Service bindings', () => {
+    const assembly = buildExecutableRegistry(graphWithBindings());
+
+    const missing = structuredClone(assembly.registry);
+    missing.bindings = missing.bindings.slice(1);
+    expectDiagnostic(() => verifyExecutableRegistry(assembly.graph, missing), 'E_REGISTRY_BINDING_MISSING', 'registry.bindings');
+
+    const extra = structuredClone(assembly.registry);
+    extra.bindings.push({ serviceId: 'service.extra', providerId: 'extra', entryId: extra.entries[0]!.entryId });
+    expectDiagnostic(() => verifyExecutableRegistry(assembly.graph, extra), 'E_REGISTRY_BINDING_EXTRA', 'registry.bindings');
+
+    const duplicate = structuredClone(assembly.registry);
+    duplicate.bindings.push({ ...duplicate.bindings[0]! });
+    expectDiagnostic(() => verifyExecutableRegistry(assembly.graph, duplicate), 'E_REGISTRY_BINDING_DUPLICATE', 'registry.bindings');
+
+    const rewritten = structuredClone(assembly.registry);
+    rewritten.bindings[0]!.providerId = 'rewritten-provider';
     expectDiagnostic(
-      () => verifyExecutableRegistry(assembly.graph, handler),
-      'E_REGISTRY_HANDLER_EXTRA',
-      'registry.handlers',
+      () => verifyExecutableRegistry(assembly.graph, rewritten),
+      'E_REGISTRY_BINDING_MISMATCH',
+      'registry.bindings.service.clock.providerId',
+    );
+  });
+
+  test('rejects missing, extra, duplicate and rewritten Event handlers', () => {
+    const assembly = buildExecutableRegistry(graphWithBindings());
+
+    const missing = structuredClone(assembly.registry);
+    missing.handlers = missing.handlers.slice(1);
+    expectDiagnostic(() => verifyExecutableRegistry(assembly.graph, missing), 'E_REGISTRY_HANDLER_MISSING', 'registry.handlers');
+
+    const extra = structuredClone(assembly.registry);
+    extra.handlers.push({ eventId: 'event.extra', handlerId: 'handler.extra', entryId: extra.entries[0]!.entryId });
+    expectDiagnostic(() => verifyExecutableRegistry(assembly.graph, extra), 'E_REGISTRY_HANDLER_EXTRA', 'registry.handlers');
+
+    const duplicate = structuredClone(assembly.registry);
+    duplicate.handlers.push({ ...duplicate.handlers[0]! });
+    expectDiagnostic(() => verifyExecutableRegistry(assembly.graph, duplicate), 'E_REGISTRY_HANDLER_DUPLICATE', 'registry.handlers');
+
+    const rewritten = structuredClone(assembly.registry);
+    rewritten.handlers[0]!.eventId = 'event.rewritten';
+    expectDiagnostic(
+      () => verifyExecutableRegistry(assembly.graph, rewritten),
+      'E_REGISTRY_HANDLER_MISMATCH',
+      'registry.handlers.handler.alpha-tick.eventId',
     );
   });
 });
