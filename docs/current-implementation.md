@@ -80,4 +80,4 @@ const record = resolveSourceImport({
 
 ## 当前限制
 
-这套实现已经证明确定性 Product Graph 前置切片、workspace source resolution/import policy、完整 S3 bundle/artifact trace、通过跨平台门禁的 S4 Registry，以及跨平台一致的 S5 lifecycle/Event core。完整 Runtime、真实 Service provider selection、业务 Kits 与 CLI 仍未完成，因此仍不能创建或运行 SaaS。不要根据目标 CLI 示例发布 package、部署生产环境或宣称支持 Desktop/Mobile。当前唯一实现路径是 `A1-S6-01`：先冻结 Server host 工具链、deadline/故障契约与依赖审查，详见 [Phase 1 蓝图](phase-1-blueprint.md)。
+这套实现已经证明确定性 Product Graph 前置切片、workspace source resolution/import policy、完整 S3 bundle/artifact trace、通过跨平台门禁的 S4 Registry，以及跨平台一致的 S5 lifecycle/Event core。S6 已冻结 Fastify `5.12.3`、Node 内置 fetch、deadline/diagnostic 与平台 signal 差异，但尚未安装或执行。完整 Runtime、真实 Service provider selection、业务 Kits 与 CLI 仍未完成，因此仍不能创建或运行 SaaS。不要根据目标 CLI 示例发布 package、部署生产环境或宣称支持 Desktop/Mobile。当前唯一实现路径是 `A1-S6-02`：实现真实 loopback Server host runner 与本地 POSIX signal evidence，详见 [Phase 1 蓝图](phase-1-blueprint.md)。

@@ -111,13 +111,32 @@
       "evidence": ["GitHub Actions run 34043351874 for commit fd70c05b4a2e677c0a802cf4ecc2f376d46943c0 passed the frozen 9 lifecycle and 5 Event scenarios on ubuntu-24.04, macos-15 and windows-2025 with Node 24.20.0 and pnpm 10.32.1. All platforms matched lifecycle matrix hash 60634d7bbee5d4a47e38bf483df7ce357d998dfbff205dd282feab16df087151 and Event matrix hash 452c665615c33df5fdaf81c45f13a87ce80fce536981784a2e89521c3dcc30b4 through the checked-in baseline assertions. S2 run 34043351886 and S3 run 34043351842 passed on the same commit. S4 run 34043351840 passed on attempt 2 after the first Windows job failed during Corepack download before dependency installation or project tests; details are in .codex/tasks/a1-s5-03-cross-platform-conformance-2026-09-06.md."]
     },
     {
-      "id": "A1-S6-01", "title": "Freeze Server host toolchain and fault contract", "status": "ready", "dependsOn": ["A1-S5-03"],
+      "id": "A1-S6-01", "title": "Freeze Server host toolchain and fault contract", "status": "done", "dependsOn": ["A1-S5-03"],
       "references": ["docs/spikes/S6-server.md", "docs/rfcs/0001-foundation-boundary.md", "docs/rfcs/0013-phase-1-technology.md", "docs/testing-strategy.md", "docs/security.md", "docs/supply-chain.md"],
       "scope": ["exact Fastify and HTTP client candidate versions", "shutdown deadline and signal scenario contract", "dependency supply-chain review before installation"],
       "outputs": ["frozen S6 matrix and diagnostic fields", "tool and version decision record", "dependency review evidence and implementation handoff"],
       "acceptance": ["S6 document fixes exact candidate versions, runner environments, deadlines and scenario inputs", "listen, route failure, signal, active request, background task and repeated stop outcomes have stable expected diagnostics", "Fastify and client dependency trees, licenses, install scripts, maintenance and security signals are reviewed before package changes", "no Server adapter or new dependency is introduced by this work item"],
       "commands": ["fnm exec --using=24 pnpm test", "fnm exec --using=24 pnpm verify:docs"],
-      "nonGoals": ["Fastify adapter implementation", "real network runner", "OS signal execution", "production Runtime host", "database integration", "new dependencies"]
+      "nonGoals": ["Fastify adapter implementation", "real network runner", "OS signal execution", "production Runtime host", "database integration", "new dependencies"],
+      "evidence": ["2026-09-07 on macOS 27.0 arm64 with Node v24.20.0, bundled Undici 7.29.0, pnpm 10.32.1 and npm 11.19.0: froze Fastify 5.12.3, Node built-in fetch, three-platform core runners, POSIX-only real signal evidence, four bounded deadlines, ten core scenarios and stable S6 diagnostics. A temporary exact Fastify resolution contained 49 packages across MIT/BSD-3-Clause/ISC licenses, no install scripts and zero npm audit findings at review time; recent Fastify advisories, the missing v5.12.3 Git tag and all remaining release blockers are explicitly retained. No package or lockfile changed. Details are in docs/spikes/S6-server.md, docs/spikes/s6-server/dependency-review.md and .codex/tasks/a1-s6-01-server-contract-2026-09-07.md."]
+    },
+    {
+      "id": "A1-S6-02", "title": "Implement the local S6 Server host conformance runner", "status": "ready", "dependsOn": ["A1-S6-01"],
+      "references": ["docs/spikes/S6-server.md", "docs/spikes/s6-server/dependency-review.md", "docs/rfcs/0001-foundation-boundary.md", "docs/rfcs/0013-phase-1-technology.md", "docs/testing-strategy.md", "docs/security.md", "docs/supply-chain.md"],
+      "scope": ["exact Fastify spike dependency and lock review", "real loopback Server host runner and frozen diagnostic schema", "bounded shutdown and local POSIX signal subprocess evidence"],
+      "outputs": ["S6 Server host core and subprocess runner", "ten-scenario fixture corpus and transcript schemas", "local canonical and real-signal evidence"],
+      "acceptance": ["fastify 5.12.3 is installed exact with scripts disabled and the pnpm lock matches the reviewed capability set", "the frozen ten-scenario core matrix uses real loopback requests and produces identical canonical results across forward and reverse execution", "listen, route, handler, close and shutdown timeout errors normalize to the frozen diagnostics without ports, paths, stacks or raw third-party messages", "SIGTERM and SIGINT enter the same shared stop on the local POSIX subprocess runner and timeout termination reports pending owners before non-zero exit", "S2-S5 regression corpora remain unchanged"],
+      "commands": ["fnm exec --using=24 pnpm build", "fnm exec --using=24 pnpm typecheck", "fnm exec --using=24 pnpm test", "fnm exec --using=24 pnpm test:s6", "fnm exec --using=24 pnpm verify:docs"],
+      "nonGoals": ["Linux/macOS/Windows portability decision", "production Runtime package or Server adapter API", "business routes", "Identity or Database integration", "TLS, WebSocket or SSE", "new HTTP client dependency"]
+    },
+    {
+      "id": "A1-S6-03", "title": "Run cross-platform S6 Server host conformance", "status": "blocked", "dependsOn": ["A1-S6-02"],
+      "references": ["docs/spikes/S6-server.md", "docs/testing-strategy.md", "docs/security.md"],
+      "scope": ["Linux, macOS and Windows execution of the frozen S6 core matrix", "real SIGTERM and SIGINT evidence on POSIX runners", "S2-S5 regression preservation"],
+      "outputs": ["S6 cross-platform conformance workflow", "core and signal platform evidence", "final S6 host suitability decision"],
+      "acceptance": ["Ubuntu, macOS and Windows pass the same ten core scenarios with one canonical hash", "Ubuntu and macOS pass real SIGTERM and SIGINT while Windows records the approved Node signal limitation", "timeout cases report pending owners and non-zero termination without reporting clean shutdown", "S2-S5 conformance workflows remain green"],
+      "commands": ["fnm exec --using=24 pnpm build", "fnm exec --using=24 pnpm typecheck", "fnm exec --using=24 pnpm test", "fnm exec --using=24 pnpm test:s6", "fnm exec --using=24 pnpm verify:docs"],
+      "nonGoals": ["production Runtime host", "Database integration", "business Kits", "TLS, WebSocket or SSE", "new runtime targets"]
     }
   ]
 }

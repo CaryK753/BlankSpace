@@ -4,7 +4,7 @@
 
 Blankspace 的能力上限是承载 AFFiNE 级完整产品，但实现必须从最小纵向切片逐步推进。每个阶段都应产生可运行结果，避免同时建设框架、编辑器、同步平台和插件生态。
 
-当前状态：架构设计与 Phase 1A spike 阶段。S1、S5 为 provisional pass，S2、S3、S4 已通过；S5 lifecycle/Event corpus 已在 Linux、macOS、Windows 对账，当前进入 S6 Server host 工具链、deadline/故障契约与供应链审查；仓库仍不存在可运行框架或产品脚手架。各阶段优先集成成熟领域项目；Blankspace 不把开发编辑器、搜索引擎、认证协议或支付网关列为路线交付物。
+当前状态：架构设计与 Phase 1A spike 阶段。S1、S5 为 provisional pass，S2、S3、S4 已通过；S6 Server host 的工具链、deadline/故障契约与候选依赖审查已冻结，当前进入真实 loopback runner 和本地 POSIX signal evidence；仓库仍不存在可运行框架或产品脚手架。各阶段优先集成成熟领域项目；Blankspace 不把开发编辑器、搜索引擎、认证协议或支付网关列为路线交付物。
 
 ## 2. Phase 0：决策与风险原型
 

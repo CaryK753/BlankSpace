@@ -50,7 +50,7 @@ Contracts / Compiler / Runtime / Diagnostics / Tooling
 | S4 Registry | Graph/Registry joint identity、Service/Event bindings、18 组 mismatch、entry side-effect probe | Pass |
 | S5 Lifecycle | 9 个 lifecycle + 5 个 Event 场景跨 Linux/macOS/Windows 对账；host deadline 尚未验证 | Provisional pass |
 
-当前唯一 ready 工作项是 `A1-S6-01`：先冻结 Server host 工具版本、deadline/故障契约与供应链审查，再引入实现依赖。详见 [`docs/agent-start-here.md`](docs/agent-start-here.md)。
+当前唯一 ready 工作项是 `A1-S6-02`：按照已冻结的 Fastify 5.12.3、Node 内置 fetch、deadline/diagnostic 与 signal 平台边界，实现真实 loopback Server host runner 和本地 POSIX signal evidence。详见 [`docs/agent-start-here.md`](docs/agent-start-here.md)。
 
 ## 当前可运行内容
 

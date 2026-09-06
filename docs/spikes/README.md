@@ -15,7 +15,7 @@
 
 ## 当前状态
 
-更新时间：2026-09-06。机器可读状态以 [`../status/project-status.json`](../status/project-status.json) 为准。
+更新时间：2026-09-07。机器可读状态以 [`../status/project-status.json`](../status/project-status.json) 为准。
 
 | Spike | 状态 | 已有证据 | 下一门槛 |
 | --- | --- | --- | --- |
@@ -24,7 +24,7 @@
 | [S3 Bundle trace](S3-bundle-trace.md) | Pass | JS/CSS/worker/WASM/assets/virtual modules 均进入 canonical trace；Linux、macOS、Windows 运行同一 corpus 并匹配 trace `855f208d…0c14` | 保持 S3 corpus 为跨平台回归门，并由 S4 消费稳定 Graph/产物边界 |
 | [S4 Registry](S4-registry.md) | Pass | resolved Service/Event bindings、Registry 双向对账、18 组 pre-factory mismatch、双目录/双顺序和 guarded `fetch` entry probe 已在 Linux/macOS/Windows 匹配同一 canonical identity | 保持 S4 corpus 为跨平台回归门，并由 S5 消费显式 Graph + Registry |
 | [S5 Lifecycle](S5-lifecycle.md) | Provisional pass | 生命周期 core 与 Event dispatch/drain 的 9 + 5 场景已在 Linux、macOS、Windows 匹配同一 canonical hashes；S2～S4 保持绿色 | 作为 regression gate 保持稳定；由 S6 补齐 shutdown deadline、signal 与 host termination |
-| [S6 Server](S6-server.md) | Draft matrix | 已起草端口、排空、signal 与 shutdown 场景，无执行证据 | 锁定 Fastify、client、deadline 与 runner，完成 fixture 后冻结矩阵 |
+| [S6 Server](S6-server.md) | Matrix frozen | 已锁定 Fastify 5.12.3、Node 24.20.0 内置 fetch/Undici 7.29.0、10 个 core 场景、四个 deadline、稳定 diagnostics 与 POSIX/Windows signal 边界；无执行证据 | 由 A1-S6-02 实现真实 loopback runner 和本地 POSIX signal corpus，再由 A1-S6-03 做三平台验证 |
 | [S7 Database](S7-database.md) | Draft matrix | 已起草 Kysely/Drizzle/direct SQL 对比场景，无执行证据 | 锁定数据库、候选工具与 runner，完成 fixture 后冻结矩阵 |
 | [S8 UI](S8-ui.md) | Draft matrix | 已起草双 Shell、标准状态、视觉与 a11y 场景，无执行证据 | 锁定 UI、浏览器、容差与 runner，完成 fixture 后冻结矩阵 |
 
