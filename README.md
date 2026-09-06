@@ -1,8 +1,10 @@
 # Blankspace
 
-Blankspace 的目标是成为一个面向广泛 SaaS 产品的开箱即用框架。它提供可组合的应用基础设施，并允许开发者把产品独有的业务、界面和数据定义保留在独立的 Product Overlay 中。
+Blankspace 的目标不是成为另一个堆满默认功能的全栈 SaaS boilerplate，而是成为一个不会因为产品定制而失去上游更新能力的模块化应用底座。它把可持续升级的 Foundation 与产品独有的业务、界面和数据定义分离，让开发者可以从同一个稳定 core 连续构建多个产品。
 
 Blankspace 不要求每个产品都采用同一种架构。传统 Web SaaS 可以只使用远端数据能力；桌面或知识工作区产品可以进一步启用本地存储、离线同步和实时协作。框架的能力上限应足以构建 AFFiNE 级完整产品，但各阶段不会一次性复制 AFFiNE 的全部复杂度。
+
+Redis、对象存储、多客户端、Kubernetes、AI 与更多 Kits 都是这条定位的证明，不是定位本身。Blankspace 是否成立，首先取决于真实下游产品能否在不修改声明过的 Product Overlay 业务代码时持续获得 Foundation 的安全修复、兼容升级和基础设施改进。
 
 当前仓库处于架构设计和 Phase 1A spike 阶段，尚没有可运行的框架。文档中的命令和 API 是目标体验，不代表已经实现；实时实验进度以 [Phase 1 风险实验状态](./docs/spikes/README.md) 为准。
 
@@ -26,6 +28,10 @@ Blankspace 的成功不以抽象数量衡量，而以开发者能否做到以下
 - 通过 Kit 与 adapter 增加支付、编辑器、本地存储等能力；
 - 在升级前生成兼容性报告，升级后用 codemod、受影响测试和多目标构建验证；
 - 让 AI 编程代理从机器可读的 Product Graph、Contracts 和诊断中理解项目，而不是猜测框架内部实现。
+
+首要产品指标是 **Upgrade Success Rate**：真实下游项目升级 Blankspace 后，无需修改声明过的 Product Overlay 业务代码即可通过构建、测试和运行验证的比例。Stars、下载量和首次生成速度都是辅助指标，不能替代这项升级证据。
+
+第一个必须公开复现的产品证明是：用版本 N 创建参考产品并增加至少三个 Product Modules；版本 N+1 为 Foundation 带来一项真实修复；升级后 Product Overlay 的业务代码 diff 为零，完整验证仍通过。若需要声明过的 codemod，必须单独计入兼容升级而不是“零修改”样本。
 
 ## 核心分层
 

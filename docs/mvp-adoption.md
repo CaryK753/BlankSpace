@@ -16,6 +16,8 @@ Blankspace 的第一个产品目标不是证明它能描述所有 SaaS，而是�
 
 在这条链由外部开发者复现前，Blankspace 只能称为 framework preview，不能宣传为“快速搭建并上线 SaaS MVP”。长期的 local-first、多客户端、Editor、通用 Billing Kit 和生态市场均不能替代该门禁。
 
+市场定位进一步收窄为：**从一个稳定 core 连续构建并升级多个产品的模块化应用底座**。快速创建只是入口；Product Overlay 在上游升级中保持稳定，才是区别于一次性 starter 或代码模板的核心价值。
+
 ## 2. 当前状态
 
 当前仓库仍处于架构设计和 Phase 1A spike 阶段，没有可运行框架。本文定义目标体验、实施优先级和验收门槛，不是当前使用教程。能力状态仍以[风险实验索引](spikes/README.md)和实际 evidence 为准。
@@ -34,7 +36,9 @@ Adopter Preview 使用三个小型 reference overlays，共享同一 Foundation 
 
 三个 overlays 不等于维护三套完整示例应用。它们复用测试 harness、UI recipes 和基础 Module，只保留能证明主体模型、产品流程与视觉差异的最小代码。若新增 reference overlay 不能关闭一个现有风险或支持一个真实 adopter，不得进入官方维护范围。
 
-### 3.2 适合首批采用的产品
+### 3.2 适合首批采用的团队与产品
+
+第一批验证对象优先选择多产品独立开发者、小型工作室与 Agency。它们会在多个产品中重复承担 Identity、Database、邮件、部署、监控和升级成本，最容易验证 Blankspace 是否真正降低长期边际维护成本。
 
 - 单用户或小团队的 CRUD/工作流 SaaS；
 - AI、自动化或数据处理工具，但模型调用与任务实现由产品直接集成；
@@ -168,6 +172,20 @@ Adopter Preview 不等于 Production Ready。处理真实客户数据仍需产�
 
 产品启用 AI、知识库、Web Research 或文档解析时，还必须满足 [AI 能力门禁](ai-capabilities.md#9-安全成本与质量门禁)。聊天界面能够返回文本不等于 AI feature 已可发布。
 
+### 7.1 Upstream Upgrade Proof
+
+Adopter Preview 前必须先关闭一条可复现的升级证明，不能只展示 upgrade 命令或静态 compatibility report：
+
+1. 用已发布或可复现的版本 N 创建至少两个不同主体模型的 reference overlays；
+2. 每个 overlay 在产品拥有区域加入至少三个有测试的 Product Modules，并固定初始 tree hash；
+3. 版本 N+1 为 Foundation 或官方 Kit 带来至少一项真实安全、正确性或基础设施修复；
+4. 执行 check、plan、apply、affected tests、全目标 build 和 verify；
+5. 零修改样本中，声明过的 Product Overlay 业务文件 tree hash 必须保持不变；
+6. 需要 codemod 或人工修改的样本分别记为 automated migration 或 manual migration，不能计入零修改成功；
+7. 发布原始命令、版本、fixture、差异、失败原因和恢复结果，失败样本不得从分母删除。
+
+这条证明验证的是 extension contract 与升级责任边界。它不要求此时支持所有数据库 migration、客户端 Runtime 或生产部署形态。
+
 ## 8. 复杂度与维护预算
 
 ### 8.1 每个新增抽象的准入问题
@@ -196,6 +214,7 @@ Adopter Preview 发布后按版本记录：
 
 | 指标 | 目的 |
 | --- | --- |
+| Upgrade Success Rate | 衡量真实下游项目是否能在 Product Overlay 业务代码零修改的情况下升级并通过验证 |
 | journey 完成率与中位耗时 | 判断是否真的加速 MVP |
 | 每个 journey 的求助点和文档跳转数 | 发现概念暴露过早 |
 | Product Overlay 与 internal 修改比例 | 验证产品所有权边界 |
@@ -205,12 +224,14 @@ Adopter Preview 发布后按版本记录：
 
 指标只用于产品决策，不采集最终 SaaS 用户数据。遥测必须显式 opt-in、公开 schema、最小化采集并允许本地导出；没有同意时由开发者手工提交 journey evidence。
 
+`Upgrade Success Rate = 零 Product Overlay 业务代码修改且完整验证通过的下游升级数 / 所有纳入本次版本矩阵的下游升级数`。分母按发布前冻结的 fixture 和已登记 adopter 列表确定；依赖失败、框架回归和需要人工业务修改的样本均保留在结果中，并另行报告 codemod success 与 restore success。
+
 ## 10. 实施顺序
 
 ```text
 Phase 1A Assembly
 → Phase 1B 两种主体模型 + Reference SaaS
-→ Phase 1C 两种差异化 Shell + Upgrade
+→ Phase 1C 两种差异化 Shell + Extension/Upgrade Proof
 → Adopter Preview：Launch Recipes + Preview Deployment + 外部 Journey
 → Product-specific Production Readiness
 ```

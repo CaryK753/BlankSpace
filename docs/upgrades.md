@@ -218,7 +218,30 @@ Blankspace release CI 应维护：
 
 新版本必须验证旧 Product Overlay 在不修改或经过声明 codemod 后仍可构建和运行。
 
-## 10. 诚实的限制
+## 10. Upgrade Success Rate 与核心证明
+
+“可持续升级”必须由真实 downstream fixtures 证明，而不是由版本策略或 compatibility manifest 自证。每个准备进入 Adopter Preview 的版本至少维护两个不同主体模型的 reference overlays，每个 overlay 至少包含三个产品拥有的业务 Module。
+
+版本 N → N+1 的核心证明必须满足：
+
+- N+1 包含一项可观察的 Foundation 或官方 Kit 修复；
+- 升级输入、旧 lock、旧 Graph、产品 tree hash 和预期命令在运行前冻结；
+- `upgrade --check/--plan/--apply/--verify` 与完整测试、构建全部执行；
+- 零修改样本的 Product Overlay 业务文件 tree hash 在升级前后相同；
+- framework-owned/generated/config/lock 变化分别报告，不能用整仓库“有 diff”模糊责任边界；
+- codemod、人工迁移、失败和 restore 结果分开计数，任何失败样本都保留在分母中。
+
+核心指标定义为：
+
+```text
+Upgrade Success Rate =
+  零 Product Overlay 业务代码修改且完整验证通过的升级数
+  / 发布前冻结的全部 downstream 升级样本数
+```
+
+该指标必须按 Blankspace 版本、reference/adopter、目标平台和失败阶段保留原始结果。早期样本少时直接公布分子、分母和失败明细，不用百分比制造虚假精度。只有这条 proof 持续成立，Blankspace 才能宣称自己是 upgradeable application foundation，而不只是提供更新说明的 starter。
+
+## 11. 诚实的限制
 
 Blankspace 无法保证任意深度定制永远自动兼容。兼容成本由产品跨越的边界决定：
 

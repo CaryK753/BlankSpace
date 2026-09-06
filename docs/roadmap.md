@@ -31,13 +31,13 @@ Blankspace 的能力上限是承载 AFFiNE 级完整产品，但实现必须从�
 
 ## 3. Phase 1：Foundation 与远端 SaaS
 
-目标：证明 Blankspace 能以简单方式构建传统 Web SaaS。
+目标：证明 Blankspace 能以简单方式构建传统 Web SaaS，并在产品定制后继续安全接收上游更新。
 
 Phase 1 分为三个顺序门禁，避免一次实现全部承诺：
 
 1. **1A Assembly**：contracts、web/server Graph、Executable Registry、Service/Event、串行生命周期和 diagnostics；
 2. **1B Product**：`remote-saas-core`/`workspace-saas` presets、Identity/Database/可选 Workspace、一个 CRUD Module 与 AI context；
-3. **1C Compatibility**：Product Shell 原型、上一小版本 fixture、upgrade check/verify 和 bundle trace。
+3. **1C Compatibility**：Product Shell 原型、上一小版本 fixture、extension contract、upstream upgrade proof、upgrade check/verify 和 bundle trace。
 
 此外建立独立的 **Platform Operations Track**：Phase 1C 后交付 single-host/managed-container 的 release evidence 与健康/回滚最小闭环；首个共享生产环境前交付 production profile；Kubernetes/GitOps/progressive delivery reference profile 可与 Phase 5 平台能力并行。该轨道包含[多产物 CI/CD](ci-cd.md)：先实现 Web/Server OCI candidate，再随各 Runtime milestone 独立接入 Electron、iOS 与 Android 签名/商店发布。它不扩大 Phase 1A Foundation，但 Production Readiness 不允许跳过。
 
@@ -70,7 +70,7 @@ Phase 1C 的默认 Shell 明确交付 `sidebar-saas` Desktop 与 `mobile-tabs` M
 
 暂不引入：本地数据库、CRDT、同步、移动端、运行时插件和通用 Workflow。
 
-退出条件：参考产品可以通过 Product Overlay 实现注册、创建产品选择的隔离根和一个业务资源，且不修改 Foundation 或 Kit 内部源码；认证邮件、API 幂等、跨租户负面 fixtures 和可靠 worker 路径全部通过。功能退出不代表 production-ready，处理真实客户数据还必须通过 [Production Readiness Gate](production-readiness.md)。
+退出条件：参考产品可以通过 Product Overlay 实现注册、创建产品选择的隔离根和一个业务资源，且不修改 Foundation 或 Kit 内部源码；认证邮件、API 幂等、跨租户负面 fixtures 和可靠 worker 路径全部通过。至少两个上一版本 reference overlays 还必须完成 upstream upgrade proof，零修改样本的 Product Overlay 业务 tree hash 保持不变，并公开 Upgrade Success Rate 的分子、分母与失败明细。功能退出不代表 production-ready，处理真实客户数据还必须通过 [Production Readiness Gate](production-readiness.md)。
 
 ### Adopter Preview：MVP 采用闭环
 
