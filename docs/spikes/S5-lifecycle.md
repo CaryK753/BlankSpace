@@ -2,7 +2,7 @@
 
 ## 状态
 
-Draft matrix，尚未执行；工具版本和 runner 待锁定，不能计作 Matrix frozen 或 Pass。
+Draft matrix，`A1-S5-01` 已 ready，尚未执行；首个切片只冻结串行 factory/start/stop、ready 状态、资源账本、失败回滚和幂等/并发 stop。Event publish/dispatch、shutdown deadline 与 host 强制终止暂不属于该 work item；在 runner、fixtures 和本地 transcript 固化前不能计作 Matrix frozen 或 Pass。
 
 日期：2026-09-05。依据：RFC-0001、RFC-0002。
 

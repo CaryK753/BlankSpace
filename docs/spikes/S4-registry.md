@@ -2,7 +2,7 @@
 
 ## 状态
 
-**Matrix frozen（full candidate，cross-platform pending）**。`A1-S4-01` 已冻结 entry-core；`A1-S4-02` 现已在本地补齐 ProductGraph resolved Service/Event binding 子集、Registry bindings/handlers 双向对账、18 组 pre-factory mismatch，以及隔离子进程中的 generated-entry 顶层副作用 probe。macOS arm64 canonical assemblyId 为 `ecb16708efa35789d3f9aa9ccf603b9c48348bd7c097ba315738a4a09f6c1ba5`，Registry hash 为 `155dfc7f1f9a7d4f76c1b4c02e32618df699161db9f4d56086a9b55e5e5d730b`。完整 S4 仍未 Pass，最后门禁是 Linux/macOS/Windows 同一 corpus 的 conformance evidence。
+**Pass**。`A1-S4-01` 冻结 entry-core，`A1-S4-02` 补齐 ProductGraph resolved Service/Event binding 子集、Registry bindings/handlers 双向对账、18 组 pre-factory mismatch，以及隔离子进程中的 generated-entry 顶层副作用 probe。canonical assemblyId 为 `ecb16708efa35789d3f9aa9ccf603b9c48348bd7c097ba315738a4a09f6c1ba5`，Registry hash 为 `155dfc7f1f9a7d4f76c1b4c02e32618df699161db9f4d56086a9b55e5e5d730b`。GitHub Actions run `34026361015` 已在 `ubuntu-24.04`、`macos-15`、`windows-2025` 运行同一 frozen corpus 并全部通过；S4 现在作为持续回归门保留。
 
 `buildMinimalProductGraphs` 仍是 Phase 1A 的前置 Graph 子集：它不做 Service provider selection，也不扩展公共 Module descriptor 来伪装完整 Compiler。当前内部输入只接受已经解析好的 `services`/`events`，按 target 过滤、验证 entry 引用和重复 identity，再把这些 resolved facts 写入 ProductGraph；Registry 只能从 Graph 派生同一 bindings/handlers，不能单独发明依赖决定。
 
@@ -32,6 +32,6 @@
 
 每个 mismatch 都在 factory 前失败；相同规范化输入逐字节生成相同 Registry。若静态 entry module 无法稳定生成，先收窄 entry/export 语法，不引入运行时目录扫描。
 
-## A1-S4-02 尚待关闭
+## 最终证据与边界
 
-本地功能与证据已经齐全：147 个 Vitest、S1～S4 runners、build/typecheck/verify:docs 均通过；S4 transcript 现包含 2 个 Service bindings、2 个 Event handlers、18 组 mismatch，以及只 guard `fetch` 的受限 generated-entry probe。当前唯一剩余验收项是 GitHub Actions 上 Linux、macOS、Windows 三平台运行同一 frozen corpus 并匹配 canonical assembly/Registry identity；该 probe 只证明受限 fixture，不宣称静态阻止所有可能的 JavaScript 顶层副作用。
+本地验证为 147 个 Vitest、S1～S4 runners、build/typecheck/verify:docs 全部通过；S4 transcript 包含 2 个 Service bindings、2 个 Event handlers、18 组 mismatch，以及只 guard `fetch` 的受限 generated-entry probe。GitHub Actions run `34026361015` 在 Linux、macOS、Windows 三平台匹配同一 canonical assembly/Registry identity 与 probe 结果；同一 commit 上 S2 run `34026361050`、S3 run `34026361022` 也保持绿色。该 probe 只证明受限 fixture，不宣称静态阻止所有可能的 JavaScript 顶层副作用；Runtime lifecycle 由 S5 单独验证。

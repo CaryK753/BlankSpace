@@ -47,15 +47,15 @@ fnm exec --using=24 pnpm verify:docs
 
 ## 4. 当前代码任务
 
-当前唯一 ready 工作项是 `A1-S4-02`：在已冻结的 Executable Registry entry-core 上补齐 ProductGraph 的 Service/Event binding 子集、Registry bindings/handlers 对账，以及 guarded entry-module 顶层副作用证据。开始前完整阅读：
+当前唯一 ready 工作项是 `A1-S5-01`：冻结串行 A→B→C→D factory/start/stop 生命周期 core、ready 状态、资源账本、启动失败回滚，以及幂等/并发 stop。开始前完整阅读：
 
-1. [`implementation/phase-1a-work-items.json`](implementation/phase-1a-work-items.json) 中的 `A1-S4-02`；
-2. [S4 Graph 与 Executable Registry 对账](spikes/S4-registry.md)；
-3. [RFC-0004 Product Graph 与 Runtime Entries](rfcs/0004-product-graph.md)；
-4. [Phase 1 实施蓝图](phase-1-blueprint.md)；
-5. [验证策略](testing-strategy.md)、[安全模型](security.md)与已经冻结的 S2/S3/S4 entry-core corpus。
+1. [`implementation/phase-1a-work-items.json`](implementation/phase-1a-work-items.json) 中的 `A1-S5-01`；
+2. [S5 启动失败与资源回收](spikes/S5-lifecycle.md)；
+3. [RFC-0001 Foundation Boundary](rfcs/0001-foundation-boundary.md)；
+4. [RFC-0002 Kit Contract](rfcs/0002-kit-contract.md)；
+5. [验证策略](testing-strategy.md)、[安全模型](security.md)与已通过的 S2/S3/S4 regression corpus。
 
-`A1-S4-01` 已冻结 `ExecutableRegistryV1` schema/type、Graph→Registry 纯生成、joint assemblyId、Web/Server entry-core、10 组 pre-factory mismatch 和双工作目录/双输入顺序基线。当前工作项可以扩展静态 Graph/Registry contract 和受控 import probe，但不得实现 Runtime lifecycle/start-stop、真实业务 Service/Kit 或 CLI 发布；Runtime 仍不能通过运行时扫描源码/package metadata 来“补齐”Registry。若机器状态指向新的 work item，以机器状态和 work-item 文件为准，本节只作为人类导航。
+S4 已在 Linux、macOS、Windows 上取得 Pass。`A1-S5-01` 只允许实现最小、可测试的生命周期状态机和内存资源账本：不得提前加入 Event publish/dispatch、shutdown deadline、host 强制终止、真实网络/数据库资源、生产 Runtime 扫描或业务 Service/Kit。失败 start 的自身清理必须由 fixture 显式建模，Runtime 只反序停止已经成功 started 的前置 entries；主启动错误不能被 stop/cleanup 错误覆盖。若机器状态指向新的 work item，以机器状态和 work-item 文件为准，本节只作为人类导航。
 
 ## 5. 决策顺序
 
