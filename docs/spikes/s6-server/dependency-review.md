@@ -122,6 +122,10 @@ thread-stream@4.2.0
 toad-cache@3.7.4
 ```
 
+### 仓库 lock 对账
+
+`A1-S6-02` 使用 pnpm `10.32.1` 和 `--ignore-scripts` 安装 exact `fastify@5.12.3`。仓库 `pnpm-lock.yaml` 的 Fastify 可达解析集合与上方 49 包快照逐项一致；其中 44 个节点是相对原 lock 新增，`ajv@8.20.0`、`fast-deep-equal@3.1.3`、`fast-uri@3.1.7`、`json-schema-traverse@1.0.0` 与 `require-from-string@2.0.2` 已由根工具链复用。lock 没有为新增集合记录 `requiresBuild` 或 install script，Fastify integrity 保持 `sha512-reZ8wce5VNCcufIt9AVtzZa3L4u1j8esikn7OEgHWLVpRpL5R7Y2+Xzj70OUkv5zDfzUAxXZT6cu4Rt0zr3EKA==`。
+
 ## 考虑过的替代方案
 
 | 方案 | 优点 | 代价与结论 |

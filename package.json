@@ -9,17 +9,19 @@
   "scripts": {
     "build": "tsc -b",
     "typecheck": "tsc -b --pretty false",
-    "test": "vitest run && pnpm test:s1 && pnpm test:s2 && pnpm test:s3 && pnpm test:s4 && pnpm test:s5",
+    "test": "vitest run && pnpm test:s1 && pnpm test:s2 && pnpm test:s3 && pnpm test:s4 && pnpm test:s5 && pnpm test:s6",
     "test:s1": "node --test spikes/s1-config/*.test.mjs",
     "test:s2": "pnpm build && node --test spikes/s2-resolver/*.test.mjs",
     "test:s3": "pnpm build && node --test spikes/s3-bundle-trace/*.test.mjs",
     "test:s4": "pnpm build && node --test spikes/s4-registry/*.test.mjs",
     "test:s5": "node --test spikes/s5-lifecycle/*.test.mjs",
+    "test:s6": "node --test spikes/s6-server/*.test.mjs",
     "verify:docs": "node scripts/verify-docs.mjs && node scripts/validate-proposed-client-contracts.mjs && node scripts/validate-proposed-domain-contracts.mjs && node scripts/validate-proposed-ui-contracts.mjs && node scripts/validate-proposed-release-contracts.mjs"
   },
   "devDependencies": {
     "@types/node": "^24.0.0",
     "ajv": "^8.17.1",
+    "fastify": "5.12.3",
     "jsonc-parser": "^3.3.1",
     "typescript": "^5.9.0",
     "vitest": "^4.0.0"

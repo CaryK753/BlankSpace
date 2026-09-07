@@ -2,7 +2,7 @@
 
 ## 状态
 
-Matrix frozen，尚未执行。`A1-S6-01` 已冻结工具链、故障契约和候选依赖审查；真实 Fastify 安装、网络 runner、进程 signal 与跨平台证据从 `A1-S6-02` 开始。
+Provisional pass（本地 macOS）。`A1-S6-02` 已按冻结契约安装 exact Fastify、实现真实 loopback runner，并在 macOS 27.0 arm64 上通过十场景正反序 corpus 与真实 `SIGTERM`/`SIGINT` 子进程验证。三平台 portability 仍由 `A1-S6-03` 验证，本状态不代表生产 Server host 可用。
 
 ## 要回答的问题
 
@@ -129,6 +129,12 @@ core matrix 每次以正序和反序执行，共两轮。matrix hash 只覆盖�
 
 真实 signal transcript 单独记录 POSIX runner、signal 和 exit classification；Windows 记录 `unsupported-by-node`，不与 POSIX hash 强行对齐。任何新平台差异必须先修改本矩阵，不得在 runner 中临时放宽断言。
 
+### 本地执行结果
+
+2026-09-07 在 macOS 27.0 arm64、Node `v24.20.0`、pnpm `10.32.1`、Fastify `5.12.3` 与内置 Undici `7.29.0` 上：十个 core 场景以正序和反序各执行一次，canonical matrix hash 均为 `cf82465d0667b1a58f46bbfa9c2aa65a3247cff53ac11e3d3fcf63590cdd78eb`。`SIGTERM` 与 `SIGINT` 均由真实子进程各接收两次，进入同一 shutdown promise，Fastify close 和 A/B entry stop 各执行一次。listen 与 route 注册失败子进程均以非零状态退出，其中 listen 失败先按反序回滚已启动 entries。
+
+真实请求证明 closing 后的新请求返回 `503`、已接纳 slow request 在 entry stop 前完成。request/background timeout 子进程先通过 IPC 上报排序后的 `request:slow-1` 或 `entry:B/background:fixture`，再以 `1` 退出；父进程 harness deadline 未被用作合格证据。完整本地基线见 [`spikes/s6-server/transcripts/macos-arm64.json`](../../spikes/s6-server/transcripts/macos-arm64.json)，测试与 schema 位于同目录。
+
 ## 通过条件与失败选择
 
 所有支持平台的 core corpus 两轮必须得到相同 hash；Ubuntu/macOS 还必须通过真实 `SIGTERM`/`SIGINT`。成功和可清理失败的资源余额为零；timeout 场景必须列出未完成 owner、非零退出且不报告 clean。S2～S5 corpus 必须保持绿色。
@@ -137,4 +143,4 @@ core matrix 每次以正序和反序执行，共两轮。matrix hash 只覆盖�
 
 ## 实施交接
 
-`A1-S6-02` 只实现上述 schema、runner 和本地真实网络/信号证据，并将 `fastify@5.12.3` 作为 exact spike dev dependency 以 `--ignore-scripts` 安装。不得增加业务 routes、认证、数据库、CLI、production Runtime host 或新 HTTP client package。完成本地 corpus 后由独立的 `A1-S6-03` 执行三平台 portability gate。
+`A1-S6-02` 已完成上述 schema、runner 和本地真实网络/信号证据，并将 `fastify@5.12.3` 作为 exact spike dev dependency 以 `--ignore-scripts` 安装。不得增加业务 routes、认证、数据库、CLI、production Runtime host 或新 HTTP client package。下一项 `A1-S6-03` 只执行三平台 portability gate，并在 Ubuntu/macOS 记录真实 POSIX signal evidence。

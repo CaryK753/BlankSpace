@@ -119,7 +119,7 @@ README 和领域文档用于解释，不覆盖 schema 或 RFC 的精确定义。
 | Docker、Desktop 与 Mobile CI/CD | ci-cd、supply-chain | RFC-0017、RFC-0026 | proposed release contracts、SC1、平台签名/商店 evidence |
 | 生产资格 | production-readiness | RFC-0021～0024 | product-specific production report |
 
-当前 S1、S5 为 Provisional pass，S2、S3、S4 为 Pass；S4 已在 Linux、macOS、Windows 上验证 `ExecutableRegistryV1`、joint assemblyId、resolved Service/Event bindings、18 组 pre-factory mismatch 与 guarded generated-entry probe。S5 的 lifecycle/Event corpus 也已完成三平台 canonical 对账。S6 已冻结 Fastify 5.12.3、Node 内置 fetch、deadline/diagnostic 与 signal 平台边界，当前唯一 ready 工作项是 `A1-S6-02`，实现真实 loopback runner 和本地 POSIX signal evidence。链接表示实验规格入口，只有对应状态和 transcript/evidence 明确记录的部分才算已经执行。
+当前 S1、S5、S6 为 Provisional pass，S2、S3、S4 为 Pass；S4 已在 Linux、macOS、Windows 上验证 `ExecutableRegistryV1`、joint assemblyId、resolved Service/Event bindings、18 组 pre-factory mismatch 与 guarded generated-entry probe。S5 的 lifecycle/Event corpus 也已完成三平台 canonical 对账。S6 的 exact Fastify 5.12.3 十场景真实 loopback runner、deadline/diagnostic、timeout 非零退出和 POSIX signal 已在本地 macOS 通过，当前唯一 ready 工作项是 `A1-S6-03`，补齐三平台 portability evidence。链接表示实验规格入口，只有对应状态和 transcript/evidence 明确记录的部分才算已经执行。
 
 ## 状态词
 

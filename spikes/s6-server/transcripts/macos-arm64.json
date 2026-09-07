@@ -1,0 +1,381 @@
+{
+  "schemaVersion": "1",
+  "environment": {
+    "platform": "darwin",
+    "arch": "arm64",
+    "node": "v24.20.0",
+    "fastify": "5.12.3",
+    "undici": "7.29.0"
+  },
+  "budgets": {
+    "startupDeadlineMs": 5000,
+    "shutdownDeadlineMs": 1000,
+    "clientRequestDeadlineMs": 2000,
+    "harnessDeadlineMs": 15000
+  },
+  "matrix": {
+    "runCount": 2,
+    "scenarioCount": 10
+  },
+  "matrixHash": "cf82465d0667b1a58f46bbfa9c2aa65a3247cff53ac11e3d3fcf63590cdd78eb",
+  "scenarios": [
+    {
+      "id": "normal-start-stop",
+      "outcome": "stopped",
+      "state": "stopped",
+      "readyCount": 1,
+      "listenCount": 1,
+      "serverCloseCount": 1,
+      "stopInvocationCount": 1,
+      "entryStopCounts": {
+        "A": 1,
+        "B": 1
+      },
+      "diagnostics": [],
+      "trace": [
+        "start:entry:A",
+        "start:entry:B",
+        "server:listen",
+        "runtime:ready",
+        "runtime:stopping:api",
+        "server:close",
+        "stop:entry:B",
+        "stop:entry:A",
+        "runtime:stopped"
+      ],
+      "activeRequestCount": 0,
+      "pendingOwners": [],
+      "resourceBalance": 0,
+      "exitClassification": "zero",
+      "readyStatus": 200
+    },
+    {
+      "id": "listen-address-in-use",
+      "outcome": "startup-failed",
+      "state": "failed",
+      "readyCount": 0,
+      "listenCount": 0,
+      "serverCloseCount": 0,
+      "stopInvocationCount": 0,
+      "entryStopCounts": {
+        "A": 1,
+        "B": 1
+      },
+      "diagnostics": [
+        {
+          "code": "E_SERVER_LISTEN",
+          "severity": "error",
+          "phase": "start",
+          "ownerId": "server:fastify",
+          "operation": "listen",
+          "message": "Server listen failed.",
+          "causeCode": "EADDRINUSE"
+        }
+      ],
+      "trace": [
+        "start:entry:A",
+        "start:entry:B",
+        "server:listen",
+        "stop:entry:B",
+        "stop:entry:A"
+      ],
+      "activeRequestCount": 0,
+      "pendingOwners": [],
+      "resourceBalance": 0,
+      "exitClassification": "non-zero",
+      "reservationReleased": true
+    },
+    {
+      "id": "route-registration-failure",
+      "outcome": "startup-failed",
+      "state": "failed",
+      "readyCount": 0,
+      "listenCount": 0,
+      "serverCloseCount": 0,
+      "stopInvocationCount": 0,
+      "entryStopCounts": {
+        "A": 0,
+        "B": 0
+      },
+      "diagnostics": [
+        {
+          "code": "E_SERVER_ROUTE_REGISTER",
+          "severity": "error",
+          "phase": "register",
+          "ownerId": "server:fastify",
+          "operation": "route-register",
+          "message": "Server route registration failed.",
+          "causeCode": "FST_ERR_DUPLICATED_ROUTE"
+        }
+      ],
+      "trace": [],
+      "activeRequestCount": 0,
+      "pendingOwners": [],
+      "resourceBalance": 0,
+      "exitClassification": "non-zero"
+    },
+    {
+      "id": "signal-shared-stop",
+      "outcome": "stopped",
+      "state": "stopped",
+      "readyCount": 1,
+      "listenCount": 1,
+      "serverCloseCount": 1,
+      "stopInvocationCount": 2,
+      "entryStopCounts": {
+        "A": 1,
+        "B": 1
+      },
+      "diagnostics": [],
+      "trace": [
+        "start:entry:A",
+        "start:entry:B",
+        "server:listen",
+        "runtime:ready",
+        "runtime:stopping:SIGTERM",
+        "server:close",
+        "stop:entry:B",
+        "stop:entry:A",
+        "runtime:stopped"
+      ],
+      "activeRequestCount": 0,
+      "pendingOwners": [],
+      "resourceBalance": 0,
+      "exitClassification": "zero",
+      "stopPromiseShared": true,
+      "terminalResultShared": true
+    },
+    {
+      "id": "slow-request-drain",
+      "outcome": "stopped",
+      "state": "stopped",
+      "readyCount": 1,
+      "listenCount": 1,
+      "serverCloseCount": 1,
+      "stopInvocationCount": 1,
+      "entryStopCounts": {
+        "A": 1,
+        "B": 1
+      },
+      "diagnostics": [],
+      "trace": [
+        "start:entry:A",
+        "start:entry:B",
+        "server:listen",
+        "runtime:ready",
+        "request:start:request:slow-1",
+        "runtime:stopping:api",
+        "server:close",
+        "request:end:request:slow-1",
+        "stop:entry:B",
+        "stop:entry:A",
+        "runtime:stopped"
+      ],
+      "activeRequestCount": 0,
+      "pendingOwners": [],
+      "resourceBalance": 0,
+      "exitClassification": "zero",
+      "closingStatus": 503,
+      "slowStatus": 200
+    },
+    {
+      "id": "request-drain-timeout",
+      "outcome": "timeout",
+      "state": "timed-out",
+      "readyCount": 1,
+      "listenCount": 1,
+      "serverCloseCount": 1,
+      "stopInvocationCount": 1,
+      "entryStopCounts": {
+        "A": 0,
+        "B": 0
+      },
+      "diagnostics": [
+        {
+          "code": "E_SERVER_SHUTDOWN_TIMEOUT",
+          "severity": "error",
+          "phase": "terminate",
+          "ownerId": "host:process",
+          "operation": "host-terminate",
+          "message": "Server host shutdown exceeded its deadline.",
+          "trigger": "api",
+          "deadlineMs": 1000,
+          "activeRequestCount": 1,
+          "pendingOwners": [
+            "request:slow-1"
+          ]
+        }
+      ],
+      "trace": [
+        "start:entry:A",
+        "start:entry:B",
+        "server:listen",
+        "runtime:ready",
+        "request:start:request:slow-1",
+        "runtime:stopping:api",
+        "server:close",
+        "host:shutdown-timeout"
+      ],
+      "activeRequestCount": 1,
+      "pendingOwners": [
+        "request:slow-1"
+      ],
+      "resourceBalance": 1,
+      "exitClassification": "non-zero"
+    },
+    {
+      "id": "background-stop-timeout",
+      "outcome": "timeout",
+      "state": "timed-out",
+      "readyCount": 1,
+      "listenCount": 1,
+      "serverCloseCount": 1,
+      "stopInvocationCount": 1,
+      "entryStopCounts": {
+        "A": 0,
+        "B": 0
+      },
+      "diagnostics": [
+        {
+          "code": "E_SERVER_SHUTDOWN_TIMEOUT",
+          "severity": "error",
+          "phase": "terminate",
+          "ownerId": "host:process",
+          "operation": "host-terminate",
+          "message": "Server host shutdown exceeded its deadline.",
+          "trigger": "api",
+          "deadlineMs": 1000,
+          "activeRequestCount": 0,
+          "pendingOwners": [
+            "entry:B/background:fixture"
+          ]
+        }
+      ],
+      "trace": [
+        "start:entry:A",
+        "start:entry:B",
+        "server:listen",
+        "runtime:ready",
+        "runtime:stopping:api",
+        "server:close",
+        "stop:entry:B/background:fixture",
+        "host:shutdown-timeout"
+      ],
+      "activeRequestCount": 0,
+      "pendingOwners": [
+        "entry:B/background:fixture"
+      ],
+      "resourceBalance": 1,
+      "exitClassification": "non-zero"
+    },
+    {
+      "id": "repeated-concurrent-stop",
+      "outcome": "stopped",
+      "state": "stopped",
+      "readyCount": 1,
+      "listenCount": 1,
+      "serverCloseCount": 1,
+      "stopInvocationCount": 4,
+      "entryStopCounts": {
+        "A": 1,
+        "B": 1
+      },
+      "diagnostics": [],
+      "trace": [
+        "start:entry:A",
+        "start:entry:B",
+        "server:listen",
+        "runtime:ready",
+        "runtime:stopping:api",
+        "server:close",
+        "stop:entry:B",
+        "stop:entry:A",
+        "runtime:stopped"
+      ],
+      "activeRequestCount": 0,
+      "pendingOwners": [],
+      "resourceBalance": 0,
+      "exitClassification": "zero",
+      "stopPromiseShared": true,
+      "terminalResultShared": true
+    },
+    {
+      "id": "stop-before-ready",
+      "outcome": "stopped-before-ready",
+      "state": "stopped",
+      "readyCount": 0,
+      "listenCount": 1,
+      "serverCloseCount": 1,
+      "stopInvocationCount": 1,
+      "entryStopCounts": {
+        "A": 1,
+        "B": 1
+      },
+      "diagnostics": [
+        {
+          "code": "E_SERVER_START_ABORTED",
+          "severity": "error",
+          "phase": "start",
+          "ownerId": "server:fastify",
+          "operation": "runtime-stop",
+          "message": "Server start was aborted before Runtime became ready."
+        }
+      ],
+      "trace": [
+        "start:entry:A",
+        "start:entry:B",
+        "server:listen",
+        "runtime:stopping:api",
+        "server:close",
+        "stop:entry:B",
+        "stop:entry:A",
+        "runtime:stopped"
+      ],
+      "activeRequestCount": 0,
+      "pendingOwners": [],
+      "resourceBalance": 0,
+      "exitClassification": "zero"
+    },
+    {
+      "id": "handler-failure",
+      "outcome": "stopped",
+      "state": "stopped",
+      "readyCount": 1,
+      "listenCount": 1,
+      "serverCloseCount": 1,
+      "stopInvocationCount": 1,
+      "entryStopCounts": {
+        "A": 1,
+        "B": 1
+      },
+      "diagnostics": [
+        {
+          "code": "E_SERVER_HANDLER_FAILED",
+          "severity": "error",
+          "phase": "ready",
+          "ownerId": "route:fixtures/fail",
+          "operation": "request",
+          "message": "Server request handler failed.",
+          "causeCode": "FIXTURE_HANDLER_FAILURE"
+        }
+      ],
+      "trace": [
+        "start:entry:A",
+        "start:entry:B",
+        "server:listen",
+        "runtime:ready",
+        "runtime:stopping:api",
+        "server:close",
+        "stop:entry:B",
+        "stop:entry:A",
+        "runtime:stopped"
+      ],
+      "activeRequestCount": 0,
+      "pendingOwners": [],
+      "resourceBalance": 0,
+      "exitClassification": "zero",
+      "failureStatus": 500,
+      "stateAfterFailure": "ready"
+    }
+  ]
+}

@@ -12,6 +12,7 @@
 - S3 bundle/artifact trace：真实调用项目依赖图中的 Vite 8.2.2/Rolldown，将合法静态与字面量动态 source edge 对账到最终 bundle module，并对未声明依赖、server SecretRef、跨 target、private export、package escape 以及 missing/extra bundle module 返回稳定失败；CSS、worker、WASM、静态 asset 与 virtual module 也进入 canonical artifact trace。Ubuntu 24.04、macOS 15、Windows 2025 已通过同一双 checkout/双 pnpm store corpus 和 checked-in trace baseline。
 - S4 Executable Registry：`ProductGraphV1` 包含 resolved `services`/`events`，`ExecutableRegistryV1` 只从 Graph 派生 entries/bindings/handlers；确定性 Graph→Registry generator、joint `assemblyId`、18 组 pre-factory mismatch 和隔离子进程的 generated-entry `fetch` 顶层副作用 probe 已在 Ubuntu 24.04、macOS 15、Windows 2025 运行同一 frozen corpus 并通过，S4 状态为 Pass。
 - S5 lifecycle/Event core：内存 A→B→C→D runner 已冻结串行 factory/start/stop、单一 ready、严格反序 stop、资源账本、启动失败回滚、幂等/并发 stop 与启动中取消；独立 Event runner 已冻结 ready 门控、稳定串行 handler、depth-first 嵌套、correlation/causation、深度 33 拒绝和 stop 前活动 dispatch 排空。9 个 lifecycle 与 5 个 Event 场景已在 Linux、macOS、Windows 对账；shutdown deadline 和生产 Runtime host 未实现。
+- S6 Server host spike：exact Fastify 5.12.3 使用真实 `127.0.0.1` loopback listen/fetch，十场景正反序得到 canonical hash `cf82465d0667b1a58f46bbfa9c2aa65a3247cff53ac11e3d3fcf63590cdd78eb`；本地 macOS 已证明 closing `503`、活动请求排空、request/background deadline 上报后非零退出、listen 失败反序回滚，以及真实 `SIGTERM`/`SIGINT` 共享停止。它仍是实验 runner，尚无三平台证据或产品 Server API。
 - 文档验证：检查 JSON、Markdown 本地链接/围栏、RFC baseline、带 `$schema` 的 JSONC 示例和 proposed contract fixtures。
 
 当前没有 CLI、scaffolder、preset expansion、可发布的多工具 resolver adapter API、可用于产品运行的完整 Executable Registry/Runtime host、Web/Server 应用、Identity/Database Kit、部署或客户端包。
@@ -80,4 +81,4 @@ const record = resolveSourceImport({
 
 ## 当前限制
 
-这套实现已经证明确定性 Product Graph 前置切片、workspace source resolution/import policy、完整 S3 bundle/artifact trace、通过跨平台门禁的 S4 Registry，以及跨平台一致的 S5 lifecycle/Event core。S6 已冻结 Fastify `5.12.3`、Node 内置 fetch、deadline/diagnostic 与平台 signal 差异，但尚未安装或执行。完整 Runtime、真实 Service provider selection、业务 Kits 与 CLI 仍未完成，因此仍不能创建或运行 SaaS。不要根据目标 CLI 示例发布 package、部署生产环境或宣称支持 Desktop/Mobile。当前唯一实现路径是 `A1-S6-02`：实现真实 loopback Server host runner 与本地 POSIX signal evidence，详见 [Phase 1 蓝图](phase-1-blueprint.md)。
+这套实现已经证明确定性 Product Graph 前置切片、workspace source resolution/import policy、完整 S3 bundle/artifact trace、通过跨平台门禁的 S4 Registry、跨平台一致的 S5 lifecycle/Event core，以及本地 macOS 上有界的 S6 Fastify host 行为。完整 Runtime、三平台 S6 证据、真实 Service provider selection、业务 Kits 与 CLI 仍未完成，因此仍不能创建或运行 SaaS。不要根据目标 CLI 示例发布 package、部署生产环境或宣称支持 Desktop/Mobile。当前唯一实现路径是 `A1-S6-03`：执行 S6 三平台 core 与 POSIX signal portability gate，详见 [Phase 1 蓝图](phase-1-blueprint.md)。

@@ -1,0 +1,98 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://blankspace.dev/schemas/spikes/s6-server-transcript-v1.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "environment", "budgets", "matrix", "matrixHash", "scenarios"],
+  "properties": {
+    "schemaVersion": { "const": "1" },
+    "environment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["platform", "arch", "node", "fastify", "undici"],
+      "properties": {
+        "platform": { "type": "string", "minLength": 1 },
+        "arch": { "type": "string", "minLength": 1 },
+        "node": { "type": "string", "pattern": "^v24\\." },
+        "fastify": { "const": "5.12.3" },
+        "undici": { "type": "string", "minLength": 1 }
+      }
+    },
+    "budgets": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["startupDeadlineMs", "shutdownDeadlineMs", "clientRequestDeadlineMs", "harnessDeadlineMs"],
+      "properties": {
+        "startupDeadlineMs": { "const": 5000 },
+        "shutdownDeadlineMs": { "const": 1000 },
+        "clientRequestDeadlineMs": { "const": 2000 },
+        "harnessDeadlineMs": { "const": 15000 }
+      }
+    },
+    "matrix": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["runCount", "scenarioCount"],
+      "properties": { "runCount": { "const": 2 }, "scenarioCount": { "const": 10 } }
+    },
+    "matrixHash": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "scenarios": {
+      "type": "array",
+      "minItems": 10,
+      "maxItems": 10,
+      "items": { "$ref": "#/$defs/scenario" }
+    }
+  },
+  "$defs": {
+    "diagnostic": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["code", "severity", "phase", "ownerId", "operation", "message"],
+      "properties": {
+        "code": { "enum": ["E_SERVER_ROUTE_REGISTER", "E_SERVER_LISTEN", "E_SERVER_HANDLER_FAILED", "E_SERVER_CLOSE_FAILED", "E_SERVER_START_ABORTED", "E_SERVER_SHUTDOWN_TIMEOUT"] },
+        "severity": { "const": "error" },
+        "phase": { "enum": ["register", "start", "ready", "stopping", "stop", "terminate"] },
+        "ownerId": { "type": "string", "minLength": 1 },
+        "operation": { "enum": ["route-register", "listen", "request", "server-close", "runtime-stop", "host-terminate"] },
+        "message": { "type": "string", "minLength": 1 },
+        "causeCode": { "enum": ["EADDRINUSE", "FST_ERR_DUPLICATED_ROUTE", "FIXTURE_HANDLER_FAILURE", "FIXTURE_CLOSE_FAILURE"] },
+        "trigger": { "enum": ["api", "SIGTERM", "SIGINT"] },
+        "deadlineMs": { "const": 1000 },
+        "activeRequestCount": { "type": "integer", "minimum": 0 },
+        "pendingOwners": { "type": "array", "items": { "type": "string", "minLength": 1 }, "uniqueItems": true }
+      }
+    },
+    "scenario": {
+      "type": "object",
+      "required": ["id", "outcome", "state", "readyCount", "listenCount", "serverCloseCount", "stopInvocationCount", "entryStopCounts", "diagnostics", "trace", "activeRequestCount", "pendingOwners", "resourceBalance", "exitClassification"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "outcome": { "type": "string", "minLength": 1 },
+        "state": { "enum": ["failed", "stopped", "timed-out"] },
+        "readyCount": { "type": "integer", "minimum": 0, "maximum": 1 },
+        "listenCount": { "type": "integer", "minimum": 0, "maximum": 1 },
+        "serverCloseCount": { "type": "integer", "minimum": 0, "maximum": 1 },
+        "stopInvocationCount": { "type": "integer", "minimum": 0 },
+        "entryStopCounts": {
+          "type": "object", "additionalProperties": false, "required": ["A", "B"],
+          "properties": { "A": { "type": "integer", "minimum": 0, "maximum": 1 }, "B": { "type": "integer", "minimum": 0, "maximum": 1 } }
+        },
+        "diagnostics": { "type": "array", "items": { "$ref": "#/$defs/diagnostic" } },
+        "trace": { "type": "array", "items": { "type": "string" } },
+        "activeRequestCount": { "type": "integer", "minimum": 0 },
+        "pendingOwners": { "type": "array", "items": { "type": "string" }, "uniqueItems": true },
+        "resourceBalance": { "type": "integer", "minimum": 0 },
+        "exitClassification": { "enum": ["zero", "non-zero"] },
+        "readyStatus": { "type": "integer" },
+        "reservationReleased": { "type": "boolean" },
+        "stopPromiseShared": { "type": "boolean" },
+        "terminalResultShared": { "type": "boolean" },
+        "closingStatus": { "type": "integer" },
+        "slowStatus": { "type": "integer" },
+        "failureStatus": { "type": "integer" },
+        "stateAfterFailure": { "type": "string" }
+      },
+      "additionalProperties": false
+    }
+  }
+}
