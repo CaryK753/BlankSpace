@@ -16,7 +16,7 @@
 - [x] 记录候选取舍、后果、rollback/export/recovery 与复审条件。
 - [x] 更新 S7 Spike、work-item DAG、project status 和 Agent 启动入口。
 - [x] 运行 test、verify:docs 与文档差异检查。
-- [ ] 提交、同步远端并核对 GitHub Actions。
+- [x] 提交、同步远端并核对 GitHub Actions。
 
 ## 范围边界
 
@@ -33,6 +33,7 @@
 - 冻结 2 个 neutral owner、6 个 deadline、14 个 query/migration/fault 场景、stable diagnostics、recovery/removal 和候选选择规则。
 - Node `v24.20.0`、pnpm `10.32.1`：forced incremental rebuild 恢复本地被删除但被旧 `tsconfig.tsbuildinfo` 误判为最新的 ignored `dist` 后，build、typecheck、147 Vitest、8 S1、4 S2、7 S3、4 S4、15 S5、10 S6 tests 与 verify:docs 全部通过。
 - `package.json` 与 `pnpm-lock.yaml` 无差异；仅用 frozen、`--ignore-scripts` 安装恢复原 lock 的本地工具链。
+- 远端 candidate commit `f7b3b8d90f67fb66ba5f36ca9972a14749111a62` 的 S2～S6 runs `34168091855`、`34168091872`、`34168091861`、`34168091890`、`34168091868` 全部完成且成功；15/15 Ubuntu/macOS/Windows check-runs 为 `success`。
 
 ## 交接
 
