@@ -23,8 +23,8 @@
 | [S2 Resolver](S2-resolver.md) | Pass | Linux、macOS、Windows 上五种 mode、双 checkout 与双 pnpm store 对账同一 records hash | 保持 S2 corpus 为跨平台回归门，并由 S3 消费 canonical records |
 | [S3 Bundle trace](S3-bundle-trace.md) | Pass | JS/CSS/worker/WASM/assets/virtual modules 均进入 canonical trace；Linux、macOS、Windows 运行同一 corpus 并匹配 trace `855f208d…0c14` | 保持 S3 corpus 为跨平台回归门，并由 S4 消费稳定 Graph/产物边界 |
 | [S4 Registry](S4-registry.md) | Pass | resolved Service/Event bindings、Registry 双向对账、18 组 pre-factory mismatch、双目录/双顺序和 guarded `fetch` entry probe 已在 Linux/macOS/Windows 匹配同一 canonical identity | 保持 S4 corpus 为跨平台回归门，并由 S5 消费显式 Graph + Registry |
-| [S5 Lifecycle](S5-lifecycle.md) | Provisional pass | 生命周期 core 与 Event dispatch/drain 的 9 + 5 场景已在 Linux、macOS、Windows 匹配同一 canonical hashes；S2～S4 保持绿色 | 作为 regression gate 保持稳定；由 S6 补齐 shutdown deadline、signal 与 host termination |
-| [S6 Server](S6-server.md) | Provisional pass | exact Fastify 5.12.3 的十场景真实 loopback corpus 在本地 macOS 正反序 hash 一致；closing 503、request/background timeout 非零退出与真实 SIGTERM/SIGINT 已通过 | 由 A1-S6-03 在 Linux、macOS、Windows 执行 core portability，并在 POSIX runner 复验真实 signal |
+| [S5 Lifecycle](S5-lifecycle.md) | Pass | 生命周期 core 与 Event dispatch/drain 的 9 + 5 场景已在 Linux、macOS、Windows 匹配同一 canonical hashes；S6 已补齐有界 shutdown 与 host termination | 作为 regression gate 保持稳定；真实 Database 资源由 S7 验证 |
+| [S6 Server](S6-server.md) | Pass | exact Fastify 5.12.3 的十场景真实 loopback corpus 在 Linux、macOS、Windows 匹配 hash；Ubuntu/macOS 真实 signal 与 Windows 明确平台分支通过 | 作为 regression gate 保持稳定；不将 spike 冒充 production Server adapter |
 | [S7 Database](S7-database.md) | Draft matrix | 已起草 Kysely/Drizzle/direct SQL 对比场景，无执行证据 | 锁定数据库、候选工具与 runner，完成 fixture 后冻结矩阵 |
 | [S8 UI](S8-ui.md) | Draft matrix | 已起草双 Shell、标准状态、视觉与 a11y 场景，无执行证据 | 锁定 UI、浏览器、容差与 runner，完成 fixture 后冻结矩阵 |
 

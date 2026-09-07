@@ -2,7 +2,7 @@
 
 ## 状态
 
-Provisional pass（本地 macOS）。`A1-S6-02` 已按冻结契约安装 exact Fastify、实现真实 loopback runner，并在 macOS 27.0 arm64 上通过十场景正反序 corpus 与真实 `SIGTERM`/`SIGINT` 子进程验证。三平台 portability 仍由 `A1-S6-03` 验证，本状态不代表生产 Server host 可用。
+Pass。`A1-S6-03` 已在 Ubuntu 24.04、macOS 15 与 Windows 2025 上通过同一十场景 core corpus；Ubuntu/macOS 通过真实 `SIGTERM`/`SIGINT` 子进程验证，Windows 通过批准的 `unsupported-by-node` 分支。本状态只证明 Phase 1A host conformance，不代表生产 Runtime 或 Server adapter API 已实现。
 
 ## 要回答的问题
 
@@ -135,6 +135,12 @@ core matrix 每次以正序和反序执行，共两轮。matrix hash 只覆盖�
 
 真实请求证明 closing 后的新请求返回 `503`、已接纳 slow request 在 entry stop 前完成。request/background timeout 子进程先通过 IPC 上报排序后的 `request:slow-1` 或 `entry:B/background:fixture`，再以 `1` 退出；父进程 harness deadline 未被用作合格证据。完整本地基线见 [`spikes/s6-server/transcripts/macos-arm64.json`](../../spikes/s6-server/transcripts/macos-arm64.json)，测试与 schema 位于同目录。
 
+### 跨平台执行结果
+
+GitHub Actions run `34084714281` 在 candidate commit `147ed7ae3648fe2fae3a38c871833e48ad8defd7` 上通过 Ubuntu 24.04、macOS 15 与 Windows 2025 的 frozen-lock 安装和 `pnpm test:s6`。三个 runner 均通过 checked-in baseline assertion，匹配 canonical matrix hash `cf82465d0667b1a58f46bbfa9c2aa65a3247cff53ac11e3d3fcf63590cdd78eb`；timeout 场景均先上报 owner 再非零退出。
+
+Ubuntu 与 macOS 执行真实、重复的 `SIGTERM` 和 `SIGINT`，每种 signal 都共享一个 shutdown，server close 与 entry stop 各一次；Windows 明确断言 `unsupported-by-node` 且不发送伪 POSIX signal。同一提交的 S2 run `34084714246`、S3 run `34084714297`、S4 run `34084714309` 与 S5 run `34084714274` 全部通过。
+
 ## 通过条件与失败选择
 
 所有支持平台的 core corpus 两轮必须得到相同 hash；Ubuntu/macOS 还必须通过真实 `SIGTERM`/`SIGINT`。成功和可清理失败的资源余额为零；timeout 场景必须列出未完成 owner、非零退出且不报告 clean。S2～S5 corpus 必须保持绿色。
@@ -143,4 +149,4 @@ core matrix 每次以正序和反序执行，共两轮。matrix hash 只覆盖�
 
 ## 实施交接
 
-`A1-S6-02` 已完成上述 schema、runner 和本地真实网络/信号证据，并将 `fastify@5.12.3` 作为 exact spike dev dependency 以 `--ignore-scripts` 安装。不得增加业务 routes、认证、数据库、CLI、production Runtime host 或新 HTTP client package。下一项 `A1-S6-03` 只执行三平台 portability gate，并在 Ubuntu/macOS 记录真实 POSIX signal evidence。
+`A1-S6-02` 与 `A1-S6-03` 已完成本地实现和三平台 portability gate。Fastify 适合作为后续 Server host adapter 原语，但 spike 不会直接提升为 production Runtime package。下一项 `A1-S7-01` 冻结 Database 工具链与 migration fault contract；S6 workflow 继续作为 regression gate。

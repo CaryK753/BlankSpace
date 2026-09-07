@@ -2,7 +2,7 @@
 
 ## 状态
 
-Provisional pass。`A1-S5-01` 与 `A1-S5-02` 已冻结 lifecycle core、Event publish/dispatch 与活动 dispatch 排空；`A1-S5-03` 已用 Node.js v24.20.0 与 pnpm 10.32.1 在 Ubuntu 24.04、macOS 15、Windows 2025 对账同一 frozen corpus。shutdown deadline、进程 signal 与 host termination 尚未由 S6 验证，因此完整 S5 仍不能计作 Pass。
+Pass。`A1-S5-01` 与 `A1-S5-02` 已冻结 lifecycle core、Event publish/dispatch 与活动 dispatch 排空；`A1-S5-03` 已用 Node.js v24.20.0 与 pnpm 10.32.1 在 Ubuntu 24.04、macOS 15、Windows 2025 对账同一 frozen corpus。S6 随后在三平台通过 shutdown deadline/host termination，并在 POSIX runner 通过真实 signal，关闭了 S5 的剩余 provisional 条件。
 
 日期：2026-09-05。依据：RFC-0001、RFC-0002。
 
@@ -77,6 +77,6 @@ runner 使用 Node.js v24.20.0、pnpm 10.32.1 与已锁定的 Ajv 8.18.0，fixtu
 - S4 run `34043351840` 的 Windows 首次尝试在 Corepack 下载阶段失败，未进入项目代码；对同一提交重跑后，三平台全部通过；
 - 完整证据见 `.codex/tasks/a1-s5-03-cross-platform-conformance-2026-09-06.md`。
 
-## 尚未完成
+## 后续边界
 
-shutdown deadline、进程信号与 host termination 仍由 S6 验证，当前实现不提供这些保证。S5 corpus 继续作为跨平台 regression gate，不能把 portability pass 解释为生产 Runtime 已完成。
+S5 与 S6 corpus 继续作为跨平台 regression gate。Pass 证明冻结的 lifecycle/Event/host 行为，不等于生产 Runtime package、持久 Event transport、Database 资源或业务 Service 已完成。

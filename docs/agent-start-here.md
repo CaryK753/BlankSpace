@@ -47,15 +47,15 @@ fnm exec --using=24 pnpm verify:docs
 
 ## 4. 当前代码任务
 
-当前唯一 ready 工作项是 `A1-S6-03`：在 Ubuntu、macOS、Windows 运行已实现的 S6 core corpus，并在 POSIX runner 上验证真实 signal。开始前完整阅读：
+当前唯一 ready 工作项是 `A1-S7-01`：在修改依赖、拉取镜像或启动数据库前，冻结 PostgreSQL、数据访问层与 migration runner 的工具链、故障契约和供应链审查。开始前完整阅读：
 
-1. [`implementation/phase-1a-work-items.json`](implementation/phase-1a-work-items.json) 中的 `A1-S6-03`；
-2. [S6 Server Host、排空与关闭](spikes/S6-server.md)；
-3. [S6 候选依赖审查](spikes/s6-server/dependency-review.md)；
-4. [RFC-0001 Foundation Boundary](rfcs/0001-foundation-boundary.md)与[RFC-0013 Phase 1 技术栈](rfcs/0013-phase-1-technology.md)；
-5. [验证策略](testing-strategy.md)、[安全模型](security.md)、[供应链政策](supply-chain.md)与已通过的 S2～S5 regression corpus。
+1. [`implementation/phase-1a-work-items.json`](implementation/phase-1a-work-items.json) 中的 `A1-S7-01`；
+2. [S7 数据库访问层与 Migration Runner](spikes/S7-database.md)；
+3. [RFC-0013 Phase 1 技术栈](rfcs/0013-phase-1-technology.md)的 PostgreSQL 边界；
+4. [验证策略](testing-strategy.md)、[安全模型](security.md)与[供应链政策](supply-chain.md)；
+5. 已通过的 S5 lifecycle 与 S6 Server host regression corpus。
 
-S2～S4 已取得 Pass；S5 与 S6 仍为 Provisional pass。`A1-S6-02` 已安装 exact Fastify `5.12.3`，并在 Node `v24.20.0`/Undici `7.29.0` 的本地 macOS runner 上通过 10 个 core 场景、deadline、timeout 非零退出和真实 `SIGTERM`/`SIGINT`。`A1-S6-03` 不扩展 host API，只补齐三平台 portability 与 POSIX signal 证据；在此之前不得宣称生产 Server 支持。若机器状态指向新的 work item，以机器状态和 work-item 文件为准，本节只作为人类导航。
+S2～S6 已取得 Pass。S6 在 Node `v24.20.0`、pnpm `10.32.1` 与 exact Fastify `5.12.3` 上完成 Linux/macOS/Windows core 对账，并在 Ubuntu/macOS 通过真实 signal；这仍不等于 production Runtime。`A1-S7-01` 只冻结候选版本、PostgreSQL digest、schema/seed、deadline、diagnostics 与审查证据，不安装包、不拉取或运行容器、不实现业务 schema。若机器状态指向新的 work item，以机器状态和 work-item 文件为准，本节只作为人类导航。
 
 ## 5. 决策顺序
 
