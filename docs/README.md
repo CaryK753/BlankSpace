@@ -119,7 +119,7 @@ README 和领域文档用于解释，不覆盖 schema 或 RFC 的精确定义。
 | Docker、Desktop 与 Mobile CI/CD | ci-cd、supply-chain | RFC-0017、RFC-0026 | proposed release contracts、SC1、平台签名/商店 evidence |
 | 生产资格 | production-readiness | RFC-0021～0024 | product-specific production report |
 
-当前 S1 为 Provisional pass，S2～S6 为 Pass。S4 已在 Linux、macOS、Windows 上验证 `ExecutableRegistryV1`、joint assemblyId、resolved Service/Event bindings、18 组 pre-factory mismatch 与 guarded generated-entry probe；S5 lifecycle/Event corpus 与 S6 exact Fastify 5.12.3 十场景真实 loopback/deadline/termination corpus 也已完成三平台 canonical 对账，Ubuntu/macOS 的真实 signal 和 Windows 明确平台分支均通过。当前唯一 ready 工作项是 `A1-S7-01`，先冻结 Database 工具链和 migration fault contract。链接表示实验规格入口，只有对应状态和 transcript/evidence 明确记录的部分才算已经执行。
+当前 S1 为 Provisional pass，S2～S6 为 Pass，S7 为 Matrix frozen。S4 已在 Linux、macOS、Windows 上验证 `ExecutableRegistryV1`、joint assemblyId、resolved Service/Event bindings、18 组 pre-factory mismatch 与 guarded generated-entry probe；S5 lifecycle/Event corpus 与 S6 exact Fastify 5.12.3 十场景真实 loopback/deadline/termination corpus 也已完成三平台 canonical 对账，Ubuntu/macOS 的真实 signal 和 Windows 明确平台分支均通过。S7 已冻结 PostgreSQL 18.6 exact digest、`pg`/Kysely/Drizzle/direct SQL 候选和 14 场景 migration contract，但尚未安装或执行。当前唯一 ready 工作项是 `A1-S7-02`，实现本地 digest-pinned Database runner。链接表示实验规格入口，只有对应状态和 transcript/evidence 明确记录的部分才算已经执行。
 
 ## 状态词
 

@@ -193,9 +193,9 @@ TypeScript/ESM、Node.js 24 LTS、React-first、Fastify、PostgreSQL、JSON Sche
 
 当前执行状态：S1 已取得 [provisional pass](./spikes/S1-config.md)。Node.js 24.20.0 下已重新通过 S1 Node tests、TypeScript typecheck、Ajv 文档 schema 编译和最小 Product Graph 的 Vitest；S1 corpus 仍使用 Node test runner，最终 validator、完整 Vitest evidence 和原 S1 文档要求的跨平台环境尚未全部关闭，因此不计入正式通过，也不解除 1B gate。
 
-Phase 1A 已实现内存 `buildMinimalProductGraphs` 前置切片、正式 `ResolutionRecordV1`、workspace source resolver、target/dynamic import policy，以及通过 Linux/macOS/Windows 门禁的 S2 native resolution trace、S3 bundle/artifact trace、S4 Executable Registry、S5 lifecycle/Event 与 S6 Fastify Server host conformance。S6 在 POSIX runner 另通过真实 signal。完整 Runtime、Database 与 CLI 仍未完成，当前工作项为 `A1-S7-01`。
+Phase 1A 已实现内存 `buildMinimalProductGraphs` 前置切片、正式 `ResolutionRecordV1`、workspace source resolver、target/dynamic import policy，以及通过 Linux/macOS/Windows 门禁的 S2 native resolution trace、S3 bundle/artifact trace、S4 Executable Registry、S5 lifecycle/Event 与 S6 Fastify Server host conformance。S6 在 POSIX runner 另通过真实 signal。S7 已冻结 PostgreSQL 18.6 digest、访问层候选和 migration fault contract，但尚无数据库执行证据；完整 Runtime、Database 与 CLI 仍未完成，当前工作项为 `A1-S7-02`。
 
-S2 的[统一解析矩阵](./spikes/S2-resolver.md)、S3 的[Bundle Trace Matrix](./spikes/S3-bundle-trace.md)、S4 的[Graph/Registry 对账](./spikes/S4-registry.md)、S5 lifecycle/Event 与 S6 Server host 均已在 Linux、macOS、Windows 上取得 Pass；S6 还在 Ubuntu/macOS 通过真实 signal。S6 runner 仍不等于生产 Server adapter。`A1-S7-01` 接下来先冻结 PostgreSQL/访问层/migration 的精确工具、故障矩阵和供应链证据，再授权任何数据库安装或执行。贡献流程和证据格式分别见[框架贡献指南](contributing.md)与[验证策略](testing-strategy.md)。
+S2 的[统一解析矩阵](./spikes/S2-resolver.md)、S3 的[Bundle Trace Matrix](./spikes/S3-bundle-trace.md)、S4 的[Graph/Registry 对账](./spikes/S4-registry.md)、S5 lifecycle/Event 与 S6 Server host 均已在 Linux、macOS、Windows 上取得 Pass；S6 还在 Ubuntu/macOS 通过真实 signal。S6 runner 仍不等于生产 Server adapter。`A1-S7-02` 接下来依据已冻结的精确 package/image、故障矩阵和供应链边界实现本地 PostgreSQL runner；Ubuntu portability 仍由后续独立门禁负责。贡献流程和证据格式分别见[框架贡献指南](contributing.md)与[验证策略](testing-strategy.md)。
 
 ## 8. Adopter Preview Gate
 

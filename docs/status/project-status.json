@@ -1,10 +1,10 @@
 {
   "$schema": "./project-status.schema.json",
   "schemaVersion": "1",
-  "updatedAt": "2026-09-07",
+  "updatedAt": "2026-09-08",
   "phase": "phase-1a-spike",
   "production": "no-go",
-  "nextWorkItem": "A1-S7-01",
+  "nextWorkItem": "A1-S7-02",
   "implemented": [
     "strict-jsonc-parser-spike",
     "formal-v1-config-and-product-graph-schemas",
@@ -47,7 +47,7 @@
     "s4": { "status": "pass", "evidence": ["executable-registry-v1-schema-and-types", "joint-graph-registry-assembly-id", "resolved-service-event-graph-bindings", "registry-binding-handler-reconciliation", "eighteen-mismatch-pre-factory-corpus", "guarded-generated-entry-fetch-probe", "two-working-directory-two-input-order-determinism", "linux-macos-windows-conformance", "assembly-ecb16708efa35789d3f9aa9ccf603b9c48348bd7c097ba315738a4a09f6c1ba5", "registry-155dfc7f1f9a7d4f76c1b4c02e32618df699161db9f4d56086a9b55e5e5d730b", "github-actions-34026361015"], "nextGate": "Keep the frozen S4 corpus as a cross-platform regression gate while S5 consumes explicit Graph and Registry records." },
     "s5": { "status": "pass", "evidence": ["serial-a-to-d-factory-start-stop", "single-ready-transition", "resource-ledger-and-partial-start-cleanup", "idempotent-and-concurrent-stop", "bounded-start-cancellation", "lifecycle-gated-event-publish", "stable-serial-handler-dispatch", "depth-first-correlation-causation", "depth-33-rejection", "active-dispatch-drain-before-stop", "linux-macos-windows-lifecycle-and-event-conformance", "github-actions-34043351874", "s6-bounded-shutdown-and-host-termination-conformance"], "nextGate": "Keep the frozen S5 lifecycle and Event corpora as cross-platform regression gates while S7 adds real Database resources." },
     "s6": { "status": "pass", "evidence": ["fastify-5.12.3-candidate-review", "node-24.20.0-fetch-undici-7.29.0", "ten-scenario-server-host-contract", "bounded-startup-shutdown-client-harness-deadlines", "posix-signal-and-windows-platform-distinction", "linux-macos-windows-matrix-cf82465d0667b1a58f46bbfa9c2aa65a3247cff53ac11e3d3fcf63590cdd78eb", "ubuntu-macos-real-sigterm-sigint-shared-stop", "windows-unsupported-by-node-signal-boundary", "timeout-report-before-nonzero-exit", "github-actions-34084714281"], "nextGate": "Keep the frozen S6 corpus as a cross-platform regression gate while S7 evaluates Database resources; production Runtime and Server adapter APIs remain unimplemented." },
-    "s7": { "status": "draft-matrix", "evidence": [], "nextGate": "Freeze PostgreSQL access and migration candidates." },
+    "s7": { "status": "matrix-frozen", "evidence": ["postgresql-18.6-bookworm-index-sha256-1c59e2c3c818eaa0f0628f695b36e7c9e362d6b219b36a54a32df645cbd7e1af", "pg-8.23.0-and-types-8.23.1-review", "kysely-0.29.5-and-drizzle-0.45.2-review", "direct-sql-common-driver-baseline", "neutral-two-owner-schema-and-seed", "fourteen-scenario-database-migration-contract", "bounded-database-migration-deadlines", "spdx-and-slsa-attestation-metadata-with-signature-blocker"], "nextGate": "Install only the exact reviewed spike dependencies, reconcile the pnpm lock and run the digest-pinned disposable PostgreSQL corpus locally in A1-S7-02; do not claim Ubuntu or production support." },
     "s8": { "status": "draft-matrix", "evidence": [], "nextGate": "Freeze UI, browser, accessibility and visual matrix." },
     "cr1": { "status": "draft-matrix", "evidence": [], "nextGate": "Select the first additional client runtime." },
     "ds1": { "status": "draft-matrix", "evidence": [], "nextGate": "Select the first native renderer corpus." },

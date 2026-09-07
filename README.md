@@ -50,8 +50,9 @@ Contracts / Compiler / Runtime / Diagnostics / Tooling
 | S4 Registry | Graph/Registry joint identity、Service/Event bindings、18 组 mismatch、entry side-effect probe | Pass |
 | S5 Lifecycle | 9 个 lifecycle + 5 个 Event 场景跨 Linux/macOS/Windows 对账；S6 已补齐 host deadline | Pass |
 | S6 Server | Fastify 5.12.3 十场景跨平台对账；POSIX 真实 signal 与 Windows 明确平台分支 | Pass |
+| S7 Database | PostgreSQL 18.6 digest、三访问层候选、14 场景 migration/fault contract 与供应链审查 | Matrix frozen |
 
-当前唯一 ready 工作项是 `A1-S7-01`：在安装数据库依赖或拉取镜像前，冻结 PostgreSQL、数据访问层与 migration runner 的精确候选、故障契约和供应链证据。详见 [`docs/agent-start-here.md`](docs/agent-start-here.md)。
+当前唯一 ready 工作项是 `A1-S7-02`：按照冻结契约安装 exact spike dependencies、对账 lock，并在 digest-pinned disposable PostgreSQL 上实现本地访问层与 migration conformance runner。详见 [`docs/agent-start-here.md`](docs/agent-start-here.md)。
 
 ## 当前可运行内容
 
