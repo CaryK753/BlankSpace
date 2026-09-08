@@ -20,7 +20,6 @@
 | --- | --- | --- | --- | --- | --- | --- |
 | DEC-001 | S1 生产 validator 与跨平台 evidence | Blocked | 选定生产 JSONC/schema validator 且跨平台 runner 可用 | Compiler owner | 最终 validator corpus、Windows/Linux/macOS 或批准矩阵、版本、日志和证据 hash | S1 Pass、Phase 1B |
 | DEC-002 | S2 resolver 执行矩阵 | Pass | 2026-09-06 三平台 GitHub-hosted runner 完成 | Compiler owner | OS/pnpm/路径矩阵与 resolution trace | 已关闭；保持为 S3 与 Phase 1B 回归门 |
-| DEC-003A | S3～S7 工具与 fixture 冻结 | Matrix frozen | S3～S6 已通过；S7 于 2026-09-08 冻结 exact package/image 与 14 场景 | 对应 Compiler/Runtime/Database owner | S3～S7 精确工具、fixture、deadline、diagnostics 与失败选择 | S7 Pass、Phase 1B entry |
 | DEC-003B | S8 UI 工具与 fixture 冻结 | Draft matrix | React/UI/浏览器候选可安装且 UI fixture owner 指派 | UI owner | S8 “尚待冻结”所列输入 | S8 Pass、Phase 1C entry |
 | DEC-004 | Phase 1 性能预算 | Blocked | S1～S7 Pass 且 benchmark harness 可运行 | Performance owner | 标准环境、原始样本、算法版本、阈值与评审 | Phase 1B exit |
 | DEC-005 | Phase 1A 依赖审查基线 | Blocked | 开始保留生产实现依赖 | Security + Build/Release owner | dependency schema/记录、lock/install-script/过期审查 fixtures 与 doctor/CI diagnostics | 受审查依赖基线、公开 release |
@@ -62,4 +61,4 @@
 
 ## 变更记录
 
-当前没有已迁出的关闭项。已冻结的基础架构决策仍保留在 RFC 索引，不在本台账重复维护。
+- `DEC-003A`（2026-09-08）：S3～S7 精确工具、fixture、deadline、diagnostics 与失败选择已冻结并取得规定 evidence；S7 在 GitHub Actions run `34192604333` 与本地 macOS arm64 上匹配 canonical hash `8e48920e5c1adc8b9cf327ffeeb195dcc48d2c4c8290a7f0822cbf751313df04`。对应入口见 S3～S7 Spike 文档；Phase 1B 仍被 S1 等其他门禁阻止。

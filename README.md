@@ -50,9 +50,9 @@ Contracts / Compiler / Runtime / Diagnostics / Tooling
 | S4 Registry | Graph/Registry joint identity、Service/Event bindings、18 组 mismatch、entry side-effect probe | Pass |
 | S5 Lifecycle | 9 个 lifecycle + 5 个 Event 场景跨 Linux/macOS/Windows 对账；S6 已补齐 host deadline | Pass |
 | S6 Server | Fastify 5.12.3 十场景跨平台对账；POSIX 真实 signal 与 Windows 明确平台分支 | Pass |
-| S7 Database | PostgreSQL 18.6 digest、三访问层与 14 场景本地正反序 migration/fault corpus；hash `8e48920e…df04` | Provisional pass |
+| S7 Database | PostgreSQL 18.6 digest、三访问层与 14 场景 Linux/macOS 正反序 migration/fault corpus；hash `8e48920e…df04` | Pass |
 
-当前唯一 ready 工作项是 `A1-S7-03`：在 Ubuntu 24.04/linux-amd64 上复跑 digest-pinned PostgreSQL corpus，并与本地 canonical hash 对账。详见 [`docs/agent-start-here.md`](docs/agent-start-here.md)。
+当前唯一 ready 工作项是 `A1-S8-01`：先冻结 React、router、UI primitives、Playwright、浏览器和 accessibility 的 exact 选择与双 Shell 验收矩阵，再允许安装或实现 UI。详见 [`docs/agent-start-here.md`](docs/agent-start-here.md)。
 
 ## 当前可运行内容
 

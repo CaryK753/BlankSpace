@@ -193,9 +193,9 @@ TypeScript/ESM、Node.js 24 LTS、React-first、Fastify、PostgreSQL、JSON Sche
 
 当前执行状态：S1 已取得 [provisional pass](./spikes/S1-config.md)。Node.js 24.20.0 下已重新通过 S1 Node tests、TypeScript typecheck、Ajv 文档 schema 编译和最小 Product Graph 的 Vitest；S1 corpus 仍使用 Node test runner，最终 validator、完整 Vitest evidence 和原 S1 文档要求的跨平台环境尚未全部关闭，因此不计入正式通过，也不解除 1B gate。
 
-Phase 1A 已实现内存 `buildMinimalProductGraphs` 前置切片、正式 `ResolutionRecordV1`、workspace source resolver、target/dynamic import policy，以及通过 Linux/macOS/Windows 门禁的 S2 native resolution trace、S3 bundle/artifact trace、S4 Executable Registry、S5 lifecycle/Event 与 S6 Fastify Server host conformance。S6 在 POSIX runner 另通过真实 signal。S7 已在 macOS arm64 上完成 PostgreSQL 18.6 digest-pinned 本地 corpus，状态为 Provisional pass；完整 Runtime、production Database 与 CLI 仍未完成，当前工作项为 `A1-S7-03`。
+Phase 1A 已实现内存 `buildMinimalProductGraphs` 前置切片、正式 `ResolutionRecordV1`、workspace source resolver、target/dynamic import policy，以及通过 Linux/macOS/Windows 门禁的 S2 native resolution trace、S3 bundle/artifact trace、S4 Executable Registry、S5 lifecycle/Event 与 S6 Fastify Server host conformance。S6 在 POSIX runner 另通过真实 signal。S7 的 PostgreSQL 18.6 digest-pinned corpus 已在 macOS arm64 与 Ubuntu linux-amd64 匹配，状态为 Pass；完整 Runtime、production Database 与 CLI 仍未完成，当前工作项为 `A1-S8-01`。
 
-S2 的[统一解析矩阵](./spikes/S2-resolver.md)、S3 的[Bundle Trace Matrix](./spikes/S3-bundle-trace.md)、S4 的[Graph/Registry 对账](./spikes/S4-registry.md)、S5 lifecycle/Event 与 S6 Server host 均已在 Linux、macOS、Windows 上取得 Pass；S6 还在 Ubuntu/macOS 通过真实 signal。S6 runner 仍不等于生产 Server adapter。`A1-S7-03` 接下来在 Ubuntu 24.04/linux-amd64 复跑冻结的 S7 PostgreSQL corpus，并对账本地 hash；即使通过，production Database adapter 仍未实现。贡献流程和证据格式分别见[框架贡献指南](contributing.md)与[验证策略](testing-strategy.md)。
+S2 的[统一解析矩阵](./spikes/S2-resolver.md)、S3 的[Bundle Trace Matrix](./spikes/S3-bundle-trace.md)、S4 的[Graph/Registry 对账](./spikes/S4-registry.md)、S5 lifecycle/Event、S6 Server host 与 S7 Database 均已取得 Pass；S6 还在 Ubuntu/macOS 通过真实 signal。S6/S7 runners 仍不等于 production adapters。`A1-S8-01` 接下来只冻结 S8 exact UI/browser/a11y toolchain、双 Shell corpus、阈值与供应链边界，不安装 UI package 或执行浏览器。贡献流程和证据格式分别见[框架贡献指南](contributing.md)与[验证策略](testing-strategy.md)。
 
 ## 8. Adopter Preview Gate
 

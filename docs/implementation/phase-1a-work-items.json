@@ -161,13 +161,23 @@
       "evidence": ["2026-09-08 on macOS arm64 with Node v24.20.0, pnpm 10.32.1, Docker Desktop 29.7.2 and digest-pinned PostgreSQL 18.6: exact pg 8.23.0, @types/pg 8.23.1, Kysely 0.29.5 and Drizzle ORM 0.45.2 installed with scripts disabled and no Node 26 type drift. The fourteen-scenario corpus ran in forward and reverse order against fresh loopback-only networks, secret files and disposable volumes; all candidates matched typed rows and compiler-derived parameterized intent, migration ownership/hash/lock/transaction/checkpoint/manual/removal/deadline evidence passed, matrix hash was 8e48920e5c1adc8b9cf327ffeeb195dcc48d2c4c8290a7f0822cbf751313df04 and runner-owned resource balance returned to zero. Local evidence is spikes/s7-database/transcripts/macos-arm64.json and .codex/tasks/a1-s7-02-database-runner-2026-09-08.md. This is provisional local evidence, not Ubuntu or production support."]
     },
     {
-      "id": "A1-S7-03", "title": "Run Ubuntu S7 Database conformance", "status": "ready", "dependsOn": ["A1-S7-02"],
+      "id": "A1-S7-03", "title": "Run Ubuntu S7 Database conformance", "status": "done", "dependsOn": ["A1-S7-02"],
       "references": ["docs/spikes/S7-database.md", "docs/testing-strategy.md", "docs/security.md", "docs/supply-chain.md"],
       "scope": ["ubuntu-24.04 execution of the frozen digest-pinned S7 matrix", "canonical transcript and resource cleanup reconciliation", "S2-S6 regression preservation"],
       "outputs": ["S7 Ubuntu conformance workflow", "image, database and canonical matrix evidence", "final S7 access-layer and migration suitability decision"],
       "acceptance": ["Ubuntu runs the same fourteen scenarios against the frozen linux/amd64 image manifest and matches the checked-in canonical matrix", "image digest, PostgreSQL server version and reviewed package lock identities are asserted before scenarios", "failure and cleanup cases leave no runner-owned container, network, volume or secret artifact", "S2-S6 conformance workflows remain green"],
       "commands": ["fnm exec --using=24 pnpm build", "fnm exec --using=24 pnpm typecheck", "fnm exec --using=24 pnpm test", "fnm exec --using=24 pnpm test:s7", "fnm exec --using=24 pnpm verify:docs"],
-      "nonGoals": ["macOS or Windows Docker portability guarantee", "production Database adapter", "business Kits", "backup restore or failover", "deployment changes"]
+      "nonGoals": ["macOS or Windows Docker portability guarantee", "production Database adapter", "business Kits", "backup restore or failover", "deployment changes"],
+      "evidence": ["GitHub Actions run 34192604333 for candidate commit 8ecec96d6b44e72555e4eb77a86d6b9719b4e48f passed on ubuntu-24.04 with Node 24.20.0, pnpm 10.32.1, frozen lock installation and PostgreSQL OCI index sha256:1c59e2c3c818eaa0f0628f695b36e7c9e362d6b219b36a54a32df645cbd7e1af. The S7 runner executed the fourteen-scenario forward/reverse corpus, matched canonical matrix hash 8e48920e5c1adc8b9cf327ffeeb195dcc48d2c4c8290a7f0822cbf751313df04, passed 5/5 tests and left no labelled container, volume or network. On the same merge candidate, S2 run 34192604206, S3 run 34192604178, S4 run 34192604401, S5 run 34192604281 and S6 run 34192604170 passed all 15 Linux/macOS/Windows jobs. Details are in docs/spikes/S7-database.md and .codex/tasks/a1-s7-03-ubuntu-conformance-2026-09-08.md."]
+    },
+    {
+      "id": "A1-S8-01", "title": "Freeze UI toolchain and dual-Shell conformance contract", "status": "ready", "dependsOn": ["A1-S7-03"],
+      "references": ["docs/spikes/S8-ui.md", "docs/rfcs/0013-phase-1-technology.md", "docs/ui-templates.md", "docs/testing-strategy.md", "docs/security.md", "docs/supply-chain.md"],
+      "scope": ["exact React, router, UI primitive, browser, Playwright and accessibility candidate matrix", "dual Product Shell semantic contribution and standard-state fixtures", "responsive, keyboard, focus, visual and accessibility thresholds with supply-chain review"],
+      "outputs": ["frozen S8 UI conformance matrix and diagnostics", "browser, viewport, font, locale, timezone and animation decision record", "candidate dependency review and implementation handoff"],
+      "acceptance": ["S8 document fixes exact candidate versions, browsers, Shell fixtures, standard states, responsive thresholds, screenshot tolerance and accessibility gates", "semantic contribution, route identity, focus, overlay/error boundary, Product token/recipe and Public Override outcomes have stable expected evidence", "candidate packages and browser artifacts are reviewed for licenses, scripts, maintenance, security, provenance and rollback before repository installation", "no UI package installation, browser download, component implementation or baseline screenshot is introduced by this work item"],
+      "commands": ["fnm exec --using=24 pnpm test", "fnm exec --using=24 pnpm verify:docs"],
+      "nonGoals": ["UI dependency installation", "browser download or execution", "Product Shell implementation", "business product UI", "native renderer implementation", "production deployment"]
     }
   ]
 }

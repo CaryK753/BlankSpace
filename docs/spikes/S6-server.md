@@ -149,4 +149,4 @@ Ubuntu 与 macOS 执行真实、重复的 `SIGTERM` 和 `SIGINT`，每种 signal
 
 ## 实施交接
 
-`A1-S6-02` 与 `A1-S6-03` 已完成本地实现和三平台 portability gate。Fastify 适合作为后续 Server host adapter 原语，但 spike 不会直接提升为 production Runtime package。`A1-S7-02` 已完成本地数据库 runner，当前 `A1-S7-03` 补齐 Ubuntu evidence；S6 workflow 继续作为 regression gate。
+`A1-S6-02` 与 `A1-S6-03` 已完成本地实现和三平台 portability gate。Fastify 适合作为后续 Server host adapter 原语，但 spike 不会直接提升为 production Runtime package。S7 本地与 Ubuntu Database conformance 已完成；S6 workflow 继续作为 regression gate。
