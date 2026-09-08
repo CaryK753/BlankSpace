@@ -2,7 +2,7 @@
 
 ## 状态与有效期
 
-2026-09-08 完成文档级预安装审查，只批准后续 `A1-S8-02` 在审查仍有效时用 exact versions 实现 conformance runner。审查于 2026-12-07，或任一版本、integrity、browser revision、解析树、license、script、advisory、provenance 变化时失效，以先到者为准。
+2026-09-08 完成文档级预安装审查；`A1-S8-02` 已在审查有效期内按 exact versions、scripts disabled 实现本地 conformance runner。审查于 2026-12-07，或任一版本、integrity、browser revision、解析树、license、script、advisory、provenance 变化时失效，以先到者为准。
 
 本次没有修改仓库 package/lock、下载 browser binary、运行浏览器或生成截图。本记录不是 `security/dependencies.json` 生产基线，不解除 SBOM、签名、source approval、发布或人工 accessibility review 门禁。
 
@@ -89,4 +89,4 @@ npm audit --prefix <temporary-directory> --package-lock-only --omit=optional --j
 npm view playwright-core@1.63.0 dist.tarball
 ```
 
-读取 `playwright-core` tarball 中的 `package/browsers.json` 只用于 metadata 审查，不下载 browser binary。首次真实安装与下载属于 `A1-S8-02`，必须产出新的 lock/browser evidence。
+读取 `playwright-core` tarball 中的 `package/browsers.json` 用于 metadata 审查。`A1-S8-02` 已显式下载 frozen browser binaries 并记录 lock、revision、cache location、下载日志和 executable SHA-256；Ubuntu 下载与 artifact identity 由 `A1-S8-03` 独立复核。

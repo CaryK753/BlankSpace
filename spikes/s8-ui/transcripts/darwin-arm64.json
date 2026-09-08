@@ -1,0 +1,37 @@
+{
+  "schemaVersion": "1",
+  "environment": {
+    "platform": "darwin",
+    "arch": "arm64",
+    "node": "v24.20.0",
+    "packages": {
+      "react": "19.2.8",
+      "react-dom": "19.2.8",
+      "react-router": "8.3.1",
+      "react-aria-components": "1.21.1",
+      "@playwright/test": "1.63.0",
+      "@axe-core/playwright": "4.13.0",
+      "axe-core": "4.13.0",
+      "@fontsource-variable/inter": "5.3.0"
+    },
+    "browsers": {
+      "chromium": "1243",
+      "firefox": "1543",
+      "webkit": "2359"
+    }
+  },
+  "sourceRevision": "worktree:e9e2f36ea32ab201363ef89574f2c098a6201e2d6b8c425c2e531d5288af86ba",
+  "lockHash": "a6034944719a3d5c511aa3421a66eb361bb1f72d22c8a98ee4eb0bb09a0b228a",
+  "fixtureHash": "59d40d2da94b5a2d5d0717a055d1602c8ce27783cbcc7a4d15e627ed1f160f66",
+  "matrix": {
+    "shells": 2,
+    "states": 8,
+    "viewports": 3,
+    "browserProjects": 3,
+    "behaviorChecks": 15,
+    "accessibilityScans": 144,
+    "visualComparisons": 20
+  },
+  "diagnostics": [],
+  "matrixHash": "73a2e570c99f2ca088dcb4b6a2793c58477098558670dae287adb50f639df038"
+}

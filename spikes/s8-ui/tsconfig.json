@@ -1,0 +1,15 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "composite": false,
+    "declaration": false,
+    "declarationMap": false,
+    "sourceMap": false,
+    "noEmit": true,
+    "jsx": "react-jsx",
+    "exactOptionalPropertyTypes": false,
+    "lib": ["ES2024", "DOM", "DOM.Iterable"],
+    "types": ["node"]
+  },
+  "include": ["fixture/src/**/*.ts", "fixture/src/**/*.tsx", "tests/**/*.ts"]
+}

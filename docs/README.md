@@ -119,7 +119,7 @@ README 和领域文档用于解释，不覆盖 schema 或 RFC 的精确定义。
 | Docker、Desktop 与 Mobile CI/CD | ci-cd、supply-chain | RFC-0017、RFC-0026 | proposed release contracts、SC1、平台签名/商店 evidence |
 | 生产资格 | production-readiness | RFC-0021～0024 | product-specific production report |
 
-当前 S1 为 Provisional pass，S2～S7 为 Pass。S4 已在 Linux、macOS、Windows 上验证 `ExecutableRegistryV1`、joint assemblyId、resolved Service/Event bindings、18 组 pre-factory mismatch 与 guarded generated-entry probe；S5 lifecycle/Event corpus 与 S6 exact Fastify 5.12.3 十场景真实 loopback/deadline/termination corpus 也已完成三平台 canonical 对账，Ubuntu/macOS 的真实 signal 和 Windows 明确平台分支均通过。S7 的 PostgreSQL 18.6 exact digest 和 exact `pg`/Kysely/Drizzle 14 场景正反序 migration corpus 已在 macOS arm64 与 Ubuntu linux-amd64 匹配 canonical hash `8e48920e5c1adc8b9cf327ffeeb195dcc48d2c4c8290a7f0822cbf751313df04`。S8 已冻结 React/Router/Aria/Playwright/axe、双 Shell、三浏览器和 visual/a11y 门禁，但尚未执行。当前唯一 ready 工作项是 `A1-S8-02`，实现本地 S8 runner。链接表示实验规格入口，只有对应状态和 transcript/evidence 明确记录的部分才算已经执行。
+当前 S1 为 Provisional pass，S2～S7 为 Pass。S4 已在 Linux、macOS、Windows 上验证 `ExecutableRegistryV1`、joint assemblyId、resolved Service/Event bindings、18 组 pre-factory mismatch 与 guarded generated-entry probe；S5 lifecycle/Event corpus 与 S6 exact Fastify 5.12.3 十场景真实 loopback/deadline/termination corpus 也已完成三平台 canonical 对账，Ubuntu/macOS 的真实 signal 和 Windows明确平台分支均通过。S7 的 PostgreSQL 18.6 exact digest 和 exact `pg`/Kysely/Drizzle 14 场景正反序 migration corpus 已在 macOS arm64 与 Ubuntu linux-amd64 匹配 canonical hash `8e48920e5c1adc8b9cf327ffeeb195dcc48d2c4c8290a7f0822cbf751313df04`。S8 已在 macOS arm64 运行同源双 Shell、八状态、三浏览器和 visual/a11y 门禁，状态为 Provisional pass；当前唯一 ready 工作项是 `A1-S8-03`，执行 Ubuntu canonical conformance。链接表示实验规格入口，只有对应状态和 transcript/evidence 明确记录的部分才算已经执行。
 
 ## 状态词
 

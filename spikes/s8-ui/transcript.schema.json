@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "environment", "sourceRevision", "lockHash", "fixtureHash", "matrix", "diagnostics", "matrixHash"],
+  "properties": {
+    "schemaVersion": { "const": "1" },
+    "environment": {
+      "type": "object", "additionalProperties": false,
+      "required": ["platform", "arch", "node", "packages", "browsers"],
+      "properties": {
+        "platform": { "type": "string" }, "arch": { "type": "string" }, "node": { "type": "string" },
+        "packages": { "type": "object", "additionalProperties": { "type": "string" } },
+        "browsers": { "type": "object", "additionalProperties": { "type": "string" } }
+      }
+    },
+    "sourceRevision": { "type": "string", "pattern": "^worktree:[a-f0-9]{64}$" },
+    "lockHash": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "fixtureHash": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "matrix": {
+      "type": "object", "additionalProperties": false,
+      "required": ["shells", "states", "viewports", "browserProjects", "behaviorChecks", "accessibilityScans", "visualComparisons"],
+      "properties": {
+        "shells": { "const": 2 }, "states": { "const": 8 }, "viewports": { "const": 3 },
+        "browserProjects": { "const": 3 }, "behaviorChecks": { "const": 15 },
+        "accessibilityScans": { "const": 144 }, "visualComparisons": { "const": 20 }
+      }
+    },
+    "diagnostics": { "type": "array", "maxItems": 0 },
+    "matrixHash": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+  }
+}

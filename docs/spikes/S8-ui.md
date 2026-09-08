@@ -2,7 +2,7 @@
 
 ## 状态
 
-Matrix frozen，尚未执行。本文只冻结候选工具链、fixture、环境、阈值、诊断与失败选择；仓库仍未安装 UI package、下载浏览器、实现 Shell 或生成截图。
+本地 provisional pass，Ubuntu canonical 尚未执行。`A1-S8-02` 已安装 exact candidates，以同一 contribution set 实现两个 Shell，并在 macOS arm64 执行三浏览器 behavior/a11y 与 Chromium visual corpus；这仍不是 S8 final Pass。
 
 冻结日期：2026-09-08。依赖与浏览器预安装审查见 [S8 供应链审查](s8-ui/supply-chain-review.md)。Route/Navigation proposed contract 与布局基线见[基础 UI Shell 模板与路由](../ui-templates.md)。
 
@@ -29,6 +29,8 @@ S8 是可删除 conformance spike，不是产品 UI、组件库或 production re
 React Router 只负责浏览器路由实现。公共 Contract 不暴露 `RouteObject`、loader args、React element 或 library error；client-side navigation 后的标题宣告和焦点移动由 Shell adapter 明确实现，因为 router 不替产品决定这些无障碍行为。[React Router accessibility](https://reactrouter.com/how-to/accessibility)
 
 React Aria Components 只提供 interaction/accessibility primitives，不采用 React Spectrum 视觉层；其官方定位就是无样式、可自定义且覆盖 accessibility、interaction 与 internationalization 的组件。[React Aria getting started](https://react-aria.adobe.com/getting-started) 若它迫使 public contract 暴露 library types、阻止两个 Shell 结构分离或无法稳定打包，则退回 `@base-ui/react` 重新执行同一 corpus；不通过深导入或 DOM selector patch 绕过。
+
+S8 fixture 的独立 TypeScript project 将 `exactOptionalPropertyTypes` 设为 `false`：候选 `react-aria-components@1.21.1` 的 `GroupProps`/`OverlayArrowProps` 同时继承 React `HTMLAttributes` 与 `@react-types/shared` 的 `DOMProps`，两者对 optional `id` 的声明在该开关下不兼容。这个局部设置只放宽 S8 adapter 的 optional-property 精确性，不影响 `packages/contracts`、`packages/compiler` 或仓库主 project；`strict` 与 `skipLibCheck: false` 仍保持，依赖声明仍完整检查。升级候选后必须重新验证并优先移除此兼容边界。
 
 ## 3. Browser 与固定环境
 
@@ -149,4 +151,4 @@ S8 只有在 exact candidates 和 frozen browser revisions 于目标 Ubuntu 环�
 
 ## 10. 已知限制与下一实施项
 
-`A1-S8-01` 只完成 Matrix frozen。`A1-S8-02` 才能安装 exact 依赖、下载浏览器、实现本地 runner 与两个 Shell fixture；首次安装前必须复核审查有效期、pnpm 实际解析树、package scripts 和 browser artifact identity。Production UI packages、业务页面、真实 Identity/API、Native renderer 与部署仍不在范围内。
+`A1-S8-02` 已在 macOS arm64、Node 24.20.0 完成：exact dependencies 以 scripts disabled 安装；Chromium `1243`、Firefox `1543`、WebKit `2359` 显式下载；同一组 6 routes、7 navigation entries、4 commands 驱动 `default-shell` 与 `workbench-shell`。三浏览器共通过 15 个 behavior/keyboard/focus/drawer checks 和 144 个零 violation/零 incomplete axe scans，Chromium 通过 20 个 local visual comparisons；matrix hash 为 `73a2e570c99f2ca088dcb4b6a2793c58477098558670dae287adb50f639df038`。本地 executable SHA-256 分别为 Chromium `8319963f…b668a`、Firefox `e75d92f6…7fbf5a`、WebKit launcher `a85baad3…c63b`。`A1-S8-03` 负责 Ubuntu canonical baseline 与最终候选决策。Production UI packages、业务页面、真实 Identity/API、Native renderer 与部署仍不在范围内。
