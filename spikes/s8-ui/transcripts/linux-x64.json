@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1",
   "environment": {
-    "platform": "darwin",
-    "arch": "arm64",
+    "platform": "linux",
+    "arch": "x64",
     "node": "v24.20.0",
     "packages": {
       "react": "19.2.8",
@@ -21,12 +21,12 @@
     },
     "browserExecutables": {
       "chromium": {
-        "installationPath": "chromium-1243/chrome-mac-arm64/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing",
-        "sha256": "8319963f6625accf51c0dd4f55091ceaf9f09ed39e7a52fed4fae12b2a6b668a"
+        "installationPath": "chromium-1243/chrome-linux64/chrome",
+        "sha256": "8c599d43aec53f2460a31ae2f4af6bd863f8258b34ff519564bc5d4726bfaa1e"
       },
       "firefox": {
-        "installationPath": "firefox-1543/firefox/Nightly.app/Contents/MacOS/firefox",
-        "sha256": "e75d92f6f3210c9c31056d10b912f43c139f0cf7a2a3d0f2e002e88c1c7fbf5a"
+        "installationPath": "firefox-1543/firefox/firefox",
+        "sha256": "062272ac4d851eade5b75db2dc7c14569d96cb3ca38f949337cdc1b74367e35b"
       },
       "webkit": {
         "installationPath": "webkit-2359/pw_run.sh",
@@ -34,7 +34,7 @@
       }
     }
   },
-  "sourceRevision": "worktree:5187d02f6b6c9c6142f06b3e8b2a8ea6f7f1b0deffb1fd5d5c55010f894242dc",
+  "sourceRevision": "worktree:e9e2f36ea32ab201363ef89574f2c098a6201e2d6b8c425c2e531d5288af86ba",
   "lockHash": "a6034944719a3d5c511aa3421a66eb361bb1f72d22c8a98ee4eb0bb09a0b228a",
   "fixtureHash": "59d40d2da94b5a2d5d0717a055d1602c8ce27783cbcc7a4d15e627ed1f160f66",
   "matrix": {
@@ -42,10 +42,17 @@
     "states": 8,
     "viewports": 3,
     "browserProjects": 3,
-    "behaviorChecks": 45,
+    "behaviorChecks": 15,
     "accessibilityScans": 144,
     "visualComparisons": 20
   },
   "diagnostics": [],
-  "matrixHash": "ab9da6536946a4d9176fdc4887341cd9f4aa3390b62bd99f89d5a69ebefc468d"
+  "ci": {
+    "sourceCommit": "677fe9174b7dc3022b778fadc33ad266365881ee",
+    "runnerOS": "Linux",
+    "runnerArch": "X64",
+    "imageOS": "ubuntu24",
+    "imageVersion": "20260831.293.1"
+  },
+  "matrixHash": "586ba2ca6123f9ebab0f450b3dd76b7efc6d20ee463fb307f2147e19b3ef8b38"
 }

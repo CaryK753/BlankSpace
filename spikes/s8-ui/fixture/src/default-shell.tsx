@@ -25,7 +25,7 @@ export function DefaultShell({children, contributions, route}: Props) {
       <div><span className="breadcrumb">Workspace / {route.title}</span><h1 tabIndex={-1}>{route.title}</h1></div>
       <CommandPalette contributions={contributions}/>
     </header>
-    <main id="main-content">{children}</main>
+    <main id="main-content" tabIndex={-1}>{children}</main>
     <Navigation contributions={contributions} mobile/>
   </div>;
 }

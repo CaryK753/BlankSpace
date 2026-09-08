@@ -7,11 +7,30 @@
     "schemaVersion": { "const": "1" },
     "environment": {
       "type": "object", "additionalProperties": false,
-      "required": ["platform", "arch", "node", "packages", "browsers"],
+      "required": ["platform", "arch", "node", "packages", "browsers", "browserExecutables"],
       "properties": {
         "platform": { "type": "string" }, "arch": { "type": "string" }, "node": { "type": "string" },
         "packages": { "type": "object", "additionalProperties": { "type": "string" } },
-        "browsers": { "type": "object", "additionalProperties": { "type": "string" } }
+        "browsers": { "type": "object", "additionalProperties": { "type": "string" } },
+        "browserExecutables": {
+          "type": "object", "additionalProperties": false,
+          "required": ["chromium", "firefox", "webkit"],
+          "properties": {
+            "chromium": { "$ref": "#/$defs/browserExecutable" },
+            "firefox": { "$ref": "#/$defs/browserExecutable" },
+            "webkit": { "$ref": "#/$defs/browserExecutable" }
+          }
+        }
+      }
+    },
+    "ci": {
+      "type": "object", "additionalProperties": false,
+      "required": ["sourceCommit", "runnerOS", "runnerArch", "imageOS", "imageVersion"],
+      "properties": {
+        "sourceCommit": { "type": "string", "pattern": "^[a-f0-9]{40}$" },
+        "runnerOS": { "const": "Linux" }, "runnerArch": { "const": "X64" },
+        "imageOS": { "type": "string", "minLength": 1 },
+        "imageVersion": { "type": "string", "minLength": 1 }
       }
     },
     "sourceRevision": { "type": "string", "pattern": "^worktree:[a-f0-9]{64}$" },
@@ -22,11 +41,21 @@
       "required": ["shells", "states", "viewports", "browserProjects", "behaviorChecks", "accessibilityScans", "visualComparisons"],
       "properties": {
         "shells": { "const": 2 }, "states": { "const": 8 }, "viewports": { "const": 3 },
-        "browserProjects": { "const": 3 }, "behaviorChecks": { "const": 15 },
+        "browserProjects": { "const": 3 }, "behaviorChecks": { "const": 45 },
         "accessibilityScans": { "const": 144 }, "visualComparisons": { "const": 20 }
       }
     },
     "diagnostics": { "type": "array", "maxItems": 0 },
     "matrixHash": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+  },
+  "$defs": {
+    "browserExecutable": {
+      "type": "object", "additionalProperties": false,
+      "required": ["installationPath", "sha256"],
+      "properties": {
+        "installationPath": { "type": "string", "minLength": 1 },
+        "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+      }
+    }
   }
 }
