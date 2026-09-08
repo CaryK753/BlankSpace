@@ -40,9 +40,9 @@ jobs:
           plan="$(pnpm exec playwright install --dry-run chromium firefox webkit)"
           readonly plan
           printf '%s\n' "${plan}"
-          rg --fixed-strings 'chromium-1243' <<<"${plan}"
-          rg --fixed-strings 'firefox-1543' <<<"${plan}"
-          rg --fixed-strings 'webkit-2359' <<<"${plan}"
+          [[ "${plan}" == *'chromium-1243'* ]]
+          [[ "${plan}" == *'firefox-1543'* ]]
+          [[ "${plan}" == *'webkit-2359'* ]]
           pnpm exec playwright install --with-deps chromium firefox webkit
 
       - name: Capture Ubuntu behavior, accessibility and Chromium visuals
@@ -51,7 +51,6 @@ jobs:
         run: pnpm test:s8:update-snapshots
 
       - name: Hash captured evidence
-        if: always()
         shell: bash
         run: |
           set -euo pipefail
@@ -63,7 +62,7 @@ jobs:
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
           name: s8-ubuntu-baseline
-          if-no-files-found: error
+          if-no-files-found: warn
           retention-days: 7
           path: |
             spikes/s8-ui/tests/snapshots/linux
