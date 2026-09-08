@@ -4,7 +4,7 @@
   "updatedAt": "2026-09-08",
   "phase": "phase-1a-spike",
   "production": "no-go",
-  "nextWorkItem": "A1-S8-01",
+  "nextWorkItem": "A1-S8-02",
   "implemented": [
     "strict-jsonc-parser-spike",
     "formal-v1-config-and-product-graph-schemas",
@@ -49,7 +49,7 @@
     "s5": { "status": "pass", "evidence": ["serial-a-to-d-factory-start-stop", "single-ready-transition", "resource-ledger-and-partial-start-cleanup", "idempotent-and-concurrent-stop", "bounded-start-cancellation", "lifecycle-gated-event-publish", "stable-serial-handler-dispatch", "depth-first-correlation-causation", "depth-33-rejection", "active-dispatch-drain-before-stop", "linux-macos-windows-lifecycle-and-event-conformance", "github-actions-34043351874", "s6-bounded-shutdown-and-host-termination-conformance"], "nextGate": "Keep the frozen S5 lifecycle and Event corpora as cross-platform regression gates while S7 adds real Database resources." },
     "s6": { "status": "pass", "evidence": ["fastify-5.12.3-candidate-review", "node-24.20.0-fetch-undici-7.29.0", "ten-scenario-server-host-contract", "bounded-startup-shutdown-client-harness-deadlines", "posix-signal-and-windows-platform-distinction", "linux-macos-windows-matrix-cf82465d0667b1a58f46bbfa9c2aa65a3247cff53ac11e3d3fcf63590cdd78eb", "ubuntu-macos-real-sigterm-sigint-shared-stop", "windows-unsupported-by-node-signal-boundary", "timeout-report-before-nonzero-exit", "github-actions-34084714281"], "nextGate": "Keep the frozen S6 corpus as a cross-platform regression gate while S7 evaluates Database resources; production Runtime and Server adapter APIs remain unimplemented." },
     "s7": { "status": "pass", "evidence": ["postgresql-18.6-bookworm-index-sha256-1c59e2c3c818eaa0f0628f695b36e7c9e362d6b219b36a54a32df645cbd7e1af", "exact-pg-8.23.0-types-8.23.1-kysely-0.29.5-drizzle-0.45.2-lock", "direct-sql-common-driver-baseline", "neutral-two-owner-schema-and-seed", "fourteen-scenario-forward-reverse-query-migration-fault-conformance", "migration-owner-hash-lock-transaction-checkpoint-manual-removal-deadline-evidence", "linux-amd64-macos-arm64-matrix-8e48920e5c1adc8b9cf327ffeeb195dcc48d2c4c8290a7f0822cbf751313df04", "zero-runner-owned-resource-balance", "kysely-query-layer-selection", "github-actions-34192604333", "s2-s6-regressions-34192604170-34192604401", "spdx-and-slsa-attestation-metadata-with-signature-blocker"], "nextGate": "Keep the frozen S7 corpus as a digest-pinned Ubuntu regression gate; production Database adapter, backup/PITR, HA and business schemas remain unimplemented." },
-    "s8": { "status": "draft-matrix", "evidence": [], "nextGate": "Freeze UI, browser, accessibility and visual matrix." },
+    "s8": { "status": "matrix-frozen", "evidence": ["react-19.2.8-react-router-8.3.1-data-mode", "react-aria-components-1.21.1", "playwright-1.63.0-browser-revisions-1243-1543-2359", "axe-4.13.0-zero-violation-gate", "dual-shell-eight-state-responsive-focus-visual-contract", "pre-install-supply-chain-review"], "nextGate": "Implement the local dual-Shell runner and execute the frozen behavior, accessibility and Chromium visual corpus." },
     "cr1": { "status": "draft-matrix", "evidence": [], "nextGate": "Select the first additional client runtime." },
     "ds1": { "status": "draft-matrix", "evidence": [], "nextGate": "Select the first native renderer corpus." },
     "sc1": { "status": "draft-matrix", "evidence": ["proposed-release-contracts"], "nextGate": "Run against a real registry, signer and release runner." },

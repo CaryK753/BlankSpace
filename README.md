@@ -51,8 +51,9 @@ Contracts / Compiler / Runtime / Diagnostics / Tooling
 | S5 Lifecycle | 9 个 lifecycle + 5 个 Event 场景跨 Linux/macOS/Windows 对账；S6 已补齐 host deadline | Pass |
 | S6 Server | Fastify 5.12.3 十场景跨平台对账；POSIX 真实 signal 与 Windows 明确平台分支 | Pass |
 | S7 Database | PostgreSQL 18.6 digest、三访问层与 14 场景 Linux/macOS 正反序 migration/fault corpus；hash `8e48920e…df04` | Pass |
+| S8 UI | React/Router/Aria/Playwright/axe exact candidates、双 Shell/八状态、三浏览器与 visual/a11y 阈值 | Matrix frozen |
 
-当前唯一 ready 工作项是 `A1-S8-01`：先冻结 React、router、UI primitives、Playwright、浏览器和 accessibility 的 exact 选择与双 Shell 验收矩阵，再允许安装或实现 UI。详见 [`docs/agent-start-here.md`](docs/agent-start-here.md)。
+当前唯一 ready 工作项是 `A1-S8-02`：按冻结矩阵安装 exact UI/test 依赖，实现本地双 Shell conformance runner；这仍不是 production UI。详见 [`docs/agent-start-here.md`](docs/agent-start-here.md)。
 
 ## 当前可运行内容
 
@@ -66,7 +67,7 @@ Contracts / Compiler / Runtime / Diagnostics / Tooling
 
 ### 风险实验
 
-`spikes/` 中的 S1～S7 runners 负责把解析、bundle、Registry、生命周期、Server 与 Database 假设转化为可重现证据。它们不是生产 Runtime 或 production Database。
+`spikes/` 中的 S1～S7 runners 负责把解析、bundle、Registry、生命周期、Server 与 Database 假设转化为可重现证据；S8 目前只冻结了 UI 矩阵。它们不是生产 Runtime、Database 或 UI。
 
 完整范围见[当前实现参考](docs/current-implementation.md)。
 

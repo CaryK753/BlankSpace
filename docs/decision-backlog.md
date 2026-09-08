@@ -20,7 +20,7 @@
 | --- | --- | --- | --- | --- | --- | --- |
 | DEC-001 | S1 生产 validator 与跨平台 evidence | Blocked | 选定生产 JSONC/schema validator 且跨平台 runner 可用 | Compiler owner | 最终 validator corpus、Windows/Linux/macOS 或批准矩阵、版本、日志和证据 hash | S1 Pass、Phase 1B |
 | DEC-002 | S2 resolver 执行矩阵 | Pass | 2026-09-06 三平台 GitHub-hosted runner 完成 | Compiler owner | OS/pnpm/路径矩阵与 resolution trace | 已关闭；保持为 S3 与 Phase 1B 回归门 |
-| DEC-003B | S8 UI 工具与 fixture 冻结 | Draft matrix | React/UI/浏览器候选可安装且 UI fixture owner 指派 | UI owner | S8 “尚待冻结”所列输入 | S8 Pass、Phase 1C entry |
+| DEC-003B | S8 UI 工具与 fixture 冻结 | Matrix frozen | React/UI/浏览器候选可安装且 UI fixture owner 指派 | UI owner | S8 exact toolchain、双 Shell corpus、阈值与供应链审查 | S8 Pass、Phase 1C entry |
 | DEC-004 | Phase 1 性能预算 | Blocked | S1～S7 Pass 且 benchmark harness 可运行 | Performance owner | 标准环境、原始样本、算法版本、阈值与评审 | Phase 1B exit |
 | DEC-005 | Phase 1A 依赖审查基线 | Blocked | 开始保留生产实现依赖 | Security + Build/Release owner | dependency schema/记录、lock/install-script/过期审查 fixtures 与 doctor/CI diagnostics | 受审查依赖基线、公开 release |
 | DEC-006 | SC1 发布完整性 | Draft matrix | Phase 1C 发布流水线和 registry 可验证 | Security + Build/Release + Resolver owner | source approval、artifact digest/file manifest、SBOM、compatibility manifest、provenance/签名、撤销、公开 registry、凭据隔离、release/security/conformance evidence | 公开 release |
@@ -48,7 +48,7 @@
 | DEC-025 | MVP Adopter Preview journeys | Blocked | Phase 1A～1C 可运行且 preview deployment 可创建 | Developer Experience + Product + External adopter owner | Personal/Team overlays、三名外部开发者 journey、耗时/求助点/internal 修改/升级恢复 evidence | “快速搭建并上线 SaaS MVP”声明 |
 | DEC-026 | 首批 Launch Recipes | Draft matrix | Reference SaaS 与 Product Overlay generator 可运行 | Product Integration + Security + Developer Experience owner | checkout、object-storage、analytics、error-monitoring、transactional-email recipes 的版本、SecretRef、失败测试、删除/出口和干净目录复现 | Adopter Preview；不阻断 Phase 1A～1C |
 | DEC-027 | AI/Knowledge 首批 adapters | Draft matrix | AI reference overlay 开始实现前 | AI + Knowledge + Security + Product owner | Vercel AI SDK/LangChain/LangGraph、WeKnora、Exa/Tavily、Docling/MinerU/DocReader/PaddleOCR selection records，包含 capability、许可证、部署、成本、eval、安全与退出矩阵 | AI recipe、official-reference 与 production AI 声明 |
-| DEC-028 | 基础 UI Shell 与 Router 选型 | Draft matrix | S8 fixture 开始实现前 | UI + Client Runtime + Accessibility owner | React/Router/primitives 版本，sidebar/mobile templates，route/navigation schema，responsive/deep-link/back-stack/visual/a11y matrix | S8 Pass、Phase 1C Shell 与 MVP UI starter |
+| DEC-028 | 基础 UI Shell 与 Router 选型 | Matrix frozen | S8 fixture 开始实现前 | UI + Client Runtime + Accessibility owner | React/Router/primitives 版本，sidebar/mobile templates，route/navigation schema，responsive/deep-link/back-stack/visual/a11y matrix | S8 Pass、Phase 1C Shell 与 MVP UI starter |
 | DEC-029 | 多产物 CI/CD 与发布渠道 | Draft matrix | Web/Server 或任一客户端 Runtime 形成首个可打包纵向切片 | Build/Release + Client Runtime + Security owner | release-plan 正式 schema、固定 Actions/toolchains、OCI multi-arch、Desktop 签名/公证、iOS/Android 商店、promotion-only、撤销与真实 runner evidence | 自动 publish、official client distribution、stable channel |
 
 ## 更新协议
