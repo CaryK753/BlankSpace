@@ -41,7 +41,7 @@
       "required": ["shells", "states", "viewports", "browserProjects", "behaviorChecks", "accessibilityScans", "visualComparisons"],
       "properties": {
         "shells": { "const": 2 }, "states": { "const": 8 }, "viewports": { "const": 3 },
-        "browserProjects": { "const": 3 }, "behaviorChecks": { "const": 15 },
+        "browserProjects": { "const": 3 }, "behaviorChecks": { "const": 45 },
         "accessibilityScans": { "const": 144 }, "visualComparisons": { "const": 20 }
       }
     },

@@ -47,13 +47,14 @@ export async function createTranscript() {
   const fixture = compileContributions(await readContributionSource());
   const lock = await readFile(new URL('../../pnpm-lock.yaml', import.meta.url), 'utf8');
   const sources = await Promise.all([
-    'contribution-compiler.mjs', 'playwright.config.mjs', 'tests/shells.spec.ts',
+    'compatibility.mjs', 'contribution-compiler.mjs', 'playwright.config.mjs', 'tests/shells.spec.ts',
     'fixture/src/app.tsx', 'fixture/src/default-shell.tsx', 'fixture/src/workbench-shell.tsx',
     'fixture/src/nav.tsx', 'fixture/src/palette.tsx', 'fixture/src/screen-state.tsx',
     'fixture/src/styles.css', 'fixture/src/theme.css', 'fixture/contributions.json',
+    'fixture/previous-minor-contributions.json',
   ].map((path) => readFile(new URL(path, import.meta.url), 'utf8')));
   const matrix = {shells: 2, states: 8, viewports: 3, browserProjects: 3,
-    behaviorChecks: 15, accessibilityScans: 144, visualComparisons: 20};
+    behaviorChecks: 45, accessibilityScans: 144, visualComparisons: 20};
   const environment = {
     platform: process.platform, arch: process.arch, node: process.version,
     packages: Object.fromEntries(await Promise.all(['react', 'react-dom', 'react-router', 'react-aria-components',

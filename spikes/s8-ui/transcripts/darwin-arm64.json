@@ -34,7 +34,7 @@
       }
     }
   },
-  "sourceRevision": "worktree:e9e2f36ea32ab201363ef89574f2c098a6201e2d6b8c425c2e531d5288af86ba",
+  "sourceRevision": "worktree:5187d02f6b6c9c6142f06b3e8b2a8ea6f7f1b0deffb1fd5d5c55010f894242dc",
   "lockHash": "a6034944719a3d5c511aa3421a66eb361bb1f72d22c8a98ee4eb0bb09a0b228a",
   "fixtureHash": "59d40d2da94b5a2d5d0717a055d1602c8ce27783cbcc7a4d15e627ed1f160f66",
   "matrix": {
@@ -42,10 +42,10 @@
     "states": 8,
     "viewports": 3,
     "browserProjects": 3,
-    "behaviorChecks": 15,
+    "behaviorChecks": 45,
     "accessibilityScans": 144,
     "visualComparisons": 20
   },
   "diagnostics": [],
-  "matrixHash": "fecb2e3053adb68db0afe28c064ba836ae48382443455997774d76f32214987e"
+  "matrixHash": "ab9da6536946a4d9176fdc4887341cd9f4aa3390b62bd99f89d5a69ebefc468d"
 }

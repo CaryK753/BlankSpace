@@ -1,0 +1,30 @@
+{
+  "schemaVersion": "1",
+  "kits": { "core": true, "billing": false },
+  "routes": [
+    { "id": "home", "path": "/app", "title": "Overview", "kit": "core", "access": "signed-in" },
+    { "id": "projects", "path": "/app/projects", "title": "Projects", "kit": "core", "access": "policy:projects.read" },
+    { "id": "project-detail", "path": "/app/projects/:projectId", "title": "Project detail", "kit": "core", "access": "policy:projects.read" },
+    { "id": "project-edit", "path": "/app/projects/:projectId/edit", "title": "Edit project", "kit": "core", "access": "policy:projects.write" },
+    { "id": "settings", "path": "/app/settings", "title": "Settings", "kit": "core", "access": "signed-in" },
+    { "id": "help", "path": "/help", "title": "Help center", "kit": "core", "access": "public" },
+    { "id": "billing", "path": "/app/billing", "title": "Billing", "kit": "billing", "access": "policy:billing.read" }
+  ],
+  "navigation": [
+    { "id": "nav.home", "routeId": "home", "label": "Overview", "region": "primary", "priority": 100, "kit": "core" },
+    { "id": "nav.projects", "routeId": "projects", "label": "Projects", "region": "primary", "priority": 90, "kit": "core" },
+    { "id": "nav.settings", "routeId": "settings", "label": "Settings", "region": "utility", "priority": 40, "kit": "core" },
+    { "id": "nav.help", "routeId": "help", "label": "Help", "region": "utility", "priority": 30, "kit": "core" },
+    { "id": "nav.mobile.home", "routeId": "home", "label": "Home", "region": "mobile-primary", "priority": 100, "kit": "core" },
+    { "id": "nav.mobile.projects", "routeId": "projects", "label": "Projects", "region": "mobile-primary", "priority": 90, "kit": "core" },
+    { "id": "nav.mobile.more", "routeId": "settings", "label": "More", "region": "mobile-more", "priority": 10, "kit": "core" },
+    { "id": "nav.billing", "routeId": "billing", "label": "Billing", "region": "primary", "priority": 50, "kit": "billing" }
+  ],
+  "commands": [
+    { "id": "command.search", "label": "Search", "scope": "global", "kit": "core" },
+    { "id": "command.new-project", "label": "New project", "scope": "route:projects", "kit": "core" },
+    { "id": "command.edit-project", "label": "Edit selected project", "scope": "selection", "kit": "core" },
+    { "id": "command.help", "label": "Open help", "scope": "global", "kit": "core" },
+    { "id": "command.billing", "label": "Manage billing", "scope": "global", "kit": "billing" }
+  ]
+}
