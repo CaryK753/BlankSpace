@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://blankspace.dev/schemas/spikes/s7-database-transcript-v1.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "environment", "image", "budgets", "matrix", "matrixHash", "scenarios"],
+  "properties": {
+    "schemaVersion": {"const": "1"},
+    "environment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["platform", "arch", "node", "containerOs", "containerArchitecture", "packages"],
+      "properties": {
+        "platform": {"type": "string", "minLength": 1},
+        "arch": {"type": "string", "minLength": 1},
+        "node": {"type": "string", "pattern": "^v24\\."},
+        "containerOs": {"const": "linux"},
+        "containerArchitecture": {"enum": ["amd64", "arm64"]},
+        "packages": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["pg", "typesPg", "kysely", "drizzleOrm"],
+          "properties": {
+            "pg": {"const": "8.23.0"},
+            "typesPg": {"const": "8.23.1"},
+            "kysely": {"const": "0.29.5"},
+            "drizzleOrm": {"const": "0.45.2"}
+          }
+        }
+      }
+    },
+    "image": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["reference", "indexDigest"],
+      "properties": {
+        "reference": {"const": "postgres:18.6-bookworm@sha256:1c59e2c3c818eaa0f0628f695b36e7c9e362d6b219b36a54a32df645cbd7e1af"},
+        "indexDigest": {"const": "sha256:1c59e2c3c818eaa0f0628f695b36e7c9e362d6b219b36a54a32df645cbd7e1af"}
+      }
+    },
+    "budgets": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["containerStartupDeadlineMs", "connectionDeadlineMs", "statementDeadlineMs", "lockDeadlineMs", "migrationDeadlineMs", "harnessDeadlineMs"],
+      "properties": {
+        "containerStartupDeadlineMs": {"const": 60000},
+        "connectionDeadlineMs": {"const": 5000},
+        "statementDeadlineMs": {"const": 2000},
+        "lockDeadlineMs": {"const": 2000},
+        "migrationDeadlineMs": {"const": 15000},
+        "harnessDeadlineMs": {"const": 120000}
+      }
+    },
+    "matrix": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["runCount", "scenarioCount"],
+      "properties": {"runCount": {"const": 2}, "scenarioCount": {"const": 14}}
+    },
+    "matrixHash": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "scenarios": {
+      "type": "array",
+      "minItems": 14,
+      "maxItems": 14,
+      "items": {
+        "type": "object",
+        "required": ["id", "outcome"],
+        "properties": {
+          "id": {"type": "string", "minLength": 1},
+          "outcome": {"const": "pass"}
+        }
+      }
+    }
+  }
+}

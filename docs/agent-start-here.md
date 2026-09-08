@@ -47,15 +47,15 @@ fnm exec --using=24 pnpm verify:docs
 
 ## 4. 当前代码任务
 
-当前唯一 ready 工作项是 `A1-S7-02`：按照冻结的 S7 契约安装 exact spike dependencies、对账 pnpm lock，并用 digest-pinned disposable PostgreSQL 实现本地访问层与 migration conformance runner。开始前完整阅读：
+当前唯一 ready 工作项是 `A1-S8-01`：先冻结 UI 工具链、双 Product Shell、标准状态、responsive、visual 与 accessibility conformance contract；本项只写决策与供应链文档，不安装或实现 UI。开始前完整阅读：
 
-1. [`implementation/phase-1a-work-items.json`](implementation/phase-1a-work-items.json) 中的 `A1-S7-02`；
-2. [S7 数据库访问层与 Migration Runner](spikes/S7-database.md)；
-3. [S7 候选与镜像审查](spikes/s7-database/supply-chain-review.md)；
-4. [RFC-0013 Phase 1 技术栈](rfcs/0013-phase-1-technology.md)的 PostgreSQL 边界；
-5. [验证策略](testing-strategy.md)、[安全模型](security.md)、[供应链政策](supply-chain.md)与已通过的 S5/S6 regression corpus。
+1. [`implementation/phase-1a-work-items.json`](implementation/phase-1a-work-items.json) 中的 `A1-S8-01`；
+2. [S8 双 Product Shell 与 UI 验收](spikes/S8-ui.md)；
+3. [基础 UI Shell 模板与路由](ui-templates.md)；
+4. [RFC-0013 Phase 1 技术栈](rfcs/0013-phase-1-technology.md)的 React/UI 边界；
+5. [验证策略](testing-strategy.md)、[安全模型](security.md)与[供应链政策](supply-chain.md)。
 
-S2～S6 已取得 Pass；S7 为 Matrix frozen。`A1-S7-01` 已冻结 PostgreSQL `18.6-bookworm` index digest、`pg@8.23.0`、`@types/pg@8.23.1`、Kysely `0.29.5`、Drizzle ORM `0.45.2`、direct SQL baseline、两 owner fixture、6 个 deadline、14 个场景和供应链风险，且没有修改依赖或 Docker daemon。`A1-S7-02` 只实现本地 spike runner 与候选结论；Ubuntu gate 由 blocked 的 `A1-S7-03` 负责，production adapter、业务 schema、备份/PITR 和 deployment 均不在范围内。若机器状态指向新的 work item，以机器状态和 work-item 文件为准，本节只作为人类导航。
+S2～S7 已取得 Pass。S7 在 macOS arm64 与 Ubuntu linux-amd64 上用 exact package 与 PostgreSQL digest 完成 14 场景正反序 corpus，canonical hash 为 `8e48920e5c1adc8b9cf327ffeeb195dcc48d2c4c8290a7f0822cbf751313df04`，Kysely 为 query-layer 选择且资源余额为零。S8 目前仍是 Draft matrix；`A1-S8-01` 必须先冻结 React/router/UI primitives/Playwright/a11y 的 exact 版本、浏览器环境、fixture 和阈值，后续 item 才能安装工具或实现 Shell。若机器状态指向新的 work item，以机器状态和 work-item 文件为准，本节只作为人类导航。
 
 ## 5. 决策顺序
 

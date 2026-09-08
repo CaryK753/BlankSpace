@@ -62,6 +62,8 @@ xtend@4.0.2
 
 临时 npm 解析因 `@types/pg` 的 wildcard dependency 选择了 `@types/node@26.5.0`。仓库直接约束 Node 24 types，因此 `A1-S7-02` 的硬门禁是 pnpm lock 不引入 Node 26 types；若无法复用/解析到仓库批准的 Node 24 line，则停止并单独决定 types 策略，不用 `skipLibCheck` 掩盖。
 
+`A1-S7-02` 的实际安装使用 `--save-exact --ignore-scripts`，最终 lock 解析 `@types/pg@8.23.1` 到仓库 Node 24 types line，没有引入 `@types/node@26`，也没有新增 `requiresBuild` 或安装脚本。exact package identity 已由 S7 transcript 在运行时再次读取并断言；GitHub Actions run `34192604333` 又通过 frozen-lock 安装复核了同一解析。
+
 `pg-cloudflare` 是 `pg` 的 optional dependency，但 npm 默认解析快照包含它。后续 pnpm tree 可以包含该已审查节点，但 S7 Node runner 不得使用 Cloudflare transport；若实际 lock 因 package-manager 语义不同而省略它，记录差异即可，不能扩展到其他 optional peers。
 
 ## PostgreSQL image identity

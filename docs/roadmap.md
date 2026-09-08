@@ -4,7 +4,7 @@
 
 Blankspace 的能力上限是承载 AFFiNE 级完整产品，但实现必须从最小纵向切片逐步推进。每个阶段都应产生可运行结果，避免同时建设框架、编辑器、同步平台和插件生态。
 
-当前状态：架构设计与 Phase 1A spike 阶段。S1 为 provisional pass，S2～S6 已通过；S7 已冻结 PostgreSQL 18.6 digest、数据访问层候选与 migration fault contract，当前进入本地 digest-pinned Database runner 实现，尚无数据库执行证据。仓库仍不存在可运行框架或产品脚手架。各阶段优先集成成熟领域项目；Blankspace 不把开发编辑器、搜索引擎、认证协议或支付网关列为路线交付物。
+当前状态：架构设计与 Phase 1A spike 阶段。S1 为 provisional pass，S2～S7 已通过；S7 的 PostgreSQL 18.6 digest-pinned 14 场景 corpus 已在 macOS arm64 与 Ubuntu linux-amd64 对账。当前进入 S8 UI 工具链与双 Shell conformance contract 冻结。仓库仍不存在可运行框架或产品脚手架。各阶段优先集成成熟领域项目；Blankspace 不把开发编辑器、搜索引擎、认证协议或支付网关列为路线交付物。
 
 ## 2. Phase 0：决策与风险原型
 

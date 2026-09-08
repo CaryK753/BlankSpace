@@ -13,7 +13,7 @@
 - S4 Executable Registry：`ProductGraphV1` 包含 resolved `services`/`events`，`ExecutableRegistryV1` 只从 Graph 派生 entries/bindings/handlers；确定性 Graph→Registry generator、joint `assemblyId`、18 组 pre-factory mismatch 和隔离子进程的 generated-entry `fetch` 顶层副作用 probe 已在 Ubuntu 24.04、macOS 15、Windows 2025 运行同一 frozen corpus 并通过，S4 状态为 Pass。
 - S5 lifecycle/Event core：内存 A→B→C→D runner 已冻结串行 factory/start/stop、单一 ready、严格反序 stop、资源账本、启动失败回滚、幂等/并发 stop 与启动中取消；独立 Event runner 已冻结 ready 门控、稳定串行 handler、depth-first 嵌套、correlation/causation、深度 33 拒绝和 stop 前活动 dispatch 排空。9 个 lifecycle 与 5 个 Event 场景已在 Linux、macOS、Windows 对账；S6 已补齐其有界 shutdown 与 host termination 条件。
 - S6 Server host spike：exact Fastify 5.12.3 使用真实 `127.0.0.1` loopback listen/fetch，十场景在 Linux、macOS、Windows 均匹配 canonical hash `cf82465d0667b1a58f46bbfa9c2aa65a3247cff53ac11e3d3fcf63590cdd78eb`；closing `503`、活动请求排空、request/background deadline 上报后非零退出和 listen 失败反序回滚均通过。Ubuntu/macOS 通过真实 `SIGTERM`/`SIGINT` 共享停止，Windows 明确记录 Node 平台限制。它仍是实验 runner，不是产品 Server API。
-- S7 Database contract：已冻结 PostgreSQL `18.6-bookworm` exact OCI digest、`pg`/Kysely/Drizzle/direct SQL 候选、无业务含义的两 owner schema/seed、advisory lock、transaction/checkpoint/manual/removal、6 个 deadline、14 个场景和稳定 diagnostics。当前只有 manifest/package 预安装审查，没有数据库 package、image、container、SQL 或运行 transcript。
+- S7 Database spike：exact `pg`/Kysely/Drizzle 已安装，macOS arm64 与 Ubuntu linux-amd64 runner 对 digest-pinned PostgreSQL `18.6-bookworm` 执行 14 个正反序场景，覆盖三候选 typed query、两 owner schema、advisory lock、transaction/checkpoint/manual/removal、6 个 deadline 和稳定 diagnostics；canonical hash 为 `8e48920e5c1adc8b9cf327ffeeb195dcc48d2c4c8290a7f0822cbf751313df04`，资源余额为零。Kysely 是 query-layer 选择，direct SQL 是退路；这仍不是 production Database adapter。
 - 文档验证：检查 JSON、Markdown 本地链接/围栏、RFC baseline、带 `$schema` 的 JSONC 示例和 proposed contract fixtures。
 
 当前没有 CLI、scaffolder、preset expansion、可发布的多工具 resolver adapter API、可用于产品运行的完整 Executable Registry/Runtime host、Web/Server 应用、Identity/Database Kit、部署或客户端包。
@@ -82,4 +82,4 @@ const record = resolveSourceImport({
 
 ## 当前限制
 
-这套实现已经证明确定性 Product Graph 前置切片、workspace source resolution/import policy、完整 S3 bundle/artifact trace、通过跨平台门禁的 S4 Registry、S5 lifecycle/Event core 与有界 S6 Fastify host 行为；S7 目前只冻结 Database contract。完整 Runtime、真实 Database、Service provider selection、业务 Kits 与 CLI 仍未完成，因此仍不能创建或运行 SaaS。不要根据目标 CLI 示例发布 package、部署生产环境或宣称支持 Desktop/Mobile。当前唯一实现路径是 `A1-S7-02`：实现本地 digest-pinned PostgreSQL conformance runner，详见 [Phase 1 蓝图](phase-1-blueprint.md)。
+这套实现已经证明确定性 Product Graph 前置切片、workspace source resolution/import policy、完整 S3 bundle/artifact trace、通过跨平台门禁的 S4 Registry、S5 lifecycle/Event core、有界 S6 Fastify host 行为和 S7 Database conformance。完整 Runtime、production Database、Service provider selection、业务 Kits 与 CLI 仍未完成，因此仍不能创建或运行 SaaS。不要根据目标 CLI 示例发布 package、部署生产环境或宣称支持 Desktop/Mobile。当前唯一工作项是 `A1-S8-01`：先冻结 UI 工具链、双 Product Shell、visual 与 accessibility 矩阵，详见 [Phase 1 蓝图](phase-1-blueprint.md)。

@@ -2,7 +2,7 @@
 
 ## 状态
 
-Matrix frozen。`A1-S7-01` 已冻结 PostgreSQL 镜像、三种访问层候选、fixture、deadline、migration ownership/locking/transaction/recovery 语义和诊断结构，但尚未安装数据库 package、拉取镜像、启动容器或执行 SQL。只有后续真实 runner 和目标平台证据可以把本状态推进为 Provisional pass 或 Pass。
+Pass。`A1-S7-02` 在 macOS arm64 上完成本地矩阵，`A1-S7-03` 又在 Ubuntu 24.04/linux-amd64 上运行相同 exact package、digest-pinned PostgreSQL 18.6 与 14 场景正反序 corpus，并匹配同一 canonical hash。它仍是 conformance spike，不是 production Database API。
 
 ## 要回答的问题
 
@@ -187,12 +187,23 @@ interface S7Diagnostic {
 3. Kysely 与 Drizzle 都通过时，优先选择依赖/生成物更小、Kit-local types 更易维护者；性能只有在结果和计划语义一致后参与判断。
 4. 两个 builder 都破坏边界或明显扩大供应链/编译成本时，选择 direct SQL typed adapter。
 
+## 本地执行结论
+
+2026-09-08 在 macOS arm64、Node.js `v24.20.0`、pnpm `10.32.1`、Docker Desktop `29.7.2` 上执行了 `spikes/s7-database/`。runner 在创建任何容器前检查 frozen index digest；每个数据库场景使用新的 loopback-only network、随机 host port、`POSTGRES_PASSWORD_FILE` secret 与 disposable volume，并在结束后验证 runner label 下容器、network、volume 均为空。
+
+- 14 个场景按正序与反序各运行一次，canonical matrix hash 均为 `8e48920e5c1adc8b9cf327ffeeb195dcc48d2c4c8290a7f0822cbf751313df04`。
+- direct SQL、Kysely 与 Drizzle 得到相同 wire rows 和参数化 SQL intent；migration lifecycle 始终由 Blankspace runner 统一管理。
+- duplicate/dependency/hash/lock/rollback/checkpoint/manual/owner-scope/removal/connect/statement/lock/migration deadline 与 client import boundary 均产生冻结结果，canonical 内容未包含 credential、端口、绝对路径、stack、timestamp 或第三方 message。
+- Kysely 与 Drizzle 都通过边界正确性门槛。按冻结的次级选择规则，选择 Kysely 作为后续 Database query-layer 原语：它在本安装中为约 `3.4 MiB`，Drizzle ORM 为约 `16 MiB`，且 Kysely 不需要 schema generator 或自身 migrator。direct SQL typed adapter 保留为显式 SQL 和能力退路。这只是 spike 候选结论，不创建 production adapter。
+
+本地 baseline 位于 `spikes/s7-database/transcripts/macos-arm64.json`，schema 位于 `spikes/s7-database/transcript.schema.json`。平台字段不进入 matrix hash。GitHub Actions run `34192604333` 在 Ubuntu 24.04/linux-amd64 拉取同一 frozen index digest，5/5 S7 tests 与最终 labelled resource 检查通过；S2～S6 的 15 个跨平台回归 jobs 在同一候选提交上也全部通过。
+
 Drizzle 文档把 TypeScript schema 视作 query/migration source of truth，但也明确支持外部 migration 或直接 SQL；S7 只评估其 query layer，不采用 `drizzle-kit push` 或 Drizzle migration history。[Drizzle migration approaches](https://orm.drizzle.team/docs/migrations)
 
 ## 后果、回滚与未解决边界
 
 正面后果是三候选共享 driver、seed、SQL 和 migration owner，因此比较的是访问层能力而不是不同数据库行为；负面后果是统一 runner 需要自己维护 descriptor/history/recovery 语义，无法直接继承 ORM CLI convenience。
 
-后续 `A1-S7-02` 只能安装上述 exact spike dependencies、逐项对账 pnpm lock、拉取上述 digest，并实现本地 runner；Ubuntu evidence 由 `A1-S7-03` 独立负责。任一版本、digest、解析树、license、install script、advisory、Node patch、PostgreSQL patch/base、schema 或 deadline 变化都使本矩阵失效并触发复审。
+`A1-S7-02` 与 `A1-S7-03` 已完成 exact dependency、lock、本地 runner 和 Ubuntu canonical reconciliation；Kysely 是后续 query-layer 选择，direct SQL 是退路。任一版本、digest、解析树、license、install script、advisory、Node patch、PostgreSQL patch/base、schema 或 deadline 变化都使本矩阵失效并触发复审。
 
 本阶段没有 production adapter、备份验证、PITR、HA/failover、connection proxy、tenant schema、业务 Kit schema、zero-downtime DDL 或 production migration apply。S7 通过也不能把这些能力标记为可用。

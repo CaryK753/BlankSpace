@@ -1,0 +1,55 @@
+name: S7 conformance
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  database-matrix:
+    name: S7 / ubuntu-24.04
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+
+    steps:
+      - name: Check out source
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
+        with:
+          persist-credentials: false
+
+      - name: Install Node.js 24.20.0
+        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
+        with:
+          node-version: 24.20.0
+          package-manager-cache: false
+
+      - name: Activate pinned pnpm
+        shell: bash
+        run: bash .github/scripts/activate-pnpm.sh
+
+      - name: Install frozen dependencies
+        run: pnpm install --frozen-lockfile --ignore-scripts
+
+      - name: Pull frozen PostgreSQL image
+        shell: bash
+        run: |
+          set -euo pipefail
+          image="$(node --input-type=module --eval="import { IMAGE } from './spikes/s7-database/constants.mjs'; process.stdout.write(IMAGE)")"
+          readonly image
+          docker pull "${image}"
+
+      - name: Reconcile Database query and migration matrices
+        run: pnpm test:s7
+
+      - name: Assert runner resources are absent
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -z "$(docker ps --all --quiet --filter label=blankspace.s7.run)"
+          test -z "$(docker volume ls --quiet --filter label=blankspace.s7.run)"
+          test -z "$(docker network ls --quiet --filter label=blankspace.s7.run)"
