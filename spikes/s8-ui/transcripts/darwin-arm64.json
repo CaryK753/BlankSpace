@@ -18,6 +18,20 @@
       "chromium": "1243",
       "firefox": "1543",
       "webkit": "2359"
+    },
+    "browserExecutables": {
+      "chromium": {
+        "installationPath": "chromium-1243/chrome-mac-arm64/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing",
+        "sha256": "8319963f6625accf51c0dd4f55091ceaf9f09ed39e7a52fed4fae12b2a6b668a"
+      },
+      "firefox": {
+        "installationPath": "firefox-1543/firefox/Nightly.app/Contents/MacOS/firefox",
+        "sha256": "e75d92f6f3210c9c31056d10b912f43c139f0cf7a2a3d0f2e002e88c1c7fbf5a"
+      },
+      "webkit": {
+        "installationPath": "webkit-2359/pw_run.sh",
+        "sha256": "a85baad3d8c07173ac387a59b41500c382b21ed692afe0964d29aac247ccc63b"
+      }
     }
   },
   "sourceRevision": "worktree:e9e2f36ea32ab201363ef89574f2c098a6201e2d6b8c425c2e531d5288af86ba",
@@ -33,5 +47,5 @@
     "visualComparisons": 20
   },
   "diagnostics": [],
-  "matrixHash": "73a2e570c99f2ca088dcb4b6a2793c58477098558670dae287adb50f639df038"
+  "matrixHash": "fecb2e3053adb68db0afe28c064ba836ae48382443455997774d76f32214987e"
 }

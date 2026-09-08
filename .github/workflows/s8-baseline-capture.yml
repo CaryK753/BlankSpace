@@ -1,0 +1,69 @@
+name: S8 Ubuntu baseline capture
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  capture:
+    name: S8 capture / ubuntu-24.04
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+
+    steps:
+      - name: Check out source
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
+        with:
+          persist-credentials: false
+
+      - name: Install Node.js 24.20.0
+        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
+        with:
+          node-version: 24.20.0
+          package-manager-cache: false
+
+      - name: Activate pinned pnpm
+        shell: bash
+        run: bash .github/scripts/activate-pnpm.sh
+
+      - name: Install frozen dependencies with scripts disabled
+        run: pnpm install --frozen-lockfile --ignore-scripts
+
+      - name: Verify and install the frozen browser revisions
+        shell: bash
+        run: |
+          set -euo pipefail
+          plan="$(pnpm exec playwright install --dry-run chromium firefox webkit)"
+          readonly plan
+          printf '%s\n' "${plan}"
+          rg --fixed-strings 'chromium-1243' <<<"${plan}"
+          rg --fixed-strings 'firefox-1543' <<<"${plan}"
+          rg --fixed-strings 'webkit-2359' <<<"${plan}"
+          pnpm exec playwright install --with-deps chromium firefox webkit
+
+      - name: Capture Ubuntu behavior, accessibility and Chromium visuals
+        env:
+          S8_ARTIFACT_DIR: ${{ runner.temp }}/blankspace-s8-artifacts
+        run: pnpm test:s8:update-snapshots
+
+      - name: Hash captured evidence
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          find spikes/s8-ui/tests/snapshots/linux spikes/s8-ui/transcripts/linux-x64.json \
+            -type f -print0 | sort -z | xargs -0 sha256sum
+
+      - name: Upload separately reviewable Ubuntu evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: s8-ubuntu-baseline
+          if-no-files-found: error
+          retention-days: 7
+          path: |
+            spikes/s8-ui/tests/snapshots/linux
+            spikes/s8-ui/transcripts/linux-x64.json
+            ${{ runner.temp }}/blankspace-s8-artifacts
