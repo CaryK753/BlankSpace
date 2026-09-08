@@ -1,6 +1,8 @@
 name: S8 Ubuntu baseline capture
 
 on:
+  pull_request:
+    branches: [main]
   workflow_dispatch:
 
 permissions:
