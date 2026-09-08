@@ -114,9 +114,9 @@ React Mobile 与 Desktop 可以共享 screen model、repository 和 route identi
 
 ## 5. 响应式模式
 
-首个 React Web renderer 使用三种语义 viewport class；数值是待 S8 实测冻结的默认建议：
+首个 React Web renderer 使用三种语义 viewport class；S8 已冻结以下 conformance 阈值，实际执行证据仍待完成：
 
-| Class | 建议范围 | Shell 行为 |
+| Class | 冻结范围 | Shell 行为 |
 | --- | --- | --- |
 | `compact` | `< 768 px` | `mobile-tabs`；mobile page renderer |
 | `medium` | `768–1023 px` | Desktop content + drawer navigation |
@@ -160,7 +160,7 @@ Navigation 是指向 route 的可选入口，不是 route 本身。它声明：
 
 ### 6.3 Router adapter
 
-Phase 1 React 候选使用 React Router Data/Framework APIs，原因是 nested layout、loader/action、pending/error 和 route modules 能覆盖 SaaS 页面生命周期。最终 mode/version 由 S8 spike 锁定，公共 Route Contract 不暴露 `RouteObject`、loader args 或 React components。
+Phase 1 React 候选锁定 `react-router@8.3.1` Data Mode；nested layout、loader/action、pending/error 能覆盖 SaaS 页面生命周期，同时不采用 Framework Mode 的文件/构建约定。公共 Route Contract 不暴露 `RouteObject`、loader args 或 React components，实际适用性仍由 S8 runner 验证。
 
 ```text
 Route Contributions

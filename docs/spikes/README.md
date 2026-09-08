@@ -26,7 +26,7 @@
 | [S5 Lifecycle](S5-lifecycle.md) | Pass | 生命周期 core 与 Event dispatch/drain 的 9 + 5 场景已在 Linux、macOS、Windows 匹配同一 canonical hashes；S6 已补齐有界 shutdown 与 host termination | 作为 regression gate 保持稳定；真实 Database 资源由 S7 验证 |
 | [S6 Server](S6-server.md) | Pass | exact Fastify 5.12.3 的十场景真实 loopback corpus 在 Linux、macOS、Windows 匹配 hash；Ubuntu/macOS 真实 signal 与 Windows 明确平台分支通过 | 作为 regression gate 保持稳定；不将 spike 冒充 production Server adapter |
 | [S7 Database](S7-database.md) | Pass | macOS arm64 与 Ubuntu linux-amd64 上 PostgreSQL 18.6 exact digest、`pg`/Kysely/Drizzle/direct SQL 与 14 场景正反序 corpus 匹配 hash `8e48920e…df04`，资源余额为零 | 保持 frozen S7 corpus 为回归门；不将 spike 冒充 production Database adapter |
-| [S8 UI](S8-ui.md) | Draft matrix | 已起草双 Shell、标准状态、视觉与 a11y 场景，无执行证据 | 锁定 UI、浏览器、容差与 runner，完成 fixture 后冻结矩阵 |
+| [S8 UI](S8-ui.md) | Matrix frozen | 已锁定 React/Router/Aria/Playwright/axe exact candidates、两个 Shell、八种状态、三 browser revisions、响应式/视觉/a11y 阈值与供应链边界；尚无执行证据 | 实现本地双 Shell runner，运行 behavior/a11y 与 Chromium visual corpus |
 
 ## 未来 Client Runtime 轨道
 
