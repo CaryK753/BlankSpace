@@ -47,16 +47,16 @@ fnm exec --using=24 pnpm verify:docs
 
 ## 4. 当前代码任务
 
-当前唯一 ready 工作项是 `A1-S8-02`：按已经冻结的 UI 工具链与双 Product Shell contract 实现本地 S8 conformance runner。开始前完整阅读：
+当前唯一 ready 工作项是 `A1-S8-03`：在 Ubuntu canonical 环境复现本地双 Product Shell corpus 并形成 S8 最终候选决策。开始前完整阅读：
 
-1. [`implementation/phase-1a-work-items.json`](implementation/phase-1a-work-items.json) 中的 `A1-S8-02`；
+1. [`implementation/phase-1a-work-items.json`](implementation/phase-1a-work-items.json) 中的 `A1-S8-03`；
 2. [S8 双 Product Shell 与 UI 验收](spikes/S8-ui.md)；
 3. [S8 UI 供应链审查](spikes/s8-ui/supply-chain-review.md)；
 4. [基础 UI Shell 模板与路由](ui-templates.md)；
 5. [RFC-0013 Phase 1 技术栈](rfcs/0013-phase-1-technology.md)的 React/UI 边界；
 6. [验证策略](testing-strategy.md)、[安全模型](security.md)与[供应链政策](supply-chain.md)。
 
-S2～S7 已取得 Pass。S7 在 macOS arm64 与 Ubuntu linux-amd64 上用 exact package 与 PostgreSQL digest 完成 14 场景正反序 corpus，canonical hash 为 `8e48920e5c1adc8b9cf327ffeeb195dcc48d2c4c8290a7f0822cbf751313df04`，Kysely 为 query-layer 选择且资源余额为零。S8 已冻结 React `19.2.8`、React Router Data Mode `8.3.1`、React Aria Components `1.21.1`、Playwright `1.63.0`、axe `4.13.0`、两个 Shell、八种状态与 browser/visual/a11y 门禁，但尚未安装或执行。`A1-S8-02` 必须先复核审查有效期和实际 pnpm tree，再实现本地 runner；不得把 Matrix frozen 写成 Pass。若机器状态指向新的 work item，以机器状态和 work-item 文件为准，本节只作为人类导航。
+S2～S7 已取得 Pass。S8 已在 macOS arm64 安装 exact candidates 并运行两个 Shell、八种状态与三浏览器 corpus：15 个行为检查、144 个 axe scan、20 个 Chromium visual comparison 通过，matrix hash 为 `73a2e570c99f2ca088dcb4b6a2793c58477098558670dae287adb50f639df038`。`A1-S8-03` 必须在 Ubuntu 24.04 生成独立 canonical baseline，核验 browser artifact/runner identity 并保持 S2～S7 绿色；本地证据不能直接写成 S8 Pass。若机器状态指向新的 work item，以机器状态和 work-item 文件为准，本节只作为人类导航。
 
 ## 5. 决策顺序
 

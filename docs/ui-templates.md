@@ -114,7 +114,7 @@ React Mobile 与 Desktop 可以共享 screen model、repository 和 route identi
 
 ## 5. 响应式模式
 
-首个 React Web renderer 使用三种语义 viewport class；S8 已冻结以下 conformance 阈值，实际执行证据仍待完成：
+首个 React Web renderer 使用三种语义 viewport class；S8 已冻结以下 conformance 阈值，并已取得 macOS arm64 本地执行证据，Ubuntu canonical 证据仍待完成：
 
 | Class | 冻结范围 | Shell 行为 |
 | --- | --- | --- |

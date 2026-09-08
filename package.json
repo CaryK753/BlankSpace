@@ -8,8 +8,8 @@
   },
   "scripts": {
     "build": "tsc -b",
-    "typecheck": "tsc -b --pretty false",
-    "test": "vitest run && pnpm test:s1 && pnpm test:s2 && pnpm test:s3 && pnpm test:s4 && pnpm test:s5 && pnpm test:s6 && pnpm test:s7",
+    "typecheck": "tsc -b --pretty false && tsc -p spikes/s8-ui/tsconfig.json --pretty false",
+    "test": "vitest run && pnpm test:s1 && pnpm test:s2 && pnpm test:s3 && pnpm test:s4 && pnpm test:s5 && pnpm test:s6 && pnpm test:s7 && pnpm test:s8",
     "test:s1": "node --test spikes/s1-config/*.test.mjs",
     "test:s2": "pnpm build && node --test spikes/s2-resolver/*.test.mjs",
     "test:s3": "pnpm build && node --test spikes/s3-bundle-trace/*.test.mjs",
@@ -17,18 +17,31 @@
     "test:s5": "node --test spikes/s5-lifecycle/*.test.mjs",
     "test:s6": "node --test spikes/s6-server/*.test.mjs",
     "test:s7": "pnpm build && node --test spikes/s7-database/*.test.mjs",
+    "test:s8": "node --test spikes/s8-ui/*.test.mjs && node spikes/s8-ui/run-playwright.mjs",
+    "test:s8:update-snapshots": "node --test spikes/s8-ui/contribution-compiler.test.mjs && node spikes/s8-ui/run-playwright.mjs --update-snapshots",
     "verify:docs": "node scripts/verify-docs.mjs && node scripts/validate-proposed-client-contracts.mjs && node scripts/validate-proposed-domain-contracts.mjs && node scripts/validate-proposed-ui-contracts.mjs && node scripts/validate-proposed-release-contracts.mjs"
   },
   "devDependencies": {
+    "@axe-core/playwright": "4.13.0",
+    "@fontsource-variable/inter": "5.3.0",
+    "@playwright/test": "1.63.0",
     "@types/node": "^24.0.0",
     "@types/pg": "8.23.1",
+    "@types/react": "19.2.18",
+    "@types/react-dom": "19.2.7",
     "ajv": "^8.17.1",
+    "axe-core": "4.13.0",
     "drizzle-orm": "0.45.2",
     "fastify": "5.12.3",
     "jsonc-parser": "^3.3.1",
     "kysely": "0.29.5",
     "pg": "8.23.0",
+    "react": "19.2.8",
+    "react-aria-components": "1.21.1",
+    "react-dom": "19.2.8",
+    "react-router": "8.3.1",
     "typescript": "^5.9.0",
+    "vite": "8.2.2",
     "vitest": "^4.0.0"
   }
 }

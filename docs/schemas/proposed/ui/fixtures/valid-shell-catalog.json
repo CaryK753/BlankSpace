@@ -47,14 +47,14 @@
         "uiFamily": "react-desktop",
         "viewportClasses": ["medium", "expanded"],
         "supportedRegions": ["primary", "secondary", "utility"],
-        "standardStates": ["loading", "empty", "ready", "refreshing", "error", "permission-denied", "offline"]
+        "standardStates": ["loading", "empty", "ready", "refreshing", "error", "permission-denied", "offline", "unsupported"]
       },
       {
         "id": "mobile-tabs",
         "uiFamily": "react-mobile",
         "viewportClasses": ["compact"],
         "supportedRegions": ["mobile-primary", "mobile-more"],
-        "standardStates": ["loading", "empty", "ready", "error", "permission-denied", "offline"]
+        "standardStates": ["loading", "empty", "ready", "refreshing", "error", "permission-denied", "offline", "unsupported"]
       }
     ]
   }

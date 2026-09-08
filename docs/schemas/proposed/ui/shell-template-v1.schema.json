@@ -99,12 +99,14 @@
             { "contains": { "const": "loading" } },
             { "contains": { "const": "empty" } },
             { "contains": { "const": "ready" } },
+            { "contains": { "const": "refreshing" } },
             { "contains": { "const": "error" } },
             { "contains": { "const": "permission-denied" } },
-            { "contains": { "const": "offline" } }
+            { "contains": { "const": "offline" } },
+            { "contains": { "const": "unsupported" } }
           ],
           "items": {
-            "enum": ["loading", "empty", "ready", "refreshing", "error", "permission-denied", "offline"]
+            "enum": ["loading", "empty", "ready", "refreshing", "error", "permission-denied", "offline", "unsupported"]
           }
         }
       }
