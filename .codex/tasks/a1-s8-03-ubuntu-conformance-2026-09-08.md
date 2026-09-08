@@ -9,8 +9,8 @@ baseline, and make the resulting comparison a required, reproducible workflow.
 
 - [x] Claim the sole ready work item and inspect the existing S8 runner.
 - [x] Record runner, source, lock, browser and retained-artifact identity.
-- [ ] Capture and review the Ubuntu Chromium baseline in an isolated workflow.
-- [ ] Replace capture mode with the normal S8 comparison workflow.
+- [x] Capture and review the Ubuntu Chromium baseline in an isolated workflow.
+- [x] Replace capture mode with the normal S8 comparison workflow.
 - [ ] Run local Node.js 24 validation and update canonical status/evidence.
 - [ ] Push the candidate, inspect every S2-S8 job and merge only when green.
 

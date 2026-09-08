@@ -1,7 +1,8 @@
-name: S8 Ubuntu baseline capture
+name: S8 conformance
 
 on:
   pull_request:
+  push:
     branches: [main]
   workflow_dispatch:
 
@@ -9,8 +10,8 @@ permissions:
   contents: read
 
 jobs:
-  capture:
-    name: S8 capture / ubuntu-24.04
+  ui-matrix:
+    name: S8 / ubuntu-24.04
     runs-on: ubuntu-24.04
     timeout-minutes: 20
 
@@ -45,26 +46,23 @@ jobs:
           [[ "${plan}" == *'webkit-2359'* ]]
           pnpm exec playwright install --with-deps chromium firefox webkit
 
-      - name: Capture Ubuntu behavior, accessibility and Chromium visuals
+      - name: Compare Ubuntu behavior, accessibility and Chromium visuals
         env:
           S8_ARTIFACT_DIR: ${{ runner.temp }}/blankspace-s8-artifacts
-        run: pnpm test:s8:update-snapshots
+        run: pnpm test:s8
 
-      - name: Hash captured evidence
+      - name: Assert canonical evidence was not rewritten
         shell: bash
-        run: |
-          set -euo pipefail
-          find spikes/s8-ui/tests/snapshots/linux spikes/s8-ui/transcripts/linux-x64.json \
-            -type f -print0 | sort -z | xargs -0 sha256sum
+        run: git diff --exit-code -- spikes/s8-ui/tests/snapshots spikes/s8-ui/transcripts
 
-      - name: Upload separately reviewable Ubuntu evidence
+      - name: Hash the current transcript
+        run: sha256sum "${{ runner.temp }}/blankspace-s8-artifacts/transcript.json"
+
+      - name: Upload bounded S8 evidence
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
-          name: s8-ubuntu-baseline
+          name: s8-ubuntu-evidence
           if-no-files-found: warn
           retention-days: 7
-          path: |
-            spikes/s8-ui/tests/snapshots/linux
-            spikes/s8-ui/transcripts/linux-x64.json
-            ${{ runner.temp }}/blankspace-s8-artifacts
+          path: ${{ runner.temp }}/blankspace-s8-artifacts

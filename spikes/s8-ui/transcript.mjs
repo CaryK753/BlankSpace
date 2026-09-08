@@ -75,11 +75,11 @@ export async function createTranscript() {
   return {...base, ...(ci ? {ci} : {}), matrixHash: hash(base)};
 }
 
-export async function writeTranscript() {
+export async function writeTranscript(targetFile) {
   const transcript = await createTranscript();
-  const directory = new URL('./transcripts/', import.meta.url);
-  await mkdir(directory, {recursive: true});
-  const file = join(directory.pathname, `${process.platform}-${process.arch}.json`);
+  const file = targetFile ?? join(new URL('./transcripts/', import.meta.url).pathname,
+    `${process.platform}-${process.arch}.json`);
+  await mkdir(dirname(file), {recursive: true});
   await writeFile(file, `${JSON.stringify(transcript, null, 2)}\n`);
   return file;
 }

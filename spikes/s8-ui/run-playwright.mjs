@@ -30,7 +30,11 @@ try {
     child.once('error', reject);
     child.once('exit', (code, signal) => resolve(signal ? 1 : (code ?? 1)));
   });
-  if (status === 0 && requestedArgs.every((argument) => argument === '--update-snapshots')) await writeTranscript();
+  if (status === 0 && requestedArgs.length === 1 && requestedArgs[0] === '--update-snapshots') {
+    await writeTranscript();
+  } else if (status === 0 && requestedArgs.length === 0 && retainedOutput) {
+    await writeTranscript(join(output, 'transcript.json'));
+  }
   process.exitCode = status;
 } finally {
   await server.close();

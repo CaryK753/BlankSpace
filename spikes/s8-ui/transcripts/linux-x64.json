@@ -1,0 +1,58 @@
+{
+  "schemaVersion": "1",
+  "environment": {
+    "platform": "linux",
+    "arch": "x64",
+    "node": "v24.20.0",
+    "packages": {
+      "react": "19.2.8",
+      "react-dom": "19.2.8",
+      "react-router": "8.3.1",
+      "react-aria-components": "1.21.1",
+      "@playwright/test": "1.63.0",
+      "@axe-core/playwright": "4.13.0",
+      "axe-core": "4.13.0",
+      "@fontsource-variable/inter": "5.3.0"
+    },
+    "browsers": {
+      "chromium": "1243",
+      "firefox": "1543",
+      "webkit": "2359"
+    },
+    "browserExecutables": {
+      "chromium": {
+        "installationPath": "chromium-1243/chrome-linux64/chrome",
+        "sha256": "8c599d43aec53f2460a31ae2f4af6bd863f8258b34ff519564bc5d4726bfaa1e"
+      },
+      "firefox": {
+        "installationPath": "firefox-1543/firefox/firefox",
+        "sha256": "062272ac4d851eade5b75db2dc7c14569d96cb3ca38f949337cdc1b74367e35b"
+      },
+      "webkit": {
+        "installationPath": "webkit-2359/pw_run.sh",
+        "sha256": "a85baad3d8c07173ac387a59b41500c382b21ed692afe0964d29aac247ccc63b"
+      }
+    }
+  },
+  "sourceRevision": "worktree:e9e2f36ea32ab201363ef89574f2c098a6201e2d6b8c425c2e531d5288af86ba",
+  "lockHash": "a6034944719a3d5c511aa3421a66eb361bb1f72d22c8a98ee4eb0bb09a0b228a",
+  "fixtureHash": "59d40d2da94b5a2d5d0717a055d1602c8ce27783cbcc7a4d15e627ed1f160f66",
+  "matrix": {
+    "shells": 2,
+    "states": 8,
+    "viewports": 3,
+    "browserProjects": 3,
+    "behaviorChecks": 15,
+    "accessibilityScans": 144,
+    "visualComparisons": 20
+  },
+  "diagnostics": [],
+  "ci": {
+    "sourceCommit": "677fe9174b7dc3022b778fadc33ad266365881ee",
+    "runnerOS": "Linux",
+    "runnerArch": "X64",
+    "imageOS": "ubuntu24",
+    "imageVersion": "20260831.293.1"
+  },
+  "matrixHash": "586ba2ca6123f9ebab0f450b3dd76b7efc6d20ee463fb307f2147e19b3ef8b38"
+}
