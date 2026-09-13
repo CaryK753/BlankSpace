@@ -191,11 +191,11 @@ TypeScript/ESM、Node.js 24 LTS、React-first、Fastify、PostgreSQL、JSON Sche
 
 因此当前 go/no-go 为：可以开展 spikes 和不绑定具体领域的 1A 骨架；在 RFC baseline、核心 JSON Schema 与 S1～S7 通过前不开始 1B，S8 未通过前不开始 1C，也不承诺完整 Phase 1 日期。
 
-当前执行状态：S1 已取得 [provisional pass](./spikes/S1-config.md)。Node.js 24.20.0 下已重新通过 S1 Node tests、TypeScript typecheck、Ajv 文档 schema 编译和最小 Product Graph 的 Vitest；S1 corpus 仍使用 Node test runner，最终 validator、完整 Vitest evidence 和原 S1 文档要求的跨平台环境尚未全部关闭，因此不计入正式通过，也不解除 1B gate。
+当前执行状态：S1 已取得 [Pass](./spikes/S1-config.md)。锁定的 `jsonc-parser` 3.3.1、Ajv 8.20.0、稳定诊断和 canonical transcript 已在 Node.js 24.20.0 的 Linux、macOS、Windows runners 上通过；S1 的配置门禁已经关闭。
 
-Phase 1A 已实现内存 `buildMinimalProductGraphs` 前置切片、正式 `ResolutionRecordV1`、workspace source resolver、target/dynamic import policy，以及 S2～S8 的相应 conformance。S1 已实现使用锁定 `jsonc-parser` 与 Ajv 的本地生产配置校验边界，当前由 `A1-S1-02` 补齐 Linux、macOS、Windows canonical evidence，正式状态仍为 Provisional pass。完整 Runtime、production Database、production UI 与 CLI 仍未完成。
+Phase 1A 已实现内存 `buildMinimalProductGraphs` 前置切片、正式 `ResolutionRecordV1`、workspace source resolver、target/dynamic import policy，以及 S1～S8 的相应 conformance。完整 Runtime、production Database、production UI 与 CLI 仍未完成；进入 Phase 1B 前需先新增文档化 work item。
 
-S2 的[统一解析矩阵](./spikes/S2-resolver.md)、S3 的[Bundle Trace Matrix](./spikes/S3-bundle-trace.md)、S4 的[Graph/Registry 对账](./spikes/S4-registry.md)、S5 lifecycle/Event、S6 Server host、S7 Database 与 S8 UI 均已取得 Pass；S6/S7 runners 仍不等于 production adapters。S1 的 production parser/schema corpus 正在补齐三平台证据。贡献流程和证据格式分别见[框架贡献指南](contributing.md)与[验证策略](testing-strategy.md)。
+S1 production config、S2 的[统一解析矩阵](./spikes/S2-resolver.md)、S3 的[Bundle Trace Matrix](./spikes/S3-bundle-trace.md)、S4 的[Graph/Registry 对账](./spikes/S4-registry.md)、S5 lifecycle/Event、S6 Server host、S7 Database 与 S8 UI 均已取得 Pass；S6/S7 runners 仍不等于 production adapters。贡献流程和证据格式分别见[框架贡献指南](contributing.md)与[验证策略](testing-strategy.md)。
 
 ## 8. Adopter Preview Gate
 

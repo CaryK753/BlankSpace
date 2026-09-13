@@ -119,7 +119,7 @@ README 和领域文档用于解释，不覆盖 schema 或 RFC 的精确定义。
 | Docker、Desktop 与 Mobile CI/CD | ci-cd、supply-chain | RFC-0017、RFC-0026 | proposed release contracts、SC1、平台签名/商店 evidence |
 | 生产资格 | production-readiness | RFC-0021～0024 | product-specific production report |
 
-当前 S1 为 Provisional pass，S2～S8 为 Pass。S1 已完成使用锁定 `jsonc-parser` 与 Ajv 的本地生产校验边界，当前工作项 `A1-S1-02` 正在执行 Linux、macOS、Windows canonical conformance。S4～S6 已完成三平台 Graph/Registry、lifecycle/Event 与 Server host 对账；S7 的 PostgreSQL 18.6 digest-pinned 14 场景 corpus 已在 macOS arm64 与 Ubuntu linux-amd64 匹配；S8 已在 Ubuntu 通过同源双 Shell、八状态、三浏览器与 visual/a11y 门禁。链接表示实验规格入口，只有对应状态和 transcript/evidence 明确记录的部分才算已经执行。
+当前 S1～S8 均为 Pass。S1 已使用锁定 `jsonc-parser` 与 Ajv 在 Linux、macOS、Windows 完成生产校验、稳定诊断与 canonical conformance。S4～S6 已完成三平台 Graph/Registry、lifecycle/Event 与 Server host 对账；S7 的 PostgreSQL 18.6 digest-pinned 14 场景 corpus 已在 macOS arm64 与 Ubuntu linux-amd64 匹配；S8 已在 Ubuntu 通过同源双 Shell、八状态、三浏览器与 visual/a11y 门禁。当前没有 ready work item；链接表示实验规格入口，只有对应状态和 transcript/evidence 明确记录的部分才算已经执行。
 
 ## 状态词
 

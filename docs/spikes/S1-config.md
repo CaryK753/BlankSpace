@@ -2,9 +2,9 @@
 
 ## 状态
 
-Provisional pass
+Pass
 
-执行日期：2026-09-04。
+初始执行日期：2026-09-04；生产边界与三平台门禁完成日期：2026-09-13。
 
 ## 目标
 
@@ -54,4 +54,4 @@ python3 spikes/s1-config/validate_schemas.py
 - 尚未验证 Windows path/casing 与不同 pnpm store；这些属于 S2/pnpm 路径 spike；
 - 已定义 JSON value TypeScript types，但尚未生成 schema 对应 types/validators。
 
-因此本次只能记为 provisional pass。Node 24 环境必须使用最终 validator 重跑同一 corpus，且输出错误路径需要进入 diagnostics fixture，之后 S1 才能正式通过。
+生产边界已使用 Node 24.20.0、`jsonc-parser` 3.3.1 与 Ajv 8.20.0 重跑同一 corpus。GitHub Actions run `34753663983` 在 Ubuntu、macOS、Windows 上通过 9 个 S1 canonical 场景和 9 个 production-boundary tests；S2～S8 同一候选提交的回归工作流也全部通过。因此 S1 记为 Pass。文件发现、preset expansion、CLI 与 Runtime 仍不属于 S1。

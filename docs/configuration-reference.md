@@ -130,4 +130,4 @@ python3 spikes/s1-config/validate_schemas.py
 pnpm typecheck
 ```
 
-这些命令验证文档、JSONC、schema corpus 和当前 TypeScript 源码，但不等于完整 Compiler 已实现。Node.js 24 下的测试证据已经取得；最终生产 validator 和规定的跨平台矩阵仍未关闭，因此 S1 保持 Provisional pass。当前可运行边界见[当前实现参考](current-implementation.md)。
+这些命令验证文档、JSONC、schema corpus 和当前 TypeScript 源码，但不等于完整 Compiler 已实现。生产 validator 与 canonical diagnostics 已在 Node.js 24 的 Linux、macOS、Windows 矩阵通过，S1 状态为 Pass。当前可运行边界见[当前实现参考](current-implementation.md)。

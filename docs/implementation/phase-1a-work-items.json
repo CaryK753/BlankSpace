@@ -211,13 +211,14 @@
       "evidence": ["2026-09-13 on macOS arm64 with Node 24.20.0 and pnpm 10.32.1: replaced the handwritten compiler parser with locked jsonc-parser 3.3.1, added stable duplicate-key/syntax source diagnostics and Ajv schema instance-path diagnostics, preserved special object keys without prototype mutation, and preserved canonical bytes/hash behavior. Nine production-boundary tests, 156 Vitest tests, 9 S1 tests and the complete S2-S8 corpus passed; S8 reported 209 passed and 40 Chromium-only visual tests skipped by design. Build, typecheck and verify:docs passed. Details are in .codex/tasks/a1-s1-01-production-config-validation-2026-09-13.md. This is local evidence and does not close cross-platform S1 conformance."]
     },
     {
-      "id": "A1-S1-02", "title": "Run cross-platform S1 configuration conformance", "status": "in-progress", "dependsOn": ["A1-S1-01"],
+      "id": "A1-S1-02", "title": "Run cross-platform S1 configuration conformance", "status": "done", "dependsOn": ["A1-S1-01"],
       "references": ["docs/spikes/S1-config.md", "docs/rfcs/0013-phase-1-technology.md", "docs/testing-strategy.md"],
       "scope": ["Linux, macOS and Windows execution of the frozen production S1 corpus", "canonical diagnostic and hash reconciliation", "S2-S8 regression preservation"],
       "outputs": ["S1 cross-platform conformance workflow", "Linux, macOS and Windows evidence record", "final S1 suitability decision"],
       "acceptance": ["all three operating systems pass the same production parser, schema validation and canonicalization corpus", "diagnostic codes, paths, line and column records and canonical hashes match the checked-in baseline", "actual check-runs and logs prove S1 and S2-S8 regressions are green before S1 is marked Pass"],
       "commands": ["pnpm install --frozen-lockfile --ignore-scripts", "pnpm build", "pnpm typecheck", "pnpm test", "pnpm verify:docs"],
-      "nonGoals": ["Phase 1B implementation", "product scaffolding", "production deployment", "new dependencies"]
+      "nonGoals": ["Phase 1B implementation", "product scaffolding", "production deployment", "new dependencies"],
+      "evidence": ["GitHub Actions S1 run 34753663983 for candidate c5139611e2ce7461b06a193dbc4243e87210c9ae passed the same nine-scenario production parser/schema/canonical transcript and nine focused boundary tests on ubuntu-24.04, macos-15 and windows-2025 with Node 24.20.0, pnpm 10.32.1, jsonc-parser 3.3.1 and Ajv 8.20.0. S2 run 34753664027, S3 run 34753664011, S4 run 34753664007, S5 run 34753664029, S6 run 34753663987 and S7 run 34753664004 passed all regression jobs. After exact S1 specifiers changed the lock bytes, S8 comparison run 34753664043 passed 209 tests with 40 designed skips, the canonical no-rewrite check and artifact 10316534104 using the reviewed runner image 20260907.300.1. Details are in .codex/tasks/a1-s1-02-cross-platform-config-2026-09-13.md."]
     }
   ]
 }
