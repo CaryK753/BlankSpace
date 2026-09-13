@@ -16,8 +16,8 @@ baseline, and make the resulting comparison a required, reproducible workflow.
 
 ## Evidence
 
-- Capture run `34253202827`: 209 passed, 40 expected non-Chromium visual skips;
-  artifact `10067015178` finalized with 27 review files.
+- Latest capture run `34735655529`: 209 passed, 40 expected non-Chromium visual
+  skips; artifact `10311127151` finalized on runner image `20260907.300.1`.
 - Ubuntu matrix hash:
   `be6a41b0fe50af9c9c1404bea20157d4c286977ec066b4e2dd63279d087d570c`.
 - Manual review covered both Shells, compact/expanded, light/dark, destination
@@ -27,7 +27,7 @@ baseline, and make the resulting comparison a required, reproducible workflow.
   and `34253202682`.
 - Comparison run `34735554216` correctly rejected GitHub runner image drift from
   `20260831.293.1` to `20260907.300.1` before browser execution; the replacement
-  baseline must be captured and reviewed rather than ignoring that identity.
+  baseline was captured and all 20 PNG hashes matched the prior reviewed set.
 
 ## Boundaries
 

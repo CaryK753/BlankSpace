@@ -48,11 +48,11 @@
   },
   "diagnostics": [],
   "ci": {
-    "sourceCommit": "3c5eede6a8be0ae8bae96550de32d82d2dd861ee",
+    "sourceCommit": "17b84baec5f1900947ba01e254cf21e47bdc0a2e",
     "runnerOS": "Linux",
     "runnerArch": "X64",
     "imageOS": "ubuntu24",
-    "imageVersion": "20260831.293.1"
+    "imageVersion": "20260907.300.1"
   },
   "matrixHash": "be6a41b0fe50af9c9c1404bea20157d4c286977ec066b4e2dd63279d087d570c"
 }
