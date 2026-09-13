@@ -133,8 +133,9 @@ function verifyWorkItems(projectStatus) {
   if (new Set(ids).size !== ids.length) record('docs/implementation/phase-1a-work-items.json', new Error('duplicate work item ID'));
   const items = new Map(document.items.map(item => [item.id, item]));
   const actionable = document.items.filter(item => item.status === 'ready' || item.status === 'in-progress');
-  if (actionable.length !== 1) record('docs/implementation/phase-1a-work-items.json', new Error(`expected exactly one actionable item, found ${actionable.length}`));
-  if (actionable[0]?.id !== projectStatus.nextWorkItem) record('docs/status/project-status.json', new Error(`nextWorkItem ${projectStatus.nextWorkItem} differs from actionable item ${actionable[0]?.id ?? 'missing'}`));
+  if (actionable.length > 1) record('docs/implementation/phase-1a-work-items.json', new Error(`expected at most one actionable item, found ${actionable.length}`));
+  const expectedNext = actionable[0]?.id ?? null;
+  if (expectedNext !== projectStatus.nextWorkItem) record('docs/status/project-status.json', new Error(`nextWorkItem ${projectStatus.nextWorkItem} differs from actionable item ${expectedNext ?? 'none'}`));
 
   for (const item of document.items) {
     for (const dependency of item.dependsOn) {
@@ -155,7 +156,7 @@ function verifyWorkItems(projectStatus) {
     };
     if (visit(item.id, new Set())) record('docs/implementation/phase-1a-work-items.json', new Error(`dependency cycle at ${item.id}`));
   }
-  return { count: document.items.length, actionable: actionable[0]?.id ?? 'missing' };
+  return { count: document.items.length, actionable: actionable[0]?.id ?? 'none' };
 }
 
 function verifyBaseline() {

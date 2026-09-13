@@ -2,7 +2,7 @@
 
 ## 状态
 
-本地 provisional pass，Ubuntu canonical 尚未执行。`A1-S8-02` 已安装 exact candidates，以同一 contribution set 实现两个 Shell，并在 macOS arm64 执行三浏览器 behavior/a11y 与 Chromium visual corpus；这仍不是 S8 final Pass。
+Pass。`A1-S8-03` 已在 Ubuntu 24.04 x64 以 exact candidates 和冻结浏览器 revision 执行扩展后的双 Shell corpus，独立生成并评审 Linux Chromium baseline，随后由普通 comparison workflow 持续对账；这仍只是候选边界验证，不是 production UI。
 
 冻结日期：2026-09-08。依赖与浏览器预安装审查见 [S8 供应链审查](s8-ui/supply-chain-review.md)。Route/Navigation proposed contract 与布局基线见[基础 UI Shell 模板与路由](../ui-templates.md)。
 
@@ -126,7 +126,7 @@ Diagnostic record 固定 `code`、`scenarioId`、`shellId`、`viewportClass`、`
 
 实现项必须生成 `spikes/s8-ui/transcripts/<platform>.json`，包含 schema/version、source revision、lock hash、runner/browser identities、fixture hash、每场景 outcome、diagnostics、visual summary、axe summary 和最终 matrix hash。canonical JSON 不包含 PNG、trace、绝对路径或动态时长。
 
-计划命令（当前不存在，不能作为已执行证据）：
+可复现命令：
 
 ```bash
 fnm exec --using=24 pnpm test:s8
@@ -149,6 +149,10 @@ S8 只有在 exact candidates 和 frozen browser revisions 于目标 Ubuntu 环�
 4. Firefox/WebKit 的合法平台差异进入显式 browser outcome；关键行为缺失则候选失败，不能标记 unsupported 跳过。
 5. 任一 a11y violation、focus trap、关键动作不可达或 permission 泄漏均阻止 Pass。
 
-## 10. 已知限制与下一实施项
+## 10. 通过证据与已知限制
 
-`A1-S8-02` 已在 macOS arm64、Node 24.20.0 完成：exact dependencies 以 scripts disabled 安装；Chromium `1243`、Firefox `1543`、WebKit `2359` 显式下载；同一组 6 routes、7 navigation entries、4 commands 驱动 `default-shell` 与 `workbench-shell`。三浏览器共通过 15 个 behavior/keyboard/focus/drawer checks 和 144 个零 violation/零 incomplete axe scans，Chromium 通过 20 个 local visual comparisons；matrix hash 为 `73a2e570c99f2ca088dcb4b6a2793c58477098558670dae287adb50f639df038`。本地 executable SHA-256 分别为 Chromium `8319963f…b668a`、Firefox `e75d92f6…7fbf5a`、WebKit launcher `a85baad3…c63b`。`A1-S8-03` 负责 Ubuntu canonical baseline 与最终候选决策。Production UI packages、业务页面、真实 Identity/API、Native renderer 与部署仍不在范围内。
+`A1-S8-03` 的 Ubuntu capture run `34253202827` 使用 runner image `ubuntu24` / `20260831.293.1`、Node `24.20.0` 和 frozen pnpm lock。安装前 dry-run 精确核验 Chromium `1243`、Firefox `1543`、WebKit `2359`，其 executable SHA-256 分别为 `8c599d43…aa1e`、`062272ac…35b`、`a85baad3…c63b`。同一组 6 routes、7 navigation entries、4 commands 驱动两个结构不同的 Shell；扩展矩阵共 249 项，其中 209 通过，40 个仅限 Chromium 的视觉项在 Firefox/WebKit 按设计跳过。45 个 behavior checks 覆盖 route/deep-link/back、键盘 roving focus、skip link、44px 触控、local error、RTL、forced colors、reduced motion、长文本与 200% 等效 viewport；144 个 axe scans 为零 violation/零 incomplete；20 个 Linux Chromium baseline 全部生成。previous-minor fixture 兼容，Public Override 固定进入 `E_UI_OVERRIDE_REVIEW_REQUIRED` 人工门禁。canonical matrix hash 为 `be6a41b0fe50af9c9c1404bea20157d4c286977ec066b4e2dd63279d087d570c`。
+
+Artifact `10067015178` 成功 finalize，包含 27 个可分离评审文件；代表性的两个 Shell、compact/expanded 与 light/dark 图像已人工检查。浏览器人工复核确认路由后焦点落在目标一级标题、live region 宣告 `Projects loaded`，实际放大后的 compact 布局没有横向裁切且关键动作仍可操作。候选 commit `f074568c53377eb12620621b1ab86b1ac2ffc745` 上 S2～S7 的真实 Actions runs 均通过。最终 comparison workflow 不带 `--update-snapshots`，并用 `git diff --exit-code` 保证 CI 不改写 canonical evidence。
+
+Production UI packages、业务页面、真实 Identity/API、Native renderer 与部署仍不在范围内。Phase 1A 当前没有自动授权的后续 work item；下一阶段必须先写清范围、契约和验收门禁。
