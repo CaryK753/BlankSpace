@@ -25,6 +25,9 @@ baseline, and make the resulting comparison a required, reproducible workflow.
 - Candidate `f074568c53377eb12620621b1ab86b1ac2ffc745` kept S2-S7 green in runs
   `34253202839`, `34253202828`, `34253202906`, `34253202675`, `34253202712`
   and `34253202682`.
+- Comparison run `34735554216` correctly rejected GitHub runner image drift from
+  `20260831.293.1` to `20260907.300.1` before browser execution; the replacement
+  baseline must be captured and reviewed rather than ignoring that identity.
 
 ## Boundaries
 
