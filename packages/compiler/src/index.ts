@@ -1,8 +1,12 @@
 export {
+  ConfigValidationError,
   JsoncSyntaxError,
   canonicalize,
   hashCanonical,
   parseJsonc,
+  validateJsonc,
+  type ConfigDiagnostic,
+  type ConfigDiagnosticCode,
   type JsonObject,
   type JsonValue,
 } from './config/jsonc.js';

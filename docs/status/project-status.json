@@ -4,9 +4,10 @@
   "updatedAt": "2026-09-13",
   "phase": "phase-1a-spike",
   "production": "no-go",
-  "nextWorkItem": null,
+  "nextWorkItem": "A1-S1-02",
   "implemented": [
     "strict-jsonc-parser-spike",
+    "production-jsonc-and-schema-validation-boundary",
     "formal-v1-config-and-product-graph-schemas",
     "minimal-in-memory-web-server-product-graph-builder",
     "resolution-record-v1-contract-and-pure-normalization",

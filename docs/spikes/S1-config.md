@@ -19,6 +19,12 @@ Provisional pass
 - JSONC 仅增加行/块注释和尾逗号；
 - canonical object keys 按 Unicode code unit 排序，arrays 保序，`-0` 规范为 `0`。
 
+生产边界固定使用 package manifest 与 lockfile 中精确声明的 `jsonc-parser` 3.3.1
+解析 JSONC、Ajv 8.20.0
+执行 JSON Schema 2020-12 校验。语法失败诊断包含稳定 code、JSON path、UTF-16
+offset、从 1 开始的 line/column；重复 key 单独报告且拒绝整个文档。Schema 失败诊断
+包含稳定 code 与 Ajv instance path。诊断按 code、path、offset 排序并去重。
+
 ## 接受与拒绝 Corpus
 
 接受：comments、trailing commas、quoted keys、finite JSON numbers、对象/数组/字符串/布尔/null。

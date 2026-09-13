@@ -2,7 +2,7 @@
 
 本页只描述仓库现在可以运行的内容。未来产品体验见[入门目标](getting-started.md)，机器状态见 [`status/project-status.json`](status/project-status.json)。两者冲突时，以源码、正式 schema、测试和状态文件为准。
 
-准备开始贡献代码的 Agent 应从[Agent 启动入口](agent-start-here.md)读取机器状态和可领取工作项，而不是从本页推断任务。Phase 1A 当前没有 ready work item。
+准备开始贡献代码的 Agent 应从[Agent 启动入口](agent-start-here.md)读取机器状态和可领取工作项，而不是从本页推断任务。Phase 1A 当前工作项是 `A1-S1-02`。
 
 ## 当前可以运行
 
@@ -83,4 +83,4 @@ const record = resolveSourceImport({
 
 ## 当前限制
 
-这套实现已经证明确定性 Product Graph 前置切片、workspace source resolution/import policy、完整 S3 bundle/artifact trace、通过跨平台门禁的 S4 Registry、S5 lifecycle/Event core、有界 S6 Fastify host 行为、S7 Database conformance，以及 Ubuntu 三浏览器 S8 双 Shell conformance。完整 Runtime、production Database、Service provider selection、业务 Kits、生产 UI 与 CLI 仍未完成，因此仍不能创建或运行 SaaS。不要根据 fixture 发布 package、部署生产环境或宣称支持 Desktop/Mobile。Phase 1A 的 S1～S8 工作项已收口且当前没有 ready item；任何下一阶段实施都应先补充文档、work item 与验收门禁，详见 [Phase 1 蓝图](phase-1-blueprint.md)。
+这套实现已经证明确定性 Product Graph 前置切片、workspace source resolution/import policy、完整 S3 bundle/artifact trace、通过跨平台门禁的 S4 Registry、S5 lifecycle/Event core、有界 S6 Fastify host 行为、S7 Database conformance，以及 Ubuntu 三浏览器 S8 双 Shell conformance。S1 已有使用锁定 `jsonc-parser` 与 Ajv 的本地生产校验边界，仍等待三平台对账。完整 Runtime、production Database、Service provider selection、业务 Kits、生产 UI 与 CLI 仍未完成，因此仍不能创建或运行 SaaS。不要根据 fixture 发布 package、部署生产环境或宣称支持 Desktop/Mobile；S1 正式通过前不进入 Phase 1B。
