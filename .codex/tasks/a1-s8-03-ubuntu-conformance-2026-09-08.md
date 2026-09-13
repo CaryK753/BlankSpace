@@ -12,7 +12,7 @@ baseline, and make the resulting comparison a required, reproducible workflow.
 - [x] Capture and review the Ubuntu Chromium baseline in an isolated workflow.
 - [x] Replace capture mode with the normal S8 comparison workflow.
 - [x] Run local Node.js 24 validation and update canonical status/evidence.
-- [ ] Push the candidate, inspect every S2-S8 job and merge only when green.
+- [x] Push the candidate, inspect every S2-S8 job and merge only when green.
 
 ## Evidence
 
@@ -28,6 +28,9 @@ baseline, and make the resulting comparison a required, reproducible workflow.
 - Comparison run `34735554216` correctly rejected GitHub runner image drift from
   `20260831.293.1` to `20260907.300.1` before browser execution; the replacement
   baseline was captured and all 20 PNG hashes matched the prior reviewed set.
+- Final comparison run `34751706885` passed 209/40, the no-rewrite assertion and
+  artifact `10316506341`; S2-S7 runs `34751706900`, `34751706970`, `34751706886`,
+  `34751706897`, `34751707014` and `34751706903` all passed on the same commit.
 
 ## Boundaries
 
