@@ -35,7 +35,7 @@
     }
   },
   "sourceRevision": "worktree:5187d02f6b6c9c6142f06b3e8b2a8ea6f7f1b0deffb1fd5d5c55010f894242dc",
-  "lockHash": "a6034944719a3d5c511aa3421a66eb361bb1f72d22c8a98ee4eb0bb09a0b228a",
+  "lockHash": "c424b967257bf8344a6283676453d8228ff014a0e08e080d80584a3468d76f07",
   "fixtureHash": "59d40d2da94b5a2d5d0717a055d1602c8ce27783cbcc7a4d15e627ed1f160f66",
   "matrix": {
     "shells": 2,
@@ -54,5 +54,5 @@
     "imageOS": "ubuntu24",
     "imageVersion": "20260907.300.1"
   },
-  "matrixHash": "be6a41b0fe50af9c9c1404bea20157d4c286977ec066b4e2dd63279d087d570c"
+  "matrixHash": "bf2b5b50ac5585a8cc699f0b8091b218def24e2814ec463d9285fd61f41d892f"
 }

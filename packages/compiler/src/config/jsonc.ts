@@ -1,178 +1,159 @@
 import { createHash } from 'node:crypto';
 
+import type { ValidateFunction } from 'ajv';
+import {
+  getLocation, getNodePath, parseTree, printParseErrorCode,
+  type Node, type ParseError,
+} from 'jsonc-parser';
+
 export type JsonValue = null | boolean | number | string | JsonValue[] | JsonObject;
 export type JsonObject = { [key: string]: JsonValue };
+export type ConfigDiagnosticCode = 'E_CONFIG_JSONC_DUPLICATE_KEY' | 'E_CONFIG_JSONC_SYNTAX' | 'E_CONFIG_SCHEMA';
 
-const JSON_WHITESPACE = /[\u0009\u000a\u000d\u0020]/;
+export interface ConfigDiagnostic {
+  code: ConfigDiagnosticCode;
+  path: string;
+  message: string;
+  offset?: number;
+  line?: number;
+  column?: number;
+  keyword?: string;
+}
 
 export class JsoncSyntaxError extends SyntaxError {
   readonly offset: number;
+  readonly diagnostics: ConfigDiagnostic[];
 
-  constructor(message: string, offset: number) {
-    super(`${message} at offset ${offset}`);
+  constructor(diagnostics: ConfigDiagnostic[]) {
+    const first = diagnostics[0] ?? syntaxDiagnostic('', 0, 'Invalid JSONC');
+    super(`${first.message} at ${first.path} (${first.line}:${first.column})`);
     this.name = 'JsoncSyntaxError';
-    this.offset = offset;
+    this.offset = first.offset ?? 0;
+    this.diagnostics = diagnostics;
   }
+}
+
+export class ConfigValidationError extends Error {
+  readonly diagnostics: ConfigDiagnostic[];
+
+  constructor(diagnostics: ConfigDiagnostic[]) {
+    super(diagnostics.map(({ code, path, message }) => `${code} ${path}: ${message}`).join('\n'));
+    this.name = 'ConfigValidationError';
+    this.diagnostics = diagnostics;
+  }
+}
+
+function positionAt(source: string, offset: number): { line: number; column: number } {
+  const lines = source.slice(0, offset).split(/\r\n|\r|\n/);
+  return { line: lines.length, column: (lines.at(-1)?.length ?? 0) + 1 };
+}
+
+function formatPath(segments: readonly (string | number)[]): string {
+  return segments.reduce<string>((path, segment) => {
+    if (typeof segment === 'number') return `${path}[${segment}]`;
+    return /^[A-Za-z_$][\w$]*$/.test(segment) ? `${path}.${segment}` : `${path}[${JSON.stringify(segment)}]`;
+  }, '$');
+}
+
+function syntaxDiagnostic(source: string, offset: number, message: string): ConfigDiagnostic {
+  return {
+    code: 'E_CONFIG_JSONC_SYNTAX',
+    path: formatPath(getLocation(source, offset).path),
+    message,
+    offset,
+    ...positionAt(source, offset),
+  };
+}
+
+function collectDuplicateKeys(source: string, node: Node, diagnostics: ConfigDiagnostic[]): void {
+  if (node.type === 'object') {
+    const keys = new Set<string>();
+    for (const property of node.children ?? []) {
+      const keyNode = property.children?.[0];
+      const key = keyNode?.value;
+      if (keyNode && typeof key === 'string') {
+        if (keys.has(key)) diagnostics.push({
+          code: 'E_CONFIG_JSONC_DUPLICATE_KEY',
+          path: formatPath([...getNodePath(property), key]),
+          message: `Duplicate key ${JSON.stringify(key)}`,
+          offset: keyNode.offset,
+          ...positionAt(source, keyNode.offset),
+        });
+        keys.add(key);
+      }
+    }
+  }
+  for (const child of node.children ?? []) collectDuplicateKeys(source, child, diagnostics);
+}
+
+function collectNonFiniteNumbers(source: string, node: Node, diagnostics: ConfigDiagnostic[]): void {
+  if (node.type === 'number' && !Number.isFinite(node.value)) {
+    diagnostics.push({
+      ...syntaxDiagnostic(source, node.offset, 'NumberMustBeFinite'),
+      path: formatPath(getNodePath(node)),
+    });
+  }
+  for (const child of node.children ?? []) collectNonFiniteNumbers(source, child, diagnostics);
+}
+
+function stableDiagnostics(diagnostics: ConfigDiagnostic[]): ConfigDiagnostic[] {
+  const unique = new Map<string, ConfigDiagnostic>();
+  for (const diagnostic of diagnostics) {
+    unique.set(`${diagnostic.code}:${diagnostic.path}:${diagnostic.offset ?? -1}:${diagnostic.keyword ?? ''}`, diagnostic);
+  }
+  return [...unique.values()].sort((left, right) =>
+    `${left.code}:${left.path}:${String(left.offset ?? -1).padStart(12, '0')}`
+      .localeCompare(`${right.code}:${right.path}:${String(right.offset ?? -1).padStart(12, '0')}`));
+}
+
+function nodeToJsonValue(node: Node): JsonValue {
+  if (node.type === 'array') return (node.children ?? []).map(nodeToJsonValue);
+  if (node.type === 'object') {
+    const result = Object.create(null) as JsonObject;
+    for (const property of node.children ?? []) {
+      const key = property.children?.[0]?.value;
+      const value = property.children?.[1];
+      if (typeof key === 'string' && value) result[key] = nodeToJsonValue(value);
+    }
+    return result;
+  }
+  return node.value as null | boolean | number | string;
 }
 
 export function parseJsonc(source: string): JsonValue {
-  let offset = 0;
-
-  function fail(message: string): never {
-    throw new JsoncSyntaxError(message, offset);
+  const parseErrors: ParseError[] = [];
+  const root = parseTree(source, parseErrors, { allowTrailingComma: true, disallowComments: false });
+  const diagnostics = parseErrors.map(error =>
+    syntaxDiagnostic(source, error.offset, printParseErrorCode(error.error)));
+  if (root) {
+    collectDuplicateKeys(source, root, diagnostics);
+    collectNonFiniteNumbers(source, root, diagnostics);
   }
+  const stable = stableDiagnostics(diagnostics);
+  if (!root || stable.length > 0) throw new JsoncSyntaxError(stable);
+  return nodeToJsonValue(root);
+}
 
-  function skipTrivia(): void {
-    while (offset < source.length) {
-      const character = source[offset];
-      if (character !== undefined && JSON_WHITESPACE.test(character)) {
-        offset += 1;
-        continue;
-      }
-      if (source.startsWith('//', offset)) {
-        offset += 2;
-        while (offset < source.length && !'\r\n'.includes(source[offset] ?? '')) offset += 1;
-        continue;
-      }
-      if (source.startsWith('/*', offset)) {
-        const end = source.indexOf('*/', offset + 2);
-        if (end < 0) fail('Unterminated block comment');
-        offset = end + 2;
-        continue;
-      }
-      break;
-    }
-  }
-
-  function parseString(): string {
-    const start = offset;
-    offset += 1;
-    let escaped = false;
-    while (offset < source.length) {
-      const character = source[offset];
-      if (!escaped && character === '"') {
-        offset += 1;
-        try {
-          return JSON.parse(source.slice(start, offset)) as string;
-        } catch {
-          fail('Invalid string');
-        }
-      }
-      if (!escaped && (character === '\n' || character === '\r')) fail('Unterminated string');
-      escaped = !escaped && character === '\\';
-      if (character !== '\\') escaped = false;
-      offset += 1;
-    }
-    fail('Unterminated string');
-  }
-
-  function parseNumber(): number {
-    const match = source.slice(offset).match(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?/);
-    if (!match) fail('Invalid number');
-    offset += match[0].length;
-    const value = Number(match[0]);
-    if (!Number.isFinite(value)) fail('Number must be finite');
-    return value;
-  }
-
-  function parseKeyword(keyword: string, value: boolean | null): boolean | null {
-    if (!source.startsWith(keyword, offset)) fail(`Expected ${keyword}`);
-    offset += keyword.length;
-    return value;
-  }
-
-  function parseArray(): JsonValue[] {
-    const values: JsonValue[] = [];
-    offset += 1;
-    skipTrivia();
-    if (source[offset] === ']') {
-      offset += 1;
-      return values;
-    }
-    while (offset < source.length) {
-      values.push(parseValue());
-      skipTrivia();
-      if (source[offset] === ']') {
-        offset += 1;
-        return values;
-      }
-      if (source[offset] !== ',') fail('Expected comma or closing bracket');
-      offset += 1;
-      skipTrivia();
-      if (source[offset] === ']') {
-        offset += 1;
-        return values;
-      }
-    }
-    fail('Unterminated array');
-  }
-
-  function parseObject(): JsonObject {
-    const result: JsonObject = Object.create(null) as JsonObject;
-    const keys = new Set<string>();
-    offset += 1;
-    skipTrivia();
-    if (source[offset] === '}') {
-      offset += 1;
-      return result;
-    }
-    while (offset < source.length) {
-      if (source[offset] !== '"') fail('Object keys must be quoted strings');
-      const key = parseString();
-      if (keys.has(key)) fail(`Duplicate key ${JSON.stringify(key)}`);
-      keys.add(key);
-      skipTrivia();
-      if (source[offset] !== ':') fail('Expected colon');
-      offset += 1;
-      result[key] = parseValue();
-      skipTrivia();
-      if (source[offset] === '}') {
-        offset += 1;
-        return result;
-      }
-      if (source[offset] !== ',') fail('Expected comma or closing brace');
-      offset += 1;
-      skipTrivia();
-      if (source[offset] === '}') {
-        offset += 1;
-        return result;
-      }
-    }
-    fail('Unterminated object');
-  }
-
-  function parseValue(): JsonValue {
-    skipTrivia();
-    const character = source[offset];
-    if (character === '{') return parseObject();
-    if (character === '[') return parseArray();
-    if (character === '"') return parseString();
-    if (character === '-' || (character !== undefined && character >= '0' && character <= '9')) {
-      return parseNumber();
-    }
-    if (character === 't') return parseKeyword('true', true);
-    if (character === 'f') return parseKeyword('false', false);
-    if (character === 'n') return parseKeyword('null', null);
-    fail('Expected a JSON value');
-  }
-
-  const result = parseValue();
-  skipTrivia();
-  if (offset !== source.length) fail('Unexpected trailing content');
-  return result;
+export function validateJsonc(source: string, validate: ValidateFunction): JsonValue {
+  const value = parseJsonc(source);
+  if (validate(value)) return value;
+  const diagnostics = stableDiagnostics((validate.errors ?? []).map(error => ({
+    code: 'E_CONFIG_SCHEMA' as const,
+    path: error.instancePath || '$',
+    message: error.message ?? 'Schema validation failed',
+    keyword: error.keyword,
+  })));
+  throw new ConfigValidationError(diagnostics);
 }
 
 export function canonicalize(value: JsonValue): string {
-  if (value === null || typeof value === 'boolean' || typeof value === 'string') {
-    return JSON.stringify(value);
-  }
+  if (value === null || typeof value === 'boolean' || typeof value === 'string') return JSON.stringify(value);
   if (typeof value === 'number') {
     if (!Number.isFinite(value)) throw new TypeError('Canonical JSON rejects non-finite numbers');
     return JSON.stringify(Object.is(value, -0) ? 0 : value);
   }
   if (Array.isArray(value)) return `[${value.map(canonicalize).join(',')}]`;
-  const entries = Object.keys(value)
-    .sort()
+  const entries = Object.keys(value).sort()
     .map(key => `${JSON.stringify(key)}:${canonicalize(value[key] as JsonValue)}`);
   return `{${entries.join(',')}}`;
 }

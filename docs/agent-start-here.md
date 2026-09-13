@@ -47,7 +47,7 @@ fnm exec --using=24 pnpm verify:docs
 
 ## 4. 当前代码任务
 
-Phase 1A 的 S1～S8 work items 已全部完成，`nextWorkItem` 为 `null`，当前没有可直接实施的代码任务。S8 已在 Ubuntu 24.04 x64 运行双 Product Shell、八种状态与三浏览器 corpus：45 个行为检查、144 个 axe scan、20 个 Linux Chromium visual comparison 通过，matrix hash 为 `be6a41b0fe50af9c9c1404bea20157d4c286977ec066b4e2dd63279d087d570c`；S2～S7 regression workflows 保持绿色。
+Phase 1A 的 S1～S8 work items 已全部完成，`nextWorkItem` 为 `null`。S1 的生产 JSONC/Schema 校验边界已在 Linux、macOS、Windows 通过 canonical conformance；S8 已在 Ubuntu 24.04 x64 通过 45 个行为检查、144 个 axe scan 与 20 个 Linux Chromium visual comparison。进入 Phase 1B 前必须先新增文档化 work item 与验收门禁。
 
 这不代表 Blankspace 已经成为可用 SaaS 框架。Production 仍为 `no-go`，完整 Compiler/Runtime、可发布的 UI/Database/Identity adapters、CLI、scaffolder 与部署均未实现。若要继续开发，必须先依据 [Phase 1 蓝图](phase-1-blueprint.md)写入新的 bounded work item，明确 references、scope、acceptance、nonGoals 和 commands，再把它设为唯一 `ready` 项；不要直接从 roadmap 领取远期功能。
 

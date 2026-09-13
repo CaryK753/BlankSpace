@@ -1,0 +1,28 @@
+{
+  "schemaVersion": "1",
+  "tools": {
+    "node": "24",
+    "jsoncParser": "3.3.1",
+    "ajv": "8.20.0"
+  },
+  "accepted": {
+    "canonical": "{\"product\":\"./product\",\"schemaVersion\":\"1\",\"targets\":[\"web\",\"server\"]}",
+    "hash": "93413918ce89210c5a39c585aa0e41906def86c4c865d2fa77653db2afe8544d"
+  },
+  "rejected": {
+    "duplicate": [
+      { "code": "E_CONFIG_JSONC_DUPLICATE_KEY", "path": "$.id", "offset": 17, "line": 3, "column": 3 }
+    ],
+    "expression": [
+      { "code": "E_CONFIG_JSONC_SYNTAX", "path": "$.value", "offset": 10, "line": 1, "column": 11 },
+      { "code": "E_CONFIG_JSONC_SYNTAX", "path": "$.value", "offset": 28, "line": 1, "column": 29 }
+    ],
+    "nonFinite": [
+      { "code": "E_CONFIG_JSONC_SYNTAX", "path": "$.value", "offset": 9, "line": 1, "column": 10 }
+    ],
+    "schema": [
+      { "code": "E_CONFIG_SCHEMA", "path": "/product", "keyword": "pattern" },
+      { "code": "E_CONFIG_SCHEMA", "path": "/targets/0", "keyword": "enum" }
+    ]
+  }
+}
