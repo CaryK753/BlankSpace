@@ -51,9 +51,9 @@ Contracts / Compiler / Runtime / Diagnostics / Tooling
 | S5 Lifecycle | 9 个 lifecycle + 5 个 Event 场景跨 Linux/macOS/Windows 对账；S6 已补齐 host deadline | Pass |
 | S6 Server | Fastify 5.12.3 十场景跨平台对账；POSIX 真实 signal 与 Windows 明确平台分支 | Pass |
 | S7 Database | PostgreSQL 18.6 digest、三访问层与 14 场景 Linux/macOS 正反序 migration/fault corpus；hash `8e48920e…df04` | Pass |
-| S8 UI | 同源 contributions、双 Shell/八状态、三浏览器；本地 15 behavior、144 axe、20 Chromium visual | Provisional pass |
+| S8 UI | 同源 contributions、双 Shell/八状态、三浏览器；Ubuntu 45 behavior、144 axe、20 Chromium visual | Pass |
 
-当前唯一 ready 工作项是 `A1-S8-03`：在 Ubuntu canonical 环境复现本地双 Shell conformance corpus；这仍不是 production UI。详见 [`docs/agent-start-here.md`](docs/agent-start-here.md)。
+Phase 1A 的 S1～S8 work items 已收口，当前没有 ready 工作项；Production 仍为 `no-go`。继续实施前必须先定义下一项范围与验收门禁，详见 [`docs/agent-start-here.md`](docs/agent-start-here.md)。
 
 ## 当前可运行内容
 
@@ -83,7 +83,7 @@ fnm exec --using=24 pnpm test
 fnm exec --using=24 pnpm verify:docs
 ```
 
-贡献者开始工作前必须阅读 [`AGENTS.md`](AGENTS.md) 和 [Agent 启动入口](docs/agent-start-here.md)。只领取 `phase-1a-work-items.json` 中唯一 `ready` 的工作项，不从远期路线图自行扩展范围。
+贡献者开始工作前必须阅读 [`AGENTS.md`](AGENTS.md) 和 [Agent 启动入口](docs/agent-start-here.md)。只领取 `phase-1a-work-items.json` 中唯一 `ready` 的工作项；当前没有 ready 项，不从远期路线图自行扩展范围。
 
 ## 路线
 

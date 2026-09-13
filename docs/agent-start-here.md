@@ -41,22 +41,15 @@ fnm exec --using=24 pnpm verify:docs
 
 打开 [`implementation/phase-1a-work-items.json`](implementation/phase-1a-work-items.json)。只有 `status: ready` 的 item 可以直接实施。`blocked` 表示依赖或决策尚未满足；`done` 不重复实现。
 
-当前 ready 或 in-progress item 同时记录在 [`status/project-status.json`](status/project-status.json) 的 `nextWorkItem`。两处不一致时 `pnpm verify:docs` 会失败。
+当前 ready 或 in-progress item 同时记录在 [`status/project-status.json`](status/project-status.json) 的 `nextWorkItem`；没有可领取项时该字段为 `null`。两处不一致时 `pnpm verify:docs` 会失败。
 
 不要从 roadmap 中随意挑选远期能力。路线图描述顺序，work-item 文件描述现在获得授权且具备输入的最小变更。
 
 ## 4. 当前代码任务
 
-当前唯一 ready 工作项是 `A1-S8-03`：在 Ubuntu canonical 环境复现本地双 Product Shell corpus 并形成 S8 最终候选决策。开始前完整阅读：
+Phase 1A 的 S1～S8 work items 已全部完成，`nextWorkItem` 为 `null`，当前没有可直接实施的代码任务。S8 已在 Ubuntu 24.04 x64 运行双 Product Shell、八种状态与三浏览器 corpus：45 个行为检查、144 个 axe scan、20 个 Linux Chromium visual comparison 通过，matrix hash 为 `be6a41b0fe50af9c9c1404bea20157d4c286977ec066b4e2dd63279d087d570c`；S2～S7 regression workflows 保持绿色。
 
-1. [`implementation/phase-1a-work-items.json`](implementation/phase-1a-work-items.json) 中的 `A1-S8-03`；
-2. [S8 双 Product Shell 与 UI 验收](spikes/S8-ui.md)；
-3. [S8 UI 供应链审查](spikes/s8-ui/supply-chain-review.md)；
-4. [基础 UI Shell 模板与路由](ui-templates.md)；
-5. [RFC-0013 Phase 1 技术栈](rfcs/0013-phase-1-technology.md)的 React/UI 边界；
-6. [验证策略](testing-strategy.md)、[安全模型](security.md)与[供应链政策](supply-chain.md)。
-
-S2～S7 已取得 Pass。S8 已在 macOS arm64 安装 exact candidates 并运行两个 Shell、八种状态与三浏览器 corpus：15 个行为检查、144 个 axe scan、20 个 Chromium visual comparison 通过，matrix hash 为 `73a2e570c99f2ca088dcb4b6a2793c58477098558670dae287adb50f639df038`。`A1-S8-03` 必须在 Ubuntu 24.04 生成独立 canonical baseline，核验 browser artifact/runner identity 并保持 S2～S7 绿色；本地证据不能直接写成 S8 Pass。若机器状态指向新的 work item，以机器状态和 work-item 文件为准，本节只作为人类导航。
+这不代表 Blankspace 已经成为可用 SaaS 框架。Production 仍为 `no-go`，完整 Compiler/Runtime、可发布的 UI/Database/Identity adapters、CLI、scaffolder 与部署均未实现。若要继续开发，必须先依据 [Phase 1 蓝图](phase-1-blueprint.md)写入新的 bounded work item，明确 references、scope、acceptance、nonGoals 和 commands，再把它设为唯一 `ready` 项；不要直接从 roadmap 领取远期功能。
 
 ## 5. 决策顺序
 

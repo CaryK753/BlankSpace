@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1",
   "environment": {
-    "platform": "darwin",
-    "arch": "arm64",
+    "platform": "linux",
+    "arch": "x64",
     "node": "v24.20.0",
     "packages": {
       "react": "19.2.8",
@@ -21,12 +21,12 @@
     },
     "browserExecutables": {
       "chromium": {
-        "installationPath": "chromium-1243/chrome-mac-arm64/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing",
-        "sha256": "8319963f6625accf51c0dd4f55091ceaf9f09ed39e7a52fed4fae12b2a6b668a"
+        "installationPath": "chromium-1243/chrome-linux64/chrome",
+        "sha256": "8c599d43aec53f2460a31ae2f4af6bd863f8258b34ff519564bc5d4726bfaa1e"
       },
       "firefox": {
-        "installationPath": "firefox-1543/firefox/Nightly.app/Contents/MacOS/firefox",
-        "sha256": "e75d92f6f3210c9c31056d10b912f43c139f0cf7a2a3d0f2e002e88c1c7fbf5a"
+        "installationPath": "firefox-1543/firefox/firefox",
+        "sha256": "062272ac4d851eade5b75db2dc7c14569d96cb3ca38f949337cdc1b74367e35b"
       },
       "webkit": {
         "installationPath": "webkit-2359/pw_run.sh",
@@ -47,5 +47,12 @@
     "visualComparisons": 20
   },
   "diagnostics": [],
-  "matrixHash": "ab9da6536946a4d9176fdc4887341cd9f4aa3390b62bd99f89d5a69ebefc468d"
+  "ci": {
+    "sourceCommit": "17b84baec5f1900947ba01e254cf21e47bdc0a2e",
+    "runnerOS": "Linux",
+    "runnerArch": "X64",
+    "imageOS": "ubuntu24",
+    "imageVersion": "20260907.300.1"
+  },
+  "matrixHash": "be6a41b0fe50af9c9c1404bea20157d4c286977ec066b4e2dd63279d087d570c"
 }

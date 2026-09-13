@@ -15,7 +15,7 @@
 
 ## 当前状态
 
-更新时间：2026-09-08。机器可读状态以 [`../status/project-status.json`](../status/project-status.json) 为准。
+更新时间：2026-09-13。机器可读状态以 [`../status/project-status.json`](../status/project-status.json) 为准。
 
 | Spike | 状态 | 已有证据 | 下一门槛 |
 | --- | --- | --- | --- |
@@ -26,7 +26,7 @@
 | [S5 Lifecycle](S5-lifecycle.md) | Pass | 生命周期 core 与 Event dispatch/drain 的 9 + 5 场景已在 Linux、macOS、Windows 匹配同一 canonical hashes；S6 已补齐有界 shutdown 与 host termination | 作为 regression gate 保持稳定；真实 Database 资源由 S7 验证 |
 | [S6 Server](S6-server.md) | Pass | exact Fastify 5.12.3 的十场景真实 loopback corpus 在 Linux、macOS、Windows 匹配 hash；Ubuntu/macOS 真实 signal 与 Windows 明确平台分支通过 | 作为 regression gate 保持稳定；不将 spike 冒充 production Server adapter |
 | [S7 Database](S7-database.md) | Pass | macOS arm64 与 Ubuntu linux-amd64 上 PostgreSQL 18.6 exact digest、`pg`/Kysely/Drizzle/direct SQL 与 14 场景正反序 corpus 匹配 hash `8e48920e…df04`，资源余额为零 | 保持 frozen S7 corpus 为回归门；不将 spike 冒充 production Database adapter |
-| [S8 UI](S8-ui.md) | Provisional pass | macOS arm64 已运行同源双 Shell、八状态、三浏览器 corpus：15 behavior、144 axe、20 Chromium visual；hash `73a2e570…f038` | 在 Ubuntu 24.04 生成独立 canonical baseline 并作最终候选决策 |
+| [S8 UI](S8-ui.md) | Pass | Ubuntu 24.04 已运行同源双 Shell、八状态、三浏览器 corpus：45 behavior、144 axe、20 Chromium visual；hash `be6a41b0…570c` | 保持 Ubuntu regression；production UI 另立文档与工作项 |
 
 ## 未来 Client Runtime 轨道
 

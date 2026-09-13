@@ -17,7 +17,7 @@ export function WorkbenchShell({children, contributions, route}: Props) {
     <aside className="command-rail" aria-label="Workbench tools">
       <Button aria-label="Compose">C</Button><Button aria-label="Inspect">I</Button><Button aria-label="Extend">E</Button>
     </aside>
-    <main id="main-content">{children}</main>
+    <main id="main-content" tabIndex={-1}>{children}</main>
     <aside className="inspector" aria-label="Inspector">
       <span className="eyebrow">Inspector</span><h2>Route contract</h2>
       <dl><dt>Route ID</dt><dd>{route.id}</dd><dt>Access</dt><dd>{route.access}</dd></dl>

@@ -1,13 +1,17 @@
-import {mkdtemp, rm} from 'node:fs/promises';
+import {mkdir, mkdtemp, rm} from 'node:fs/promises';
 import {createRequire} from 'node:module';
 import {tmpdir} from 'node:os';
-import {join} from 'node:path';
+import {join, resolve} from 'node:path';
 import {spawn} from 'node:child_process';
 import {createServer} from 'vite';
 import {writeTranscript} from './transcript.mjs';
 
 const require = createRequire(import.meta.url);
-const output = await mkdtemp(join(tmpdir(), 'blankspace-s8-'));
+const retainedOutput = process.env.S8_ARTIFACT_DIR;
+const output = retainedOutput
+  ? resolve(retainedOutput)
+  : await mkdtemp(join(tmpdir(), 'blankspace-s8-'));
+if (retainedOutput) await mkdir(output, {recursive: true});
 const server = await createServer({configFile: new URL('./vite.config.mjs', import.meta.url).pathname});
 
 try {
@@ -26,9 +30,13 @@ try {
     child.once('error', reject);
     child.once('exit', (code, signal) => resolve(signal ? 1 : (code ?? 1)));
   });
-  if (status === 0 && requestedArgs.every((argument) => argument === '--update-snapshots')) await writeTranscript();
+  if (status === 0 && requestedArgs.length === 1 && requestedArgs[0] === '--update-snapshots') {
+    await writeTranscript();
+  } else if (status === 0 && requestedArgs.length === 0 && retainedOutput) {
+    await writeTranscript(join(output, 'transcript.json'));
+  }
   process.exitCode = status;
 } finally {
   await server.close();
-  await rm(output, {recursive: true, force: true});
+  if (!retainedOutput) await rm(output, {recursive: true, force: true});
 }
