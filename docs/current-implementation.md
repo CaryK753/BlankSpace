@@ -2,12 +2,12 @@
 
 本页只描述仓库现在可以运行的内容。未来产品体验见[入门目标](getting-started.md)，机器状态见 [`status/project-status.json`](status/project-status.json)。两者冲突时，以源码、正式 schema、测试和状态文件为准。
 
-准备开始贡献代码的 Agent 应从[Agent 启动入口](agent-start-here.md)读取机器状态和可领取工作项，而不是从本页推断任务。Phase 1A 当前没有 ready work item。
+准备开始贡献代码的 Agent 应从[Agent 启动入口](agent-start-here.md)读取机器状态和可领取工作项，而不是从本页推断任务。`A1-C1-01` 已完成，当前没有 ready item。
 
 ## 当前可以运行
 
 - `@blankspace/contracts`：导出 `RuntimeTarget`、`ProductGraphV1` 与 `ResolutionRecordV1` TypeScript 类型；正式 JSON Schema 覆盖 root config、product manifest、module、Product Graph V1、Resolution Record V1 与 RFC baseline。
-- `@blankspace/compiler`：提供严格 JSONC 解析/canonical hash、只消费内存输入的 `buildMinimalProductGraphs`，以及解析显式 workspace package roots 的 `resolveSourceImport`。
+- `@blankspace/compiler`：提供严格 JSONC 解析/canonical hash、读取并校验 root/Product/一层 Module 描述符的 `loadProductDirectory`、只消费内存输入的 `buildMinimalProductGraphs`，以及解析显式 workspace package roots 的 `resolveSourceImport`。Product Directory loader 支持缺省发现与显式白名单、稳定排序和 checkout-independent hash，并拒绝缺失目录、路径/符号链接逃逸、重复 ID 与目录-ID 不一致。
 - S2 conformance runner：真实调用 TypeScript、Node、Vite 与 Vitest，将五种 mode 的原生结果归一为逻辑路径并与 Compiler record 逐边对账；Linux、macOS、Windows 均已通过两个 checkout、两个 pnpm store 的同一 canonical records hash。
 - S3 bundle/artifact trace：真实调用项目依赖图中的 Vite 8.2.2/Rolldown，将合法静态与字面量动态 source edge 对账到最终 bundle module，并对未声明依赖、server SecretRef、跨 target、private export、package escape 以及 missing/extra bundle module 返回稳定失败；CSS、worker、WASM、静态 asset 与 virtual module 也进入 canonical artifact trace。Ubuntu 24.04、macOS 15、Windows 2025 已通过同一双 checkout/双 pnpm store corpus 和 checked-in trace baseline。
 - S4 Executable Registry：`ProductGraphV1` 包含 resolved `services`/`events`，`ExecutableRegistryV1` 只从 Graph 派生 entries/bindings/handlers；确定性 Graph→Registry generator、joint `assemblyId`、18 组 pre-factory mismatch 和隔离子进程的 generated-entry `fetch` 顶层副作用 probe 已在 Ubuntu 24.04、macOS 15、Windows 2025 运行同一 frozen corpus 并通过，S4 状态为 Pass。
@@ -17,7 +17,7 @@
 - S8 UI spike：已安装 exact React/Router/React Aria/Playwright/axe 候选，以同一份 6 routes、7 navigation、4 commands 的可序列化 contributions 编译出 `default-shell` 与结构不同的 `workbench-shell`。Ubuntu 24.04 x64 已执行 Chromium 1243、Firefox 1543 与 WebKit 2359：45 个 route/history/keyboard/focus/touch/compatibility 行为检查、144 个双 Shell×三 viewport×八状态×三浏览器零违规 a11y scan 和 20 个独立 Linux Chromium visual comparison 全部通过；209 passed、40 个非 Chromium visual 按设计 skipped，最新 lock-derived matrix hash 为 `bf2b5b50ac5585a8cc699f0b8091b218def24e2814ec463d9285fd61f41d892f`。人工复核了路由焦点、live announcement 和放大布局。S8 状态为 Pass，但仍不是 production UI。
 - 文档验证：检查 JSON、Markdown 本地链接/围栏、RFC baseline、带 `$schema` 的 JSONC 示例和 proposed contract fixtures。
 
-当前没有 CLI、scaffolder、preset expansion、可发布的多工具 resolver adapter API、可用于产品运行的完整 Executable Registry/Runtime host、Web/Server 应用、Identity/Database Kit、部署或客户端包。
+当前没有 CLI、scaffolder、preset expansion、Product Directory 到 Product Graph 的 Assembly 入口、可发布的多工具 resolver adapter API、可用于产品运行的完整 Executable Registry/Runtime host、Web/Server 应用、Identity/Database Kit、部署或客户端包。
 
 ## 环境与命令
 
@@ -44,7 +44,7 @@ const graphs = buildMinimalProductGraphs({
 });
 ```
 
-输入不是文件路径入口；调用方必须自己提供已解析的对象。当前函数不会展开 preset、读取 Module 文件、解析 packages、选择 Service provider、生成 Registry 或构建 bundle。它可以接收已经解析好的 `services`/`events`，验证 binding/handler 引用的 entry、同 target 重复 Service provider 与重复 handler identity，并把 resolved facts 按 target 写入 ProductGraph；失败通过 `ProductGraphBuildError.diagnostics` 返回稳定 code/path/message。
+`loadProductDirectory(workspaceRoot)` 是独立的文件路径入口，但尚未自动调用本函数；调用方仍须把加载结果转换为这里的内存输入。当前函数不会展开 preset、解析 packages、选择 Service provider、生成 Registry 或构建 bundle。它可以接收已经解析好的 `services`/`events`，验证 binding/handler 引用的 entry、同 target 重复 Service provider 与重复 handler identity，并把 resolved facts 按 target 写入 ProductGraph；失败通过 `ProductGraphBuildError.diagnostics` 返回稳定 code/path/message。
 
 ## Workspace 源码解析 API
 

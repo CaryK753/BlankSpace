@@ -12,6 +12,15 @@ export {
 } from './config/jsonc.js';
 
 export {
+  ProductDirectoryError,
+  loadProductDirectory,
+  type LoadedProductDirectory,
+  type LoadedProductModule,
+  type ProductDirectoryDiagnostic,
+  type ProductDirectoryDiagnosticCode,
+} from './config/product-directory.js';
+
+export {
   ProductGraphBuildError,
   buildMinimalProductGraphs,
   type MinimalGraphDiagnostic,

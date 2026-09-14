@@ -1,7 +1,7 @@
 {
   "$schema": "./project-status.schema.json",
   "schemaVersion": "1",
-  "updatedAt": "2026-09-13",
+  "updatedAt": "2026-09-14",
   "phase": "phase-1a-spike",
   "production": "no-go",
   "nextWorkItem": null,
@@ -34,7 +34,8 @@
     "s7-digest-pinned-postgresql-query-and-migration-conformance",
     "s8-serializable-contribution-compiler",
     "s8-local-dual-shell-browser-accessibility-and-visual-conformance",
-    "s8-ubuntu-dual-shell-browser-accessibility-and-visual-conformance"
+    "s8-ubuntu-dual-shell-browser-accessibility-and-visual-conformance",
+    "filesystem-product-directory-loader"
   ],
   "unavailable": [
     "product-scaffolder", "cli", "preset-expansion", "published-tool-resolver-adapter-api",

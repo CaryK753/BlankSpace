@@ -15,7 +15,7 @@
 
 ## 当前状态
 
-更新时间：2026-09-13。机器可读状态以 [`../status/project-status.json`](../status/project-status.json) 为准。
+更新时间：2026-09-14。机器可读状态以 [`../status/project-status.json`](../status/project-status.json) 为准。
 
 | Spike | 状态 | 已有证据 | 下一门槛 |
 | --- | --- | --- | --- |
