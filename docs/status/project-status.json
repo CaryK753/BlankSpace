@@ -35,7 +35,8 @@
     "s8-serializable-contribution-compiler",
     "s8-local-dual-shell-browser-accessibility-and-visual-conformance",
     "s8-ubuntu-dual-shell-browser-accessibility-and-visual-conformance",
-    "filesystem-product-directory-loader"
+    "filesystem-product-directory-loader",
+    "product-directory-to-minimal-graph-adapter"
   ],
   "unavailable": [
     "product-scaffolder", "cli", "preset-expansion", "published-tool-resolver-adapter-api",

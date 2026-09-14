@@ -21,6 +21,12 @@ export {
 } from './config/product-directory.js';
 
 export {
+  adaptProductDirectoryToGraphInput,
+  buildProductDirectoryGraphs,
+  type ProductDirectoryGraphOptions,
+} from './config/product-directory-graph.js';
+
+export {
   ProductGraphBuildError,
   buildMinimalProductGraphs,
   type MinimalGraphDiagnostic,

@@ -4,7 +4,14 @@ import { join } from 'node:path';
 
 import { afterEach, describe, expect, test } from 'vitest';
 
-import { ConfigValidationError, ProductDirectoryError, loadProductDirectory } from '../src/index.js';
+import {
+  ConfigValidationError,
+  ProductDirectoryError,
+  ProductGraphBuildError,
+  adaptProductDirectoryToGraphInput,
+  buildProductDirectoryGraphs,
+  loadProductDirectory,
+} from '../src/index.js';
 
 const workspaces: string[] = [];
 
@@ -12,7 +19,7 @@ afterEach(async () => {
   await Promise.all(workspaces.splice(0).map(path => rm(path, { recursive: true, force: true })));
 });
 
-async function createWorkspace(modules?: string[]) {
+async function createWorkspace(modules?: string[], manifestEntries?: Record<string, string>) {
   const root = await mkdtemp(join(tmpdir(), 'blankspace-product-directory-'));
   workspaces.push(root);
   await mkdir(join(root, 'product', 'modules'), { recursive: true });
@@ -25,15 +32,21 @@ async function createWorkspace(modules?: string[]) {
   await writeFile(join(root, 'product', 'manifest.jsonc'), JSON.stringify({
     schemaVersion: '1',
     ...(modules === undefined ? {} : { modules }),
+    ...(manifestEntries === undefined ? {} : { entries: manifestEntries }),
   }));
   return root;
 }
 
-async function addModule(root: string, directory: string, id = directory) {
+async function addModule(
+  root: string,
+  directory: string,
+  id = directory,
+  moduleEntries: Record<string, string> = { shared: './index.ts' },
+) {
   const path = join(root, 'product', 'modules', directory);
   await mkdir(path, { recursive: true });
   await writeFile(join(path, 'module.jsonc'), JSON.stringify({
-    schemaVersion: '1', id, entries: { shared: './index.ts' },
+    schemaVersion: '1', id, entries: moduleEntries,
   }));
 }
 
@@ -130,5 +143,44 @@ describe('product directory loader', () => {
       () => loadProductDirectory(root),
       'E_PRODUCT_DIRECTORY_PATH_ESCAPE',
     );
+  });
+
+  test('adapts Product-relative and Module-relative entries without retaining checkout paths', async () => {
+    const root = await createWorkspace(undefined, { web: './frontend/index.ts' });
+    await addModule(root, 'alpha', 'alpha', {
+      shared: './shared/index.ts', web: './frontend/index.ts',
+    });
+
+    const directory = await loadProductDirectory(root);
+    const input = adaptProductDirectoryToGraphInput(directory, '0.0.0-test');
+    expect(input.manifest.entries).toEqual({ web: './product/frontend/index.ts' });
+    expect(input.modules).toEqual([{
+      id: 'alpha',
+      descriptor: './product/modules/alpha/module.jsonc',
+      entries: { web: './product/modules/alpha/frontend/index.ts' },
+    }]);
+    expect(JSON.stringify(input)).not.toContain(root);
+  });
+
+  test('builds byte-equal Graphs from two absolute checkout directories', async () => {
+    const roots = await Promise.all([
+      createWorkspace(undefined, { web: './frontend/index.ts' }),
+      createWorkspace(undefined, { web: './frontend/index.ts' }),
+    ]);
+    await Promise.all(roots.map(root => addModule(root, 'alpha', 'alpha', { web: './index.ts' })));
+
+    const graphs = await Promise.all(roots.map(workspaceRoot =>
+      buildProductDirectoryGraphs({ workspaceRoot, frameworkVersion: '0.0.0-test' })));
+    expect(JSON.stringify(graphs[0])).toBe(JSON.stringify(graphs[1]));
+  });
+
+  test('preserves the existing missing-target-entry Graph diagnostic', async () => {
+    const root = await createWorkspace();
+    await addModule(root, 'alpha');
+
+    await expect(buildProductDirectoryGraphs({
+      workspaceRoot: root,
+      frameworkVersion: '0.0.0-test',
+    })).rejects.toBeInstanceOf(ProductGraphBuildError);
   });
 });
