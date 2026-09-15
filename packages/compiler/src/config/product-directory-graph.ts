@@ -4,6 +4,10 @@ import {
   buildMinimalProductGraphs,
   type MinimalProductGraphInput,
 } from '../graph/minimal-product-graph.js';
+import {
+  buildExecutableRegistry,
+  type ExecutableRegistryAssembly,
+} from '../registry/executable-registry.js';
 import { loadProductDirectory, type LoadedProductDirectory } from './product-directory.js';
 import type { JsonObject, JsonValue } from './jsonc.js';
 
@@ -64,4 +68,10 @@ export async function buildProductDirectoryGraphs(
   return buildMinimalProductGraphs(
     adaptProductDirectoryToGraphInput(directory, options.frameworkVersion),
   );
+}
+
+export async function buildProductDirectoryAssemblies(
+  options: ProductDirectoryGraphOptions,
+): Promise<ExecutableRegistryAssembly[]> {
+  return (await buildProductDirectoryGraphs(options)).map(buildExecutableRegistry);
 }

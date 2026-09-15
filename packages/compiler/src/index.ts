@@ -22,6 +22,7 @@ export {
 
 export {
   adaptProductDirectoryToGraphInput,
+  buildProductDirectoryAssemblies,
   buildProductDirectoryGraphs,
   type ProductDirectoryGraphOptions,
 } from './config/product-directory-graph.js';
