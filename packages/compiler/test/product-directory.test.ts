@@ -1,6 +1,6 @@
 import { mkdir, mkdtemp, rm, symlink, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
-import { join } from 'node:path';
+import { dirname, join } from 'node:path';
 
 import { afterEach, describe, expect, test } from 'vitest';
 
@@ -34,7 +34,16 @@ async function createWorkspace(modules?: string[], manifestEntries?: Record<stri
     ...(modules === undefined ? {} : { modules }),
     ...(manifestEntries === undefined ? {} : { entries: manifestEntries }),
   }));
+  await writeEntries(join(root, 'product'), manifestEntries);
   return root;
+}
+
+async function writeEntries(owner: string, moduleEntries?: Record<string, string>) {
+  for (const entry of Object.values(moduleEntries ?? {})) {
+    const path = join(owner, entry);
+    await mkdir(dirname(path), { recursive: true });
+    await writeFile(path, 'export default {}');
+  }
 }
 
 async function addModule(
@@ -48,6 +57,7 @@ async function addModule(
   await writeFile(join(path, 'module.jsonc'), JSON.stringify({
     schemaVersion: '1', id, entries: moduleEntries,
   }));
+  await writeEntries(path, moduleEntries);
 }
 
 async function expectDirectoryError(run: () => Promise<unknown>, code: string) {

@@ -2,12 +2,12 @@
 
 本页只描述仓库现在可以运行的内容。未来产品体验见[入门目标](getting-started.md)，机器状态见 [`status/project-status.json`](status/project-status.json)。两者冲突时，以源码、正式 schema、测试和状态文件为准。
 
-准备开始贡献代码的 Agent 应从[Agent 启动入口](agent-start-here.md)读取机器状态和可领取工作项，而不是从本页推断任务。`A1-C1-02` 已完成，当前没有 ready item。
+准备开始贡献代码的 Agent 应从[Agent 启动入口](agent-start-here.md)读取机器状态和可领取工作项，而不是从本页推断任务。`A1-C1-03` 已完成，当前没有 ready item。
 
 ## 当前可以运行
 
 - `@blankspace/contracts`：导出 `RuntimeTarget`、`ProductGraphV1` 与 `ResolutionRecordV1` TypeScript 类型；正式 JSON Schema 覆盖 root config、product manifest、module、Product Graph V1、Resolution Record V1 与 RFC baseline。
-- `@blankspace/compiler`：提供严格 JSONC 解析/canonical hash、读取并校验 root/Product/一层 Module 描述符的 `loadProductDirectory`、将其静态记录接入最小 Graph builder 的 `adaptProductDirectoryToGraphInput` / `buildProductDirectoryGraphs`，以及解析显式 workspace package roots 的 `resolveSourceImport`。Product Directory loader 支持缺省发现与显式白名单、稳定排序和 checkout-independent hash，并拒绝缺失目录、路径/符号链接逃逸、重复 ID 与目录-ID 不一致。
+- `@blankspace/compiler`：提供严格 JSONC 解析/canonical hash、读取并校验 root/Product/一层 Module 描述符的 `loadProductDirectory`、将其静态记录接入最小 Graph builder 的 `adaptProductDirectoryToGraphInput` / `buildProductDirectoryGraphs`，以及解析显式 workspace package roots 的 `resolveSourceImport`。Product Directory loader 支持缺省发现与显式白名单、稳定排序和 checkout-independent hash；它还要求每个 Product/Module entry 在 symlink resolution 后仍位于 owner 内且为现存普通文件，并拒绝缺失目录、路径/符号链接逃逸、重复 ID 与目录-ID 不一致。
 - S2 conformance runner：真实调用 TypeScript、Node、Vite 与 Vitest，将五种 mode 的原生结果归一为逻辑路径并与 Compiler record 逐边对账；Linux、macOS、Windows 均已通过两个 checkout、两个 pnpm store 的同一 canonical records hash。
 - S3 bundle/artifact trace：真实调用项目依赖图中的 Vite 8.2.2/Rolldown，将合法静态与字面量动态 source edge 对账到最终 bundle module，并对未声明依赖、server SecretRef、跨 target、private export、package escape 以及 missing/extra bundle module 返回稳定失败；CSS、worker、WASM、静态 asset 与 virtual module 也进入 canonical artifact trace。Ubuntu 24.04、macOS 15、Windows 2025 已通过同一双 checkout/双 pnpm store corpus 和 checked-in trace baseline。
 - S4 Executable Registry：`ProductGraphV1` 包含 resolved `services`/`events`，`ExecutableRegistryV1` 只从 Graph 派生 entries/bindings/handlers；确定性 Graph→Registry generator、joint `assemblyId`、18 组 pre-factory mismatch 和隔离子进程的 generated-entry `fetch` 顶层副作用 probe 已在 Ubuntu 24.04、macOS 15、Windows 2025 运行同一 frozen corpus 并通过，S4 状态为 Pass。

@@ -1,4 +1,4 @@
-import { readFile, readdir, realpath } from 'node:fs/promises';
+import { readFile, readdir, realpath, stat } from 'node:fs/promises';
 import { dirname, isAbsolute, join, relative, resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -9,6 +9,8 @@ import { hashCanonical, validateJsonc, type JsonObject, type JsonValue } from '.
 
 export type ProductDirectoryDiagnosticCode =
   | 'E_PRODUCT_DIRECTORY_FILE'
+  | 'E_PRODUCT_DIRECTORY_ENTRY_MISSING'
+  | 'E_PRODUCT_DIRECTORY_ENTRY_NOT_FILE'
   | 'E_PRODUCT_DIRECTORY_ID_MISMATCH'
   | 'E_PRODUCT_DIRECTORY_MODULE_DUPLICATE'
   | 'E_PRODUCT_DIRECTORY_MODULE_MISSING'
@@ -88,18 +90,44 @@ function within(parent: string, candidate: string): boolean {
   return path === '' || (!path.startsWith(`..${sep}`) && path !== '..' && !isAbsolute(path));
 }
 
-async function boundedRealpath(parent: string, candidate: string, logicalPath: string): Promise<string> {
+async function boundedRealpath(
+  parent: string,
+  candidate: string,
+  logicalPath: string,
+  missingCode: ProductDirectoryDiagnosticCode = 'E_PRODUCT_DIRECTORY_MODULE_MISSING',
+  missingMessage = 'Declared directory does not exist',
+): Promise<string> {
   let actual: string;
   try {
     actual = await realpath(candidate);
   } catch (error) {
     if ((error as NodeJS.ErrnoException).code === 'ENOENT') {
-      fail('E_PRODUCT_DIRECTORY_MODULE_MISSING', logicalPath, 'Declared directory does not exist');
+      fail(missingCode, logicalPath, missingMessage);
     }
     throw error;
   }
   if (!within(parent, actual)) fail('E_PRODUCT_DIRECTORY_PATH_ESCAPE', logicalPath, 'Resolved path escapes its owner');
   return actual;
+}
+
+async function validateEntries(owner: string, document: JsonObject, logicalPath: string): Promise<void> {
+  const entries = document.entries;
+  if (entries === null || Array.isArray(entries) || typeof entries !== 'object') return;
+  for (const target of ['shared', 'server', 'web']) {
+    const entry = entries[target];
+    if (typeof entry !== 'string') continue;
+    const path = `${logicalPath}.entries.${target}`;
+    const actual = await boundedRealpath(
+      owner,
+      resolve(owner, entry),
+      path,
+      'E_PRODUCT_DIRECTORY_ENTRY_MISSING',
+      'Declared entry file does not exist',
+    );
+    if (!(await stat(actual)).isFile()) {
+      fail('E_PRODUCT_DIRECTORY_ENTRY_NOT_FILE', path, 'Declared entry must resolve to a regular file');
+    }
+  }
 }
 
 function modulePath(value: string): string {
@@ -118,6 +146,7 @@ export async function loadProductDirectory(workspaceRoot: string): Promise<Loade
   if (typeof productRef !== 'string') fail('E_PRODUCT_DIRECTORY_FILE', '$.product', 'Missing product directory');
   const product = await boundedRealpath(root, resolve(root, productRef), '$.product');
   const manifest = await readDocument(join(product, 'manifest.jsonc'), validate.manifest);
+  await validateEntries(product, manifest, 'manifest');
   const modulesRoot = join(product, 'modules');
   const discovered = new Map<string, string>();
   try {
@@ -135,6 +164,7 @@ export async function loadProductDirectory(workspaceRoot: string): Promise<Loade
     const candidate = discovered.get(logical) ?? join(product, logical);
     const directory = await boundedRealpath(modulesRoot, candidate, logical);
     const descriptor = await readDocument(join(directory, 'module.jsonc'), validate.module);
+    await validateEntries(directory, descriptor, logical);
     const id = descriptor.id;
     if (typeof id !== 'string') fail('E_PRODUCT_DIRECTORY_FILE', `${logical}/module.jsonc`, 'Missing module id');
     candidates.push({ id, directory: `./${logical}`, descriptor, logical });

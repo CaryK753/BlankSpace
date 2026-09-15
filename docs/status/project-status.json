@@ -36,7 +36,8 @@
     "s8-local-dual-shell-browser-accessibility-and-visual-conformance",
     "s8-ubuntu-dual-shell-browser-accessibility-and-visual-conformance",
     "filesystem-product-directory-loader",
-    "product-directory-to-minimal-graph-adapter"
+    "product-directory-to-minimal-graph-adapter",
+    "product-and-module-entry-filesystem-boundary"
   ],
   "unavailable": [
     "product-scaffolder", "cli", "preset-expansion", "published-tool-resolver-adapter-api",

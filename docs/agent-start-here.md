@@ -47,7 +47,7 @@ fnm exec --using=24 pnpm verify:docs
 
 ## 4. 当前代码任务
 
-Phase 1A 的 S1～S8 spike work items、`A1-C1-01` Product Directory loader 和 `A1-C1-02` filesystem-to-Graph adapter 均已完成；当前没有 ready item。现有入口不实现 preset、Kit selection、Service/Event 推断、Registry、CLI 或 Runtime。S8 已在 Ubuntu 24.04 x64 通过 45 个行为检查、144 个 axe scan 与 20 个 Linux Chromium visual comparison。
+Phase 1A 的 S1～S8 spike work items、`A1-C1-01` Product Directory loader、`A1-C1-02` filesystem-to-Graph adapter 和 `A1-C1-03` entry filesystem boundary 均已完成；当前没有 ready item。现有入口不实现 preset、Kit selection、Service/Event declarations、Registry、CLI 或 Runtime。S8 已在 Ubuntu 24.04 x64 通过 45 个行为检查、144 个 axe scan 与 20 个 Linux Chromium visual comparison。
 
 这不代表 Blankspace 已经成为可用 SaaS 框架。Production 仍为 `no-go`，完整 Compiler/Runtime、可发布的 UI/Database/Identity adapters、CLI、scaffolder 与部署均未实现。若要继续开发，必须先依据 [Phase 1 蓝图](phase-1-blueprint.md)写入新的 bounded work item，明确 references、scope、acceptance、nonGoals 和 commands，再把它设为唯一 `ready` 项；不要直接从 roadmap 领取远期功能。
 
