@@ -4,6 +4,7 @@ import { fileURLToPath } from 'node:url';
 
 import type { ValidateFunction } from 'ajv';
 import { Ajv2020 } from 'ajv/dist/2020.js';
+import type { ModuleRuntimeDeclarationsV1 } from '@blankspace/contracts';
 
 import { hashCanonical, validateJsonc, type JsonObject, type JsonValue } from './jsonc.js';
 
@@ -11,6 +12,9 @@ export type ProductDirectoryDiagnosticCode =
   | 'E_PRODUCT_DIRECTORY_FILE'
   | 'E_PRODUCT_DIRECTORY_ENTRY_MISSING'
   | 'E_PRODUCT_DIRECTORY_ENTRY_NOT_FILE'
+  | 'E_PRODUCT_DIRECTORY_DECLARATIONS_HASH'
+  | 'E_PRODUCT_DIRECTORY_DECLARATIONS_MISSING'
+  | 'E_PRODUCT_DIRECTORY_DECLARATIONS_NOT_FILE'
   | 'E_PRODUCT_DIRECTORY_ID_MISMATCH'
   | 'E_PRODUCT_DIRECTORY_MODULE_DUPLICATE'
   | 'E_PRODUCT_DIRECTORY_MODULE_MISSING'
@@ -26,6 +30,7 @@ export interface LoadedProductModule {
   id: string;
   directory: string;
   descriptor: JsonObject;
+  declarations?: ModuleRuntimeDeclarationsV1;
 }
 
 export interface LoadedProductDirectory {
@@ -47,7 +52,7 @@ export class ProductDirectoryError extends Error {
 }
 
 const schemaDirectory = join(dirname(fileURLToPath(import.meta.url)), '../../../contracts/schemas');
-let validators: Promise<Record<'config' | 'manifest' | 'module', ValidateFunction>> | undefined;
+let validators: Promise<Record<'config' | 'declarations' | 'manifest' | 'module', ValidateFunction>> | undefined;
 
 async function schemaValidators() {
   validators ??= (async () => {
@@ -56,6 +61,7 @@ async function schemaValidators() {
     ajv.addSchema(await load('shared.schema.json'));
     return {
       config: ajv.compile(await load('product-config.schema.json')),
+      declarations: ajv.compile(await load('module-runtime-declarations-v1.schema.json')),
       manifest: ajv.compile(await load('product-manifest.schema.json')),
       module: ajv.compile(await load('module.schema.json')),
     };
@@ -130,6 +136,40 @@ async function validateEntries(owner: string, document: JsonObject, logicalPath:
   }
 }
 
+async function loadDeclarations(
+  owner: string,
+  descriptor: JsonObject,
+  logicalPath: string,
+  validate: ValidateFunction,
+): Promise<ModuleRuntimeDeclarationsV1 | undefined> {
+  const reference = descriptor.declarations;
+  if (reference === null || Array.isArray(reference) || typeof reference !== 'object') return undefined;
+  const path = reference.path;
+  const expectedHash = reference.sha256;
+  if (typeof path !== 'string' || typeof expectedHash !== 'string') return undefined;
+  const diagnosticPath = `${logicalPath}/module.jsonc.declarations.path`;
+  const actual = await boundedRealpath(
+    owner,
+    resolve(owner, path),
+    diagnosticPath,
+    'E_PRODUCT_DIRECTORY_DECLARATIONS_MISSING',
+    'Declared runtime declarations file does not exist',
+  );
+  if (!(await stat(actual)).isFile()) {
+    fail('E_PRODUCT_DIRECTORY_DECLARATIONS_NOT_FILE', diagnosticPath, 'Runtime declarations must resolve to a regular file');
+  }
+  const declarations = await readDocument(actual, validate);
+  const actualHash = hashCanonical(declarations);
+  if (actualHash !== expectedHash) {
+    fail(
+      'E_PRODUCT_DIRECTORY_DECLARATIONS_HASH',
+      `${logicalPath}/module.jsonc.declarations.sha256`,
+      `Runtime declarations hash mismatch: expected ${expectedHash}, received ${actualHash}`,
+    );
+  }
+  return declarations as unknown as ModuleRuntimeDeclarationsV1;
+}
+
 function modulePath(value: string): string {
   const normalized = value.replace(/^\.\//, '');
   if (!/^modules\/[^/]+$/.test(normalized)) {
@@ -165,15 +205,22 @@ export async function loadProductDirectory(workspaceRoot: string): Promise<Loade
     const directory = await boundedRealpath(modulesRoot, candidate, logical);
     const descriptor = await readDocument(join(directory, 'module.jsonc'), validate.module);
     await validateEntries(directory, descriptor, logical);
+    const declarations = await loadDeclarations(directory, descriptor, logical, validate.declarations);
     const id = descriptor.id;
     if (typeof id !== 'string') fail('E_PRODUCT_DIRECTORY_FILE', `${logical}/module.jsonc`, 'Missing module id');
-    candidates.push({ id, directory: `./${logical}`, descriptor, logical });
+    candidates.push({
+      id,
+      directory: `./${logical}`,
+      descriptor,
+      ...(declarations === undefined ? {} : { declarations }),
+      logical,
+    });
   }
   const byId = new Map<string, LoadedProductModule>();
-  for (const { id, directory, descriptor, logical } of candidates) {
+  for (const { id, directory, descriptor, declarations, logical } of candidates) {
     const directoryName = logical.slice('modules/'.length);
     if (byId.has(id)) fail('E_PRODUCT_DIRECTORY_MODULE_DUPLICATE', logical, `Duplicate module id ${id}`);
-    byId.set(id, { id, directory, descriptor });
+    byId.set(id, { id, directory, descriptor, ...(declarations === undefined ? {} : { declarations }) });
   }
   for (const { id, logical } of candidates) {
     const directoryName = logical.slice('modules/'.length);

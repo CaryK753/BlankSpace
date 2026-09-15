@@ -39,7 +39,8 @@
     "product-directory-to-minimal-graph-adapter",
     "product-and-module-entry-filesystem-boundary",
     "filesystem-product-graph-executable-registry-assembly",
-    "module-runtime-declarations-v1-contract"
+    "module-runtime-declarations-v1-contract",
+    "module-runtime-declarations-loader-and-hash-verifier"
   ],
   "unavailable": [
     "product-scaffolder", "cli", "preset-expansion", "published-tool-resolver-adapter-api",

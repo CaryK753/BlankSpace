@@ -4,7 +4,7 @@
 
 Blankspace 的能力上限是承载 AFFiNE 级完整产品，但实现必须从最小纵向切片逐步推进。每个阶段都应产生可运行结果，避免同时建设框架、编辑器、同步平台和插件生态。
 
-当前状态：S1～S8 技术 spike、Product Directory 加载、entry 文件边界、filesystem-to-joint-Graph/Registry assembly 与 Module runtime declarations 最小静态契约均已完成；当前没有 ready item。declarations 的 loader/hash 验证与 Graph/Registry 消费尚未实现。仓库仍不存在可运行框架或产品脚手架，Phase 1B 尚未开始。各阶段优先集成成熟领域项目；Blankspace 不把开发编辑器、搜索引擎、认证协议或支付网关列为路线交付物。
+当前状态：S1～S8 技术 spike、Product Directory 加载、entry 文件边界、filesystem-to-joint-Graph/Registry assembly、Module runtime declarations 静态契约及 loader/hash verifier 均已完成；当前没有 ready item，Graph/Registry 消费仍未实现。仓库仍不存在可运行框架或产品脚手架，Phase 1B 尚未开始。各阶段优先集成成熟领域项目；Blankspace 不把开发编辑器、搜索引擎、认证协议或支付网关列为路线交付物。
 
 ## 2. Phase 0：决策与风险原型
 

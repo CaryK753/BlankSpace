@@ -47,7 +47,7 @@ fnm exec --using=24 pnpm verify:docs
 
 ## 4. 当前代码任务
 
-Phase 1A 的 S1～S8 spike work items、`A1-C1-01`～`A1-C1-04` filesystem assembly，以及 `A1-C2-01` Module runtime declarations 静态契约均已完成；当前没有 ready item。loader 尚不读取或核对 declarations，Graph、Registry 与 Runtime 也尚不消费它。S8 已在 Ubuntu 24.04 x64 通过 45 个行为检查、144 个 axe scan 与 20 个 Linux Chromium visual comparison。
+Phase 1A 的 S1～S8 spike work items、`A1-C1-01`～`A1-C1-04` filesystem assembly，以及 `A1-C2-01`～`A1-C2-02` Module runtime declarations 契约与 loader/hash verifier 均已完成；当前没有 ready item。Graph、Registry 与 Runtime 尚不消费这些 declarations。S8 已在 Ubuntu 24.04 x64 通过 45 个行为检查、144 个 axe scan 与 20 个 Linux Chromium visual comparison。
 
 这不代表 Blankspace 已经成为可用 SaaS 框架。Production 仍为 `no-go`，完整 Compiler/Runtime、可发布的 UI/Database/Identity adapters、CLI、scaffolder 与部署均未实现。若要继续开发，必须先依据 [Phase 1 蓝图](phase-1-blueprint.md)写入新的 bounded work item；不要直接从 roadmap 领取远期功能。
 

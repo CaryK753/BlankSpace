@@ -105,7 +105,7 @@ Product Directory 必须纳入版本控制，代码所有权归产品。长期�
 }
 ```
 
-`path` 必须位于 Module 目录内，`sha256` 是声明文件 canonical content 的小写 SHA-256。当前只冻结结构，loader 尚不会读取或核对该文件，因此它还不会进入 Product Graph 或 Registry。`serviceProviders` 的 `contractVersion` 是精确版本；`eventHandlers` 的 `versionRange` 使用 RFC-0002 的精确或 caret 子集。两者都显式绑定 `web` 或 `server` entry，不能绑定只承载共享代码的 `shared` entry。
+`path` 必须位于 Module 目录内，`sha256` 是声明文件 canonical content 的小写 SHA-256。loader 会通过严格 JSONC/schema 边界读取文件，在 symlink resolution 后检查 owner containment 与普通文件类型，并核对 canonical hash；记录会进入 Product Directory hash，但尚不会进入 Product Graph 或 Registry。`serviceProviders` 的 `contractVersion` 是精确版本；`eventHandlers` 的 `versionRange` 使用 RFC-0002 的精确或 caret 子集。两者都显式绑定 `web` 或 `server` entry，不能绑定只承载共享代码的 `shared` entry。
 
 API/UI/Job/migration/policy declarations 仍是 Product Compiler 的目标能力；在各自 schema 与 resolver 实现前不能写入当前 declarations 文件。后续 Compiler 必须让静态文件引用和 content hash 进入 Product Graph，且 Runtime entry 只能绑定已声明 ID，对少报和多报都失败。Compiler 不执行产品代码来发现依赖或贡献。
 
