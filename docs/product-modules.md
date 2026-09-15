@@ -62,7 +62,7 @@ Product Directory 必须纳入版本控制，代码所有权归产品。长期�
 }
 ```
 
-当前 V1 的复杂模块可以声明 Service 依赖和运行时入口：
+当前 V1 的复杂模块可以声明 Service 依赖、静态 runtime declarations 引用和运行时入口：
 
 ```jsonc
 {
@@ -71,6 +71,10 @@ Product Directory 必须纳入版本控制，代码所有权归产品。长期�
   "id": "documents",
   "requires": ["blankspace.workspace@^1", "blankspace.editor@^1"],
   "optional": [{ "service": "blankspace.files@^1", "feature": "files" }],
+  "declarations": {
+    "path": "./runtime-declarations.jsonc",
+    "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  },
   "entries": {
     "shared": "./shared/index.ts",
     "server": "./backend/index.ts",
@@ -79,9 +83,31 @@ Product Directory 必须纳入版本控制，代码所有权归产品。长期�
 }
 ```
 
-Service/Event/API/UI/migration 等 declarations 是 Product Compiler 的目标能力，但尚未进入正式 Module V1 schema；在对应 schema major 与 resolver 实现前不能把这些字段写入当前 descriptor。
+引用的 `runtime-declarations.jsonc` 只描述静态 Service provider 与 Event handler：
 
-上例 `declarations` 是 RFC-0022 后的目标 schema，当前 V1 schema 尚未实现并应继续拒绝这些字段。Phase 1A 必须先升级 schema：Service/Event/API/Job/UI/migration/policy 以静态文件引用和 content hash 进入 Product Graph；Runtime entry 只能绑定已声明 ID，Compiler 对少报和多报都失败。Compiler 不执行产品代码来发现依赖或贡献。
+```jsonc
+{
+  "$schema": "@blankspace/contracts/schemas/module-runtime-declarations-v1.schema.json",
+  "schemaVersion": "1",
+  "serviceProviders": [{
+    "serviceId": "blankspace.documents",
+    "contractVersion": "1.0.0",
+    "providerId": "documents.local",
+    "entry": "server",
+    "capabilities": ["document.read"]
+  }],
+  "eventHandlers": [{
+    "eventId": "blankspace.workspace.updated",
+    "versionRange": "^1",
+    "handlerId": "documents.on-workspace-updated",
+    "entry": "server"
+  }]
+}
+```
+
+`path` 必须位于 Module 目录内，`sha256` 是声明文件 canonical content 的小写 SHA-256。当前只冻结结构，loader 尚不会读取或核对该文件，因此它还不会进入 Product Graph 或 Registry。`serviceProviders` 的 `contractVersion` 是精确版本；`eventHandlers` 的 `versionRange` 使用 RFC-0002 的精确或 caret 子集。两者都显式绑定 `web` 或 `server` entry，不能绑定只承载共享代码的 `shared` entry。
+
+API/UI/Job/migration/policy declarations 仍是 Product Compiler 的目标能力；在各自 schema 与 resolver 实现前不能写入当前 declarations 文件。后续 Compiler 必须让静态文件引用和 content hash 进入 Product Graph，且 Runtime entry 只能绑定已声明 ID，对少报和多报都失败。Compiler 不执行产品代码来发现依赖或贡献。
 
 Phase 1 描述符只接受 `shared`、`web` 和 `server` entries。未来由 RFC-0015 增加 `react-desktop`、`react-mobile`、`swiftui`、`compose` 等 UI Family entries；当前 schema 必须拒绝这些未来字段。
 

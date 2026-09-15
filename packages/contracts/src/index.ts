@@ -1,6 +1,14 @@
 export const CONTRACT_SCHEMA_VERSION = '1' as const;
 
 export type {
+  ModuleDeclarationsReferenceV1,
+  ModuleEventHandlerV1,
+  ModuleRuntimeDeclarationsV1,
+  ModuleRuntimeEntryV1,
+  ModuleServiceProviderV1,
+} from './module-runtime-declarations.js';
+
+export type {
   ExecutableRegistryBindingV1,
   ExecutableRegistryEntryV1,
   ExecutableRegistryHandlerV1,

@@ -26,6 +26,15 @@
         }
       }
     },
+    "declarations": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": { "$ref": "shared.schema.json#/$defs/relativePath" },
+        "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+      }
+    },
     "entries": {
       "type": "object",
       "minProperties": 1,

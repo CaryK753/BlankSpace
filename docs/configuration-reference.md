@@ -86,6 +86,10 @@ Preset 展开后，同 ID 的产品 `kits` 项替换整个 Kit 配置对象，�
   "optional": [
     { "service": "blankspace.search@^1", "feature": "search" }
   ],
+  "declarations": {
+    "path": "./runtime-declarations.jsonc",
+    "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  },
   "entries": {
     "shared": "./shared/index.ts",
     "web": "./frontend/index.ts",
@@ -95,6 +99,8 @@ Preset 展开后，同 ID 的产品 `kits` 项替换整个 Kit 配置对象，�
 ```
 
 `id` 使用小写 kebab-case。`requires` 是硬 Service requirements；解析不到唯一兼容 provider 时失败。`optional` 必须绑定稳定 feature ID：provider 缺失时删除该 feature 及其显式 contributions，业务代码不能在运行时偷偷探测 Kit。`entries` 至少一个且 V1 只允许 `shared/web/server`。
+
+`declarations` 以 Module owner-relative `path` 和 64 位小写 `sha256` 引用独立的 `module-runtime-declarations-v1.schema.json` 文件。该文件当前只接受 `serviceProviders` 和 `eventHandlers`；每条声明必须绑定 `web` 或 `server` entry。结构已经冻结，但当前 loader 尚不读取或核对引用，Graph/Registry 也尚不消费它。
 
 跨 Module TypeScript 导入只能通过目标 Module 的 `public.ts`。`web` 不能导入 `server`，client 代码不能读取 Server Secret。声明依赖与真实 import graph 不一致时由 Compiler 失败。
 
